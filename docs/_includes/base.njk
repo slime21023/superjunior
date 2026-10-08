@@ -1,0 +1,50 @@
+{% macro navigation() %}
+<nav aria-label="Handbook">
+  {% for group in site.groups %}
+  <div class="nav-group">
+    <p class="nav-heading">{{ group.label }}</p>
+    <ul>
+      {% for entry in collections.handbook | sectionPages(group.key) %}
+      <li><a href="{{ entry.url }}"{% if entry.url == page.url %} aria-current="page"{% endif %}>{{ entry.data.navTitle or entry.data.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endfor %}
+</nav>
+{% endmacro %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ description | escape }}">
+  <title>{{ title | escape }} · {{ site.name }}</title>
+  <link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="JanStack handbook home"><span class="brand-mark" aria-hidden="true">J</span>JanStack</a>
+    <span class="header-note">Engineering handbook</span>
+  </header>
+  <div class="shell">
+    <aside class="desktop-navigation">{{ navigation() }}</aside>
+    <details class="mobile-navigation">
+      <summary>Browse the handbook</summary>
+      {{ navigation() }}
+    </details>
+    <main id="main" tabindex="-1"{% if source %} data-source="{{ source | escape }}"{% endif %}>
+      <div class="page-heading">
+        <p class="eyebrow">JanStack / {{ section }}</p>
+        <h1>{{ title }}</h1>
+        <p class="page-description">{{ description }}</p>
+      </div>
+      <article>{{ content | focusableCode | safe }}</article>
+      {% if source %}
+      <div class="source-link"><a href="/source/{{ source }}">View source definition</a><code>{{ source }}</code></div>
+      {% endif %}
+      <footer class="page-footer">Hand-authored guidance. The checked-in skill definition is the execution contract.</footer>
+    </main>
+  </div>
+</body>
+</html>

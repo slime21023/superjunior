@@ -1,0 +1,18 @@
+{
+  "name": "janstack-handbook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "eleventy --serve",
+    "build": "eleventy",
+    "check": "npm run build && node --test docs/_lib/site.test.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "@iarna/toml": "3.0.0"
+  }
+}

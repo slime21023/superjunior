@@ -1,0 +1,34 @@
+{
+  "name": "JanStack",
+  "description": "A handbook for deliberate, verifiable engineering.",
+  "groups": [
+    {
+      "key": "start",
+      "label": "Start here"
+    },
+    {
+      "key": "mode",
+      "label": "Potato mode"
+    },
+    {
+      "key": "principles",
+      "label": "Principles"
+    },
+    {
+      "key": "workflows",
+      "label": "Workflows"
+    },
+    {
+      "key": "roles",
+      "label": "Subagents"
+    },
+    {
+      "key": "other",
+      "label": "Other skills"
+    },
+    {
+      "key": "practice",
+      "label": "In practice"
+    }
+  ]
+}
