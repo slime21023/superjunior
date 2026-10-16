@@ -9,7 +9,7 @@ permalink = "/maintenance/index.html"
 
 ## Preview and build
 
-Use Node.js 22 or newer. From the repository root, install the locked dependencies and start a local preview, then open the address Eleventy prints:
+Use Node.js 22 or newer. From the repository root, install the locked dependencies and start a local preview, then open the address Eleventy prints, normally http://localhost:8080/superjunior/:
 
 ```sh
 npm ci
@@ -25,7 +25,11 @@ npm run check
 
 Eleventy reads `docs/` and writes `_site/`. The build copies the assets and every checked-in skill file as-is, without transforming their contents. The lockfile fixes dependency resolution.
 
-The site uses origin-root URLs, so preview or host it at an origin root. Deploying under a subpath would need coordinated URL handling and link verification.
+## Publish
+
+GitHub Pages serves the handbook at https://slime21023.github.io/superjunior/. Every push to `main` runs `.github/workflows/pages.yml`, which installs the locked dependencies, runs `npm run check`, and deploys `_site/` only when the checks pass. The workflow can also be started by hand from the Actions tab.
+
+Because the site lives under `/superjunior/`, the build prefixes every root link with that path. Write internal links as root paths, such as `/skills/junior-mode/`; the link check fails on any internal link that ends up outside the prefix. If the site moves to a custom domain, set `pathPrefix` in `eleventy.config.mjs` to `/`.
 
 ## How pages map to skills
 

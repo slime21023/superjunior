@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { pathPrefix } from "../../eleventy.config.mjs";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
 const output = join(root, "_site");
@@ -29,13 +30,14 @@ test("every checked-in skill has a hand-authored reference page", () => {
 
 test("all internal page, fragment, and asset links resolve", () => {
   for (const [path, page] of html) {
-    const pathname = "/" + relative(output, path).split(sep).join("/");
+    const pathname = pathPrefix + relative(output, path).split(sep).join("/");
     const base = new URL(pathname, "https://superjunior.invalid");
     for (const match of page.matchAll(/\b(?:href|src)=(["'])(.*?)\1/g)) {
       const value = match[2].replaceAll("&amp;", "&");
       const url = new URL(value, base);
       if (url.origin !== base.origin) continue;
-      let target = resolve(output, "." + decodeURIComponent(url.pathname));
+      assert.ok(url.pathname.startsWith(pathPrefix), `${relative(output, path)} → ${value} is outside ${pathPrefix}`);
+      let target = resolve(output, "." + decodeURIComponent(url.pathname.slice(pathPrefix.length - 1)));
       const within = relative(output, target);
       assert.ok(!within.startsWith("..") && !isAbsolute(within), value);
       assert.ok(existsSync(target), `${relative(output, path)} → ${value}`);

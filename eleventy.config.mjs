@@ -1,6 +1,11 @@
+import { HtmlBasePlugin } from "@11ty/eleventy";
 import toml from "@iarna/toml";
 
+// GitHub Pages serves the project site under /superjunior/; pages keep root links and the plugin prefixes them.
+export const pathPrefix = "/superjunior/";
+
 export default function (eleventyConfig) {
+  eleventyConfig.addPlugin(HtmlBasePlugin);
   eleventyConfig.setFrontMatterParsingOptions({
     delimiters: "+++",
     language: "toml",
@@ -19,6 +24,7 @@ export default function (eleventyConfig) {
       .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   );
   return {
+    pathPrefix,
     dir: { input: "docs", output: "_site" },
     templateFormats: ["md", "njk"],
     markdownTemplateEngine: false,

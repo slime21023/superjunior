@@ -33,14 +33,14 @@ Reproduce the failure first, then deliver tested local commits.
 
 ## Read the handbook
 
-The handbook explains every skill and includes example requests. Preview it locally (Node.js 22 or newer):
+The handbook explains every skill and includes example requests. Read it at https://slime21023.github.io/superjunior/, or preview it locally (Node.js 22 or newer):
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the address Eleventy prints, normally http://localhost:8080.
+Open the address Eleventy prints, normally http://localhost:8080/superjunior/.
 
 ## Contributing
 
