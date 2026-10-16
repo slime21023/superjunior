@@ -75,7 +75,6 @@ Context-First TDD prioritizes deep comprehension of existing contracts, data mod
 </output-contract>
 
 ---
----
 
 ## Return Outcomes
 

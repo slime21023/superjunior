@@ -14,7 +14,7 @@ This skill records structure, not implementation: it produces no class implement
 
 ## Operating Posture
 
-If a boundary, component ownership, or dependency direction was not decided in earlier discussion, do not assume one; stop before writing the file and ask the user targeted questions. Give each component one clear responsibility. A component depends only on components in its own layer or lower layers; flag circular or cross-cutting violations as soon as they appear.
+If a boundary, component ownership, or dependency direction was not decided in earlier discussion, do not assume one; stop before writing the file and ask the user targeted questions. An open question that leaves every recorded boundary unchanged may instead be written under `<pending-decisions>`, but only after the user agrees to defer it. Give each component one clear responsibility. A component depends only on components in its own layer or lower layers; flag circular or cross-cutting violations as soon as they appear.
 
 ---
 
@@ -27,7 +27,7 @@ Analyze the conversational context and recent architectural discussions:
    - Ambiguous component ownership (e.g., "Where does caching invalidation live?").
    - Unspecified integration patterns between layers.
    - Missing data consistency boundaries between components.
-3. **User Clarification Gate:** If ambiguities exist, formulate 1 to 3 precise architectural questions. Wait for the user's decision before proceeding to file generation.
+3. **User Clarification Gate:** If ambiguities affect a boundary, ownership, or dependency direction, formulate 1 to 3 precise architectural questions and wait for the user's decision before proceeding to file generation. Questions that change no recorded boundary may be deferred to `<pending-decisions>` once the user agrees.
 
 ### Step 2: Layer & Component Decomposition
 Organize the architecture into hierarchical tiers:

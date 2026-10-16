@@ -52,7 +52,7 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 <output-contract>
   Deliver the alignment card conforming to this markdown structure:
 
-  ### 📋 Change Scope Alignment Card
+  ### Change Scope Alignment Card
   - **Problem Statement**: [1-2 plain-language sentences]
   - **Done Criteria**:
     1. [ ] [Observable criterion 1]

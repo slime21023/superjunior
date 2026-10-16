@@ -12,7 +12,7 @@ Software complexity grows when mental models fragment across different granulari
 
 ## The Four Layers in Practice
 
-### 1️⃣ Lexical & Expression Layer (Intuitive & Self-Evident)
+### Layer 1: Lexical & Expression Layer (Intuitive & Self-Evident)
 This layer governs identifiers, comments, and ubiquitous vocabulary.
 
 - **Precise Naming**: Embed intent, responsibility scope, and explicit physical units (e.g., `retryIntervalMs`, `maxPayloadBytes`).
@@ -20,7 +20,7 @@ This layer governs identifiers, comments, and ubiquitous vocabulary.
 - **Domain Vocabulary Consistency**: Use a single ubiquitous term for every domain concept (never mix `fetch`, `get`, `retrieve`, and `query`).
 - Detailed reference: [principles-lexical-expression](../principles-lexical-expression/SKILL.md)
 
-### 2️⃣ Function & Control Flow Layer (Fluid & Predictable)
+### Layer 2: Function & Control Flow Layer (Fluid & Predictable)
 This layer governs execution flow, abstraction consistency, and error ergonomics.
 
 - **Single Level of Abstraction (SLAP)**: High-level functions orchestrate business steps; low-level algorithmic details are delegated to helpers.
@@ -29,7 +29,7 @@ This layer governs execution flow, abstraction consistency, and error ergonomics
 - **Eliminate Errors by Design**: Absorb edge conditions using empty collections `[]`, `Optional`, or Null Objects, eliminating redundant null checks and exceptions.
 - Detailed reference: [principles-function-control-flow](../principles-function-control-flow/SKILL.md)
 
-### 3️⃣ Class & Module Boundary Layer (Minimal Interfaces & High Cohesion)
+### Layer 3: Class & Module Boundary Layer (Minimal Interfaces & High Cohesion)
 This layer governs public interfaces, information hiding, and responsibility encapsulation.
 
 - **Deep Modules**: Expose clean, minimal public interfaces backed by substantial internal functionality (high value-to-interface ratio).
@@ -38,7 +38,7 @@ This layer governs public interfaces, information hiding, and responsibility enc
 - **Cohesion & Single Responsibility (SRP)**: Group logic that changes together; separate logic driven by different business actors.
 - Detailed reference: [principles-module-boundaries](../principles-module-boundaries/SKILL.md)
 
-### 4️⃣ System Architecture & Evolution Layer (Resilience & Boundary Compliance)
+### Layer 4: System Architecture & Evolution Layer (Resilience & Boundary Compliance)
 This layer governs macro boundaries, dependency directions, package organization, and evolutionary health.
 
 - **Dependency Inversion (DIP)**: Core business domain defines abstract interfaces; infrastructure (databases, networks, UI) depends on core abstractions.

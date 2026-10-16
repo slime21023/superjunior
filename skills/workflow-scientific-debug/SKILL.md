@@ -39,7 +39,7 @@ Scientific debugging replaces trial-and-error "shotgun debugging" with an empiri
 <escalation-schema>
   Deliver structured inquiry conforming to this format:
 
-  ### 🚨 Structured Debugging Inquiry
+  ### Structured Debugging Inquiry
   - **Target Goal**: [What behavior we are trying to achieve]
   - **Expected vs. Actual**:
     - *Expected*: [Expected output / return value / state]

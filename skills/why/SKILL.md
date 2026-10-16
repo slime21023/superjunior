@@ -6,7 +6,7 @@ license: MIT
 
 # Why: Design Intent & Motivation Reconstruction
 
-Reconstruct the engineering rationale, historical constraints, and tradeoffs behind target code.
+Reconstruct the engineering rationale, historical constraints, and tradeoffs behind target code. This skill reads code and history only; it never modifies files.
 
 State the core motivating cause in the first sentence. Keep documented evidence and reasoned deductions apart, and when historical evidence is missing or ambiguous, ask the user precise questions instead of inventing intent. Prefer local Git history, PR discussions, and source code; use external tools such as issue trackers or docs when they are available, and continue without them when they are not.
 
@@ -31,7 +31,7 @@ Categorize all gathered signals into three distinct buckets:
 - **Plausible Inferences:** Logical deductions derived from code structure, defensive checks (e.g., rate limits, null guards), or architectural patterns where explicit written rationale is absent.
 - **Information Gaps:** Missing context that cannot be proven from repository artifacts alone (e.g., offline team decisions, historical incidents without postmortems).
 
-*For complex investigations spanning multiple commits and architectural boundaries, spawn subagent(s) using `references/investigator-prompt.md`.*
+*For complex investigations spanning multiple commits and architectural boundaries, delegate to investigator subagents built from `references/investigator-prompt.md`, but only when the host supports authorized delegation; otherwise investigate directly.*
 
 ### Step 3: Synthesis & Bottom-Line Verdict
 Aggregate all findings using `references/synthesizer-prompt.md`.

@@ -27,7 +27,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 
   1. **Design decision pending**: The request needs a design or technology choice that nobody has made yet, such as a storage engine, framework, component boundary, or public API shape, before code can be written. Do not make that choice yourself, even when one option looks obvious: return needs-decision, hand the question to [senior-mode](../senior-mode/SKILL.md), and present the options with their tradeoffs. Keep the question under Open Decisions, and resume once the user confirms a decision or supplies a senior-mode handoff brief.
   2. **Defect route**: The request reports an exception, a failing test, or a test that passes on some runs and fails on others. Record a one-line problem statement and the Done Criteria, then go straight to Phase 3A, because the blast radius is unknown until the root cause is found. For an intermittent failure, first isolate the nondeterministic input (time, randomness, ordering, concurrency, shared state, or network) before forming a hypothesis or changing code. After the fix, continue with Phase 3B and Phase 3C.
-  3. **Light route**: The change cannot alter runtime behavior: documentation, comments, formatting, or a configuration value that no code path branches on. Run a brief scope alignment (problem statement and Done Criteria only), make the change, verify it with the narrowest observable check for the touched files (build, render, or lint), and deliver it through Phase 3C. When behavioral impact is uncertain, take the full route.
+  3. **Light route**: The change cannot alter runtime behavior: documentation, comments, formatting, or a configuration value that no code path branches on. Run a brief scope alignment (problem statement and Done Criteria only), make the change, verify it with the narrowest observable check for the touched files (build, render, or lint), run the hygiene gates of Phase 3B (the four-layer audit does not apply because no runtime code changed), and deliver it through Phase 3C. When behavioral impact is uncertain, take the full route.
   4. **Full route**: Every other change takes the full route below.
 
   Questions about how code works or why it was written that way also belong to senior-mode; pause or finish the current task before switching.
@@ -98,7 +98,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 ## 6. Task Record
 
 <task-record>
-  Keep the active task's record in `.superjunior/task.md` at the repository root. Create it when Phase 1 starts and update it at every phase transition. Never stage or commit it; it describes the work, not the product.
+  Keep the active task's record in `.superjunior/task.md` at the repository root. Create it as soon as the route is chosen, whichever phase that route starts in, and update it at every phase transition. Never stage or commit it; it describes the work, not the product.
 
   ```markdown
   # Task: [short title]

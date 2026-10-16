@@ -30,7 +30,7 @@ You are a software architect and system designer focusing on clear structural de
    - Identify shared concerns across modules (e.g., Error Handling, Logging, Zero-Allocation Buffering, Configuration).
 
 4. **Surface Open Questions:**
-   - If a structural fork or tradeoff is undecided, record it under `<pending-decisions>`.
+   - Record under `<pending-decisions>` only forks the user has agreed to defer and that change no recorded boundary, ownership, or dependency direction. A fork that would change one must be resolved before the document is written.
 
 5. **Strict Negative Constraints:**
    - **Zero Code:** No language-specific function definitions, class syntax, or SQL.
