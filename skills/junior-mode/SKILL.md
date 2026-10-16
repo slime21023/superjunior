@@ -23,11 +23,14 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 ## 2. Route Selection
 
 <routing>
-  Choose the route before Phase 1 and record it in the task record.
+  Choose the route before Phase 1 and record it in the task record. Check these conditions in order; the first one that matches decides the route.
 
-  The light route applies when the change cannot alter runtime behavior: documentation, comments, formatting, or a configuration value that no code path branches on. Run a brief scope alignment (problem statement and Done Criteria only), make the change, verify it with the narrowest observable check for the touched files (build, render, or lint), and deliver it through Phase 3C. When behavioral impact is uncertain, take the full route.
+  1. **Design decision pending**: The request needs a design or technology choice that nobody has made yet, such as a storage engine, framework, component boundary, or public API shape, before code can be written. Do not make that choice yourself, even when one option looks obvious: return needs-decision, hand the question to [senior-mode](../senior-mode/SKILL.md), and present the options with their tradeoffs. Keep the question under Open Decisions, and resume once the user confirms a decision or supplies a senior-mode handoff brief.
+  2. **Defect route**: The request reports an exception, a failing test, or a test that passes on some runs and fails on others. Record a one-line problem statement and the Done Criteria, then go straight to Phase 3A, because the blast radius is unknown until the root cause is found. For an intermittent failure, first isolate the nondeterministic input (time, randomness, ordering, concurrency, shared state, or network) before forming a hypothesis or changing code. After the fix, continue with Phase 3B and Phase 3C.
+  3. **Light route**: The change cannot alter runtime behavior: documentation, comments, formatting, or a configuration value that no code path branches on. Run a brief scope alignment (problem statement and Done Criteria only), make the change, verify it with the narrowest observable check for the touched files (build, render, or lint), and deliver it through Phase 3C. When behavioral impact is uncertain, take the full route.
+  4. **Full route**: Every other change takes the full route below.
 
-  Every other change takes the full route below. Questions about how code works, why it was written that way, or which architecture to choose belong to [senior-mode](../senior-mode/SKILL.md); pause or finish the current task before switching.
+  Questions about how code works or why it was written that way also belong to senior-mode; pause or finish the current task before switching.
 </routing>
 
 ---
@@ -51,6 +54,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
   <phase>
     **Phase 3A: Scientific Debug (On Defects)** — [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md)
     - Observe the stack trace, hypothesize, write a minimal reproduction test, and fix the root cause at the caller convergence point.
+    - Entry phase for the defect route; an intermittent failure starts by isolating its nondeterministic input.
   </phase>
   <phase>
     **Phase 3B: Four-Layer Self-Review** — [workflow-self-review](../workflow-self-review/SKILL.md)
@@ -98,7 +102,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 
   ```markdown
   # Task: [short title]
-  - **Route**: full | light
+  - **Route**: full | light | defect
   - **Phase**: [current phase]
   - **Done Criteria**: [from Phase 1]
   - **Candidate**: [changed files]

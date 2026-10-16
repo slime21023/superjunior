@@ -21,7 +21,7 @@ Scientific debugging replaces trial-and-error "shotgun debugging" with an empiri
 ## 5-Step Empirical Protocol
 
 <debug-protocol>
-  1. **Observe**: Parse raw error messages, stack traces, and relevant system logs. Identify the exact exception type, breached line number, and runtime context payloads.
+  1. **Observe**: Parse raw error messages, stack traces, and relevant system logs. Identify the exact exception type, breached line number, and runtime context payloads. When the failure is intermittent, find the nondeterministic input first (time, randomness, ordering, concurrency, shared state, or network) and make it deterministic, because a hypothesis cannot be tested against a signal that changes on its own.
   2. **Hypothesize**: Formulate 1~2 concrete, falsifiable hypotheses explaining why the invariant broke. Never edit production code without a clear hypothesis.
   3. **Minimal Repro**: Author an isolated minimal reproduction test that reproduces the failure deterministically. Confirm that it fails exclusively with the targeted error.
   4. **Root-Cause Fix**: Trace where all callers converge and fix the broken invariant at the shared foundation. Absorb boundary conditions with empty collections or deep module defaults.

@@ -19,11 +19,18 @@ The definition is a portable contract. [The host](/host-integration/) provides d
 
 ## Choose the route
 
-Changes that cannot alter runtime behavior take the light route: documentation, comments, formatting, and configuration values that no code path branches on. A light-route task gets a brief scope alignment, the change, the narrowest observable check for the touched files, and an atomic commit. When behavioral impact is uncertain, the full route applies. Questions about how code works, why it was written that way, or which architecture to choose belong to [senior mode](/skills/senior-mode/).
+Junior mode checks four routes in order and takes the first that matches:
+
+1. **Design decision pending**: the request needs an unmade design or technology choice, such as a storage engine, framework, component boundary, or public API shape. Junior mode does not choose; it returns `needs-decision`, hands the question to [senior mode](/skills/senior-mode/) with the options and tradeoffs, and resumes once the decision is confirmed.
+2. **Defect route**: the request reports an exception, a failing test, or an intermittent failure. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to self-review and commit. An intermittent failure first isolates its nondeterministic input.
+3. **Light route**: the change cannot alter runtime behavior, such as documentation, comments, formatting, or configuration values that no code path branches on. It gets a brief scope alignment, the change, the narrowest observable check for the touched files, and an atomic commit.
+4. **Full route**: every other change.
+
+Questions about how code works or why it was written that way also belong to senior mode.
 
 ## Keep the task record
 
-Junior mode records the active task in `.superjunior/task.md`: route, current phase, Done Criteria, candidate files, evidence per phase, and open decisions. The record is updated at every phase transition and never committed. A paused task keeps it; a delivered or cancelled task deletes it. To resume, the owner re-runs evidence whose files, dependencies, inputs, or environment changed and continues from the earliest phase with missing or invalid evidence.
+Junior mode records the active task in `.superjunior/task.md`: route (full, light, or defect), current phase, Done Criteria, candidate files, evidence per phase, and open decisions. The record is updated at every phase transition and never committed. A paused task keeps it; a delivered or cancelled task deletes it. To resume, the owner re-runs evidence whose files, dependencies, inputs, or environment changed and continues from the earliest phase with missing or invalid evidence.
 
 ## The engineering route
 
