@@ -30,7 +30,7 @@ tests:
   - description: Behavior change takes the full or defect route
     vars: { request: "parseTags in src/tags.js throws on an empty string; it must return an empty array instead." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode, workflow-context-tdd, workflow-scientific-debug], routes: [full, defect] } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode, workflow-align-scope, workflow-context-tdd, workflow-scientific-debug], routes: [full, defect] } }
   - description: Vague request stops for a decision
     vars: { request: "Make the app faster." }
     assert:

@@ -58,10 +58,14 @@ tests:
     vars: { request: "The retry test fails with 'TypeError: operation is not a function'. Find and fix the root cause." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-scientific-debug, junior-mode] } }
-  - description: Pre-PR review goes to self-review
+  - description: Pre-PR review in the current session goes to self-review
     vars: { request: "Review my diff against our design principles before I open a pull request." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-self-review, agent-code-reviewer] } }
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-self-review] } }
+  - description: Delegated review goes to the code reviewer role
+    vars: { request: "Start a separate subagent to review my diff independently and report findings back to you." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-code-reviewer] } }
   - description: Commit splitting goes to atomic-commit
     vars: { request: "Split my staged changes into clean commits with good messages." }
     assert:
