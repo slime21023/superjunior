@@ -1,6 +1,6 @@
 ---
 name: agent-git-committer
-description: Specialized version control agent role for staging files with single responsibility, verifying clean staging diffs, and authoring intention-focused commit messages.
+description: "Use only when delegating commit preparation to a subagent: a role that stages single-responsibility changes, verifies the staged diff, and writes commit messages that explain why. To commit in the current session, use workflow-atomic-commit."
 license: MIT
 ---
 
@@ -12,4 +12,4 @@ The Git Committer is responsible for organizing the final delivery into clean, a
 
 ## Role Definition
 
-The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). The role carries out [workflow-atomic-commit](../workflow-atomic-commit/SKILL.md) inside an assignment from the owning agent, which sets its read and write boundary.
+Use this role only when the owning agent delegates the work to a subagent; for work in the current session, follow [workflow-atomic-commit](../workflow-atomic-commit/SKILL.md) directly. The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). Inside the assignment, the owning agent sets the role's read and write boundary.

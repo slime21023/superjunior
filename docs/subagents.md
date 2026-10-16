@@ -19,6 +19,8 @@ The five specialized agent roles are portable definitions stored under their res
 
 `readonly = false` permits only the assignment's declared writes. It does not provide an unrestricted workspace.
 
+Each role's skill description says to use it only when delegating to a subagent, so a host that discovers skills does not pick a role for work in the current session. That work follows the matching workflow directly.
+
 ## Scope Aligner (`agent-scope-aligner`)
 
 Supply the user request, ticket description, and codebase entrypoint. The scope aligner explores the code, traces callers, and formulates the plain-language problem, observable Done criteria, and the 3-tier Blast Radius matrix (Direct, Ripple, Untouched).

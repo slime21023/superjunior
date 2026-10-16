@@ -1,6 +1,6 @@
 ---
 name: agent-code-reviewer
-description: Specialized read-only code review agent role for auditing changes against the Four-Layer Software Design Principles and producing concrete, actionable findings.
+description: "Use only when delegating an independent code review to a subagent: a read-only role that audits a diff against the Four-Layer Software Design Principles and returns actionable findings. To review in the current session, use workflow-self-review."
 license: MIT
 ---
 
@@ -12,4 +12,4 @@ The Code Reviewer is an independent, read-only auditor that inspects proposed di
 
 ## Role Definition
 
-The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). The role carries out [workflow-self-review](../workflow-self-review/SKILL.md) inside an assignment from the owning agent, which sets its read and write boundary.
+Use this role only when the owning agent delegates the work to a subagent; for work in the current session, follow [workflow-self-review](../workflow-self-review/SKILL.md) directly. The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). Inside the assignment, the owning agent sets the role's read and write boundary.

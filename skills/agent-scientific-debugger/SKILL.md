@@ -1,6 +1,6 @@
 ---
 name: agent-scientific-debugger
-description: Specialized debugging agent role for parsing stack traces, establishing falsifiable hypotheses, writing minimal reproduction tests, and fixing defects at root-cause convergence points.
+description: "Use only when delegating defect diagnosis to a subagent: a role that parses stack traces, tests falsifiable hypotheses, writes minimal reproduction tests, and fixes root causes. To debug in the current session, use workflow-scientific-debug."
 license: MIT
 ---
 
@@ -12,4 +12,4 @@ The Scientific Debugger specializes in diagnosing complex failures, unexpected e
 
 ## Role Definition
 
-The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). The role carries out [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md) inside an assignment from the owning agent, which sets its read and write boundary.
+Use this role only when the owning agent delegates the work to a subagent; for work in the current session, follow [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md) directly. The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). Inside the assignment, the owning agent sets the role's read and write boundary.
