@@ -1,6 +1,6 @@
 # SuperJunior
 
-Engineering skills for scoped, verifiable work. Start with junior-mode, or use a workflow, design principle, or specialist skill directly.
+Engineering skills for scoped, verifiable work. Start with junior-mode for code changes or senior-mode for explanation and architecture, or use a workflow, design principle, or specialist skill directly.
 
 ## Read the handbook
 
@@ -33,4 +33,4 @@ Definitions are portable repository instructions. Your host must provide discove
 
 ## Maintain the handbook
 
-The pages in `docs/` are hand-authored Markdown with `+++` TOML frontmatter. Update the matching reference page when a skill changes, then run `npm run check`. Existing skill definitions keep their original YAML format.
+The pages in `docs/` are hand-authored Markdown with `+++` TOML frontmatter. Update the matching reference page when a skill changes, then run `npm run check`. Skill definitions use YAML front matter limited to the Agent Skills fields.

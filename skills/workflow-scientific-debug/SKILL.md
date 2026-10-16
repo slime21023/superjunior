@@ -1,7 +1,6 @@
 ---
 name: workflow-scientific-debug
-description: Phase 3A daily engineering workflow. Scientific debugging protocol. Use when encountering an exception, failing test, or unexpected defect to parse stack traces, formulate falsifiable hypotheses, write minimal reproduction tests, and fix root causes.
-outcomes: ["pass", "needs-change", "needs-decision"]
+description: "Use when an exception, failing test, or unexpected defect appears: parse the stack trace, form falsifiable hypotheses, write a minimal reproduction test, and fix the root cause where callers converge. Phase 3A of junior-mode."
 license: MIT
 ---
 

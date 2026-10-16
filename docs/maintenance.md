@@ -42,13 +42,11 @@ source = "skills/principles-lexical-expression/SKILL.md"
 
 `title`, `description`, and `permalink` describe the page. `section` and `order` place it in navigation; optional `navTitle` supplies a shorter label. Use `source` once on the skill's independent reference page. Guide and role pages link relevant definitions in their body.
 
-Available sections are `start`, `mode`, `principles`, `workflows`, `roles`, `other`, and `practice`. Navigation uses page metadata; it does not generate manual content from source definitions.
+Available sections are `start`, `mode`, `senior`, `principles`, `workflows`, `roles`, and `practice`. Navigation uses page metadata; it does not generate manual content from source definitions.
 
 ## Keep sources and guidance aligned
 
 When a skill changes, update its matching reference page and any affected examples or workflow guidance. Preserve actual rules, scope, artifacts, outcome meanings, and write boundaries. Label repository inconsistencies rather than inventing capabilities.
-
-The why skill currently names `references/investigator-prompt.md`, while its checked-in template is [references/inversigator-prompt.md](/source/skills/why/references/inversigator-prompt.md). The handbook links the available file and records this discrepancy. The source definitions retain their original contents.
 
 ## Tag skill definitions
 

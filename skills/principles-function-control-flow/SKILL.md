@@ -69,6 +69,7 @@ Rather than scattering defensive `null` checks and exception handlers everywhere
 
 <audit-checklist>
   - [ ] Does the orchestrating function maintain a uniform level of abstraction?
+  - [ ] Do extracted functions hide real conceptual complexity rather than adding 1-line indirection?
   - [ ] Are guard clauses used to return early, keeping nesting to at most 2 levels?
   - [ ] Are query functions strictly pure and free of side-effects?
   - [ ] Do list-returning functions return empty collections [] instead of null?

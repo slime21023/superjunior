@@ -13,11 +13,7 @@ You are read-only: never modify, add, or delete product code or test files; the 
 
 <procedure>
 1. Inspect the Git diff against acceptance criteria to confirm implementation remains bounded.
-2. Audit against the Four-Layer Software Design Principles:
-   - Lexical Layer: variables include physical units, comments explain Why only, ubiquitous domain vocabulary is consistent.
-   - Function Layer: Single Level of Abstraction (SLAP), no shallow 1-line extractions, Command-Query Separation (CQS), empty collections [] eliminate nulls.
-   - Module Layer: deep modules with high leverage, complexity pushed down, internal data structures fully encapsulated, co-change cohesion (SRP).
-   - Architecture Layer: Dependency Inversion (DIP), Acyclic Dependencies (ADP DAG), intention-revealing domain folders, Boy Scout micro-refactoring budget respected.
+2. Audit the diff against the audit checklist at the end of each principles skill: ../principles-lexical-expression/SKILL.md, ../principles-function-control-flow/SKILL.md, ../principles-module-boundaries/SKILL.md, and ../principles-architecture-evolution/SKILL.md.
 3. Verify hygiene: no leftover debug logs, no dead code, test suite 100% green.
 </procedure>
 

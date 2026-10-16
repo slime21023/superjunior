@@ -2,8 +2,8 @@
 title = "Architecture componentization"
 description = "Persist confirmed layers, component responsibilities, and dependency direction."
 permalink = "/skills/arch-componentize/index.html"
-section = "other"
-order = 6
+section = "senior"
+order = 4
 source = "skills/arch-componentize/SKILL.md"
 +++
 
@@ -21,7 +21,7 @@ For each component, state scope, owned responsibilities, delegated work, depende
 
 Use the [XML component prompt](/source/skills/arch-componentize/references/xml-component-prompt.md) and validate:
 
-- Root element `architecture` has `target`, `type`, `pattern`, and version `1.0`.
+- Root element `architecture` is bare; its `overview` block records the target, type, pattern, and version `1.0`.
 - Component IDs are unique.
 - Dependencies reference declared component or external-system IDs.
 - The specification contains conceptual responsibilities rather than implementation details.
@@ -29,8 +29,6 @@ Use the [XML component prompt](/source/skills/arch-componentize/references/xml-c
 ## Persist and return
 
 After decisions are resolved, create the needed directory and save the specification to `_adr/base.xml`. Return the saved path, complete XML, and three structural takeaways covering hierarchy, dependency governance, and confirmed invariants.
-
-The definition's architect delegate is declared read-only; the skill's persistence step writes the owner's confirmed specification.
 
 ## Boundary
 

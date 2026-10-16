@@ -59,7 +59,7 @@ Ensure single responsibility and format a Conventional Commit message explaining
 ## Resume after a handoff
 
 ```text
-Read skills/junior-mode/SKILL.md and the existing task record.
+Read skills/junior-mode/SKILL.md and .superjunior/task.md.
 Resume the agreed task using the current working-tree contents.
 Revalidate the recorded candidate and any destination state.
 Continue from the earliest required phase with missing or invalid evidence.
@@ -70,9 +70,9 @@ A recorded passing test is historical evidence. Changes to contents, dependencie
 ## Discuss architecture before implementation
 
 ```text
-Read skills/craft-discussing/SKILL.md.
+Read skills/senior-mode/SKILL.md.
 Compare viable architectures for the stated workload and constraints.
-Agree on boundaries and technology tradeoffs, then return a design brief.
+Agree on boundaries and technology tradeoffs, record them, and hand off the first component.
 ```
 
-Follow with arch-componentize to persist confirmed boundaries and arch-detail to specify a declared component. Keep the discussion and design scopes intact.
+Senior mode runs craft-discussing, arch-componentize, and arch-detail in turn and ends with a handoff brief for junior mode.

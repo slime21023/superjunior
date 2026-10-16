@@ -2,7 +2,7 @@
 title = "Why"
 description = "Reconstruct historical rationale while separating documentary facts from engineering inference."
 permalink = "/skills/why/index.html"
-section = "other"
+section = "senior"
 order = 2
 source = "skills/why/SKILL.md"
 +++
@@ -23,17 +23,13 @@ Separate findings into three groups:
 - Plausible inferences: deductions from structure or defensive behavior.
 - Information gaps: context unavailable from the inspected artifacts.
 
-Complex investigations can use the source's investigator and synthesizer templates through an authorized, capable host. These supporting prompts are separate from the [four workflow roles](/subagents/).
+Complex investigations can use the source's [investigator](/source/skills/why/references/investigator-prompt.md) and synthesizer templates through an authorized, capable host. These supporting prompts are separate from the [agent roles](/subagents/).
 
 ## Return the rationale
 
 Lead with the supported core verdict. Then provide verified facts, clearly labeled inferences, targeted clarification questions for missing historical context, and change guidance describing invariants to preserve and assumptions that may safely change.
 
 Omit the clarification section only when documentary evidence is complete. Use the [synthesizer template](/source/skills/why/references/synthesizer-prompt.md) to keep the explanation grounded.
-
-## Repository reference note
-
-The skill names `references/investigator-prompt.md`, while the checked-in file is [references/inversigator-prompt.md](/source/skills/why/references/inversigator-prompt.md). Use the available template when integrating this definition. The handbook records the discrepancy without modifying the source.
 
 ## Boundary
 

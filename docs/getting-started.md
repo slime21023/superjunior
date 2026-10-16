@@ -10,12 +10,12 @@ permalink = "/getting-started/index.html"
 
 Make the repository readable to your coding agent. Identify how your host loads instruction files and enforces tool and write permissions. Start with an explicit request to read a skill; use a registered command only when your host provides one.
 
-The definitions use both YAML and TOML frontmatter. See [Host integration](/host-integration/) before expecting automatic discovery or retained mode activation.
+Skill definitions use YAML front matter limited to the Agent Skills fields. See [Host integration](/host-integration/) before expecting automatic discovery or retained mode activation.
 
 ## Run your first task
 
 1. State the requested outcome, constraints, and observable success condition.
-2. Choose [junior-mode](/skills/junior-mode/) for the complete engineering route, or a [workflow](/workflows/) for a single phase.
+2. Choose [junior-mode](/skills/junior-mode/) for the complete engineering route, [senior-mode](/skills/senior-mode/) for explanation and architecture work, or a [workflow](/workflows/) for a single phase.
 3. Specify the delivery form, such as local files or an authorized PR.
 4. Let the owner inspect the affected flow and choose proportionate checks.
 5. Assess the returned artifact, actual evidence, limitations, and outcome.
@@ -27,7 +27,7 @@ Preserve the existing behavior for selected tags.
 Reproduce the failure, check sibling filter paths, and deliver local files.
 ```
 
-A small task can use a sentence and a direct check. You do not need a new task tracker, checkpoint file, or commit for each unit.
+A small task can use a sentence and a direct check; junior mode's light route covers changes that cannot alter behavior. Junior mode keeps its task record at .superjunior/task.md and never commits it.
 
 ## Read the result
 

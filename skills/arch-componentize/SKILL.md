@@ -1,28 +1,20 @@
-+++
-name = "arch-componentize"
-description = "Use to formalize architectural discussions and decisions into a structured XML component specification saved directly to '_adr/base.xml'. Records architectural layers, component boundaries, and core responsibilities without touching implementation code or interface definitions. Interactively prompts the user when architectural decisions are unresolved."
-disable_model_invocation = true
-
-[subagents.architect]
-tier = "deep-reasoning"
-readonly = true
-+++
+---
+name: arch-componentize
+description: "Use once architecture decisions are confirmed to record layers, component boundaries, and responsibilities in `_adr/base.xml`. Asks the user when a boundary is still undecided and writes no implementation code. Part of senior-mode."
+license: MIT
+---
 
 # Architecture Componentization & Structural Specification
 
 Synthesize finalized architectural decisions into a formal XML specification (tag-delimited blocks with Markdown fields) and persist it to `_adr/base.xml`. This skill captures system layers, component boundaries, and responsibility scopes.
 
-**Strict Negative Constraints:**
-- **No Implementation Code:** Never produce class implementations, function bodies, SQL queries, or configuration scripts.
-- **No Low-Level Interface Design:** Do not define concrete REST paths, RPC signatures, method parameters, or low-level type schemas. Focus strictly on conceptual and structural responsibilities.
+This skill records structure, not implementation: it produces no class implementations, function bodies, SQL queries, or configuration scripts, and no concrete REST paths, RPC signatures, method parameters, or low-level type schemas.
 
 ---
 
 ## Operating Posture
 
-- **Epistemic Incompleteness & Decision Gate:** If an architectural boundary, component ownership, or dependency direction was not determined during prior discussions, **do not invent an assumption**. Halt generation, do not write to file, and ask the user targeted, decision-oriented questions.
-- **Single Responsibility Principle (SRP):** Each recorded component must have a crisp, unambiguous responsibility boundary.
-- **Strict Layering & Non-Circular Dependencies:** Components within a layer may only depend on components in the same layer or lower layers. Flag circular or cross-cutting violations immediately.
+If a boundary, component ownership, or dependency direction was not decided in earlier discussion, do not assume one; stop before writing the file and ask the user targeted questions. Give each component one clear responsibility. A component depends only on components in its own layer or lower layers; flag circular or cross-cutting violations as soon as they appear.
 
 ---
 

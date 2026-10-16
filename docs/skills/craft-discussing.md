@@ -2,8 +2,8 @@
 title = "Craft discussing"
 description = "Agree on architectural goals, feasibility, and technology tradeoffs before implementation."
 permalink = "/skills/craft-discussing/index.html"
-section = "other"
-order = 5
+section = "senior"
+order = 3
 source = "skills/craft-discussing/SKILL.md"
 +++
 

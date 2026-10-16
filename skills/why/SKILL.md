@@ -1,26 +1,14 @@
-+++
-name = "why"
-description = "Use for uncovering design rationale, historical intent, architectural tradeoffs, and answering 'why is this written this way'. Employs bottom-line-up-front reasoning, strictly separates verified facts from logical inferences, and asks the user directly when evidence hits a dead end. Tool-agnostic (local Git, code, PRs, and optional MCPs)."
-disable_model_invocation = true
-
-[subagents.investigator]
-tier = "fast-scout"
-readonly = true
-
-[subagents.synthesizer]
-tier = "deep-reasoning"
-readonly = true
-+++
+---
+name: why
+description: "Use to uncover why code is written the way it is: design rationale, historical intent, and architectural tradeoffs from Git history, code, and PRs. Leads with the verdict, separates verified facts from inferences, and asks the user when evidence runs out. Part of senior-mode."
+license: MIT
+---
 
 # Why: Design Intent & Motivation Reconstruction
 
 Reconstruct the engineering rationale, historical constraints, and tradeoffs behind target code.
 
-Operate under strict epistemic discipline:
-- **Bottom-Line Up Front:** State the core motivating cause in the very first sentence.
-- **Fact vs. Inference Boundary:** Enforce a hard separation between documented evidence and reasoned deductions.
-- **Query the User on Unknowns:** When historical evidence is missing or ambiguous, never fabricate intent. Formulate precise questions to the user.
-- **Tool-Agnostic Investigation:** Prioritize local Git history, PR discussions, and source code. Query external tools (such as issue trackers or docs) if available, but never stall if they are absent.
+State the core motivating cause in the first sentence. Keep documented evidence and reasoned deductions apart, and when historical evidence is missing or ambiguous, ask the user precise questions instead of inventing intent. Prefer local Git history, PR discussions, and source code; use external tools such as issue trackers or docs when they are available, and continue without them when they are not.
 
 ---
 

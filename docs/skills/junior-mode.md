@@ -17,6 +17,14 @@ A status question or correction updates the active task. An explicit new task st
 
 The definition is a portable contract. [The host](/host-integration/) provides discovery, persistent activation, tools, worker execution, and permissions.
 
+## Choose the route
+
+Changes that cannot alter runtime behavior take the light route: documentation, comments, formatting, and configuration values that no code path branches on. A light-route task gets a brief scope alignment, the change, the narrowest observable check for the touched files, and an atomic commit. When behavioral impact is uncertain, the full route applies. Questions about how code works, why it was written that way, or which architecture to choose belong to [senior mode](/skills/senior-mode/).
+
+## Keep the task record
+
+Junior mode records the active task in `.superjunior/task.md`: route, current phase, Done Criteria, candidate files, evidence per phase, and open decisions. The record is updated at every phase transition and never committed. A paused task keeps it; a delivered or cancelled task deletes it. To resume, the owner re-runs evidence whose files, dependencies, inputs, or environment changed and continues from the earliest phase with missing or invalid evidence.
+
 ## The engineering route
 
 - Phase 1: [Align scope](/skills/workflow-align-scope/) to define the problem, Done criteria, and mapped blast radius.

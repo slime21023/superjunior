@@ -1,7 +1,6 @@
 ---
 name: workflow-align-scope
-description: Phase 1 daily engineering workflow. Use before modifying code to clarify the problem in plain language, establish concrete done criteria, map the blast radius (direct, ripple, untouched), and sequence implementation steps.
-outcomes: ["pass", "needs-decision"]
+description: "Use before modifying code, as Phase 1 of junior-mode or on its own, to state the problem in plain language, set concrete Done Criteria, map the blast radius (direct, ripple, untouched), and sequence implementation steps."
 license: MIT
 ---
 

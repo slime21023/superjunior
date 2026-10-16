@@ -1,17 +1,14 @@
-+++
-name = "how-works"
-description = "Use for \"how does X work\", architectural walkthroughs, and code placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, and developer mental models. (Use 'why' for business rationale/motivation)."
-
-[subagents.explorer]
-file = "../agent-scope-aligner/agent.toml"
-readonly = true
-+++
+---
+name: how-works
+description: "Use for questions about how code works, where a responsibility should live, which package owns something, or whether code sits in the right layer. Explains subsystem architecture, runtime flow, and developer mental models from inspected code; use why for historical rationale. Part of senior-mode."
+license: MIT
+---
 
 # How: Subsystem & Architecture Walkthrough
 
 Explore the codebase to explain runtime mechanics and architectural structure. Preserve repository contents while investigating.
 
-**Target Level:** Senior engineer onboarding onto a subsystem. Build a conceptual mental model of how components collaborate. **Avoid line-by-line annotated source code walkthroughs.**
+Write for a senior engineer onboarding onto the subsystem: build a conceptual model of how components collaborate rather than a line-by-line walkthrough of the source.
 
 ## Step 1: Scope Assessment & Routing
 
@@ -28,7 +25,7 @@ Evaluate scope to prevent unnecessary fan-out. If ambiguous, state your working 
 
 Identify separable angles such as *Entrypoint & Lifecycle*, *Core State & Data Pipeline*, *Dependencies & External Contracts*, and *Error Boundaries & Edge Cases*.
 
-Delegate only when separate investigation materially helps and the host supports authorized delegation. Otherwise explore directly. Use the declared explorer role and the host's configured model; keep assignments within the owner's concurrency and budget.
+Delegate only when separate investigation materially helps and the host supports authorized delegation. Otherwise explore directly. Use the explorer role defined in [agent-scope-aligner](../agent-scope-aligner/agent.toml) and the host's configured model; keep assignments within the owner's concurrency and budget.
 
 Build each assignment from [the explorer template](references/explorer-prompt.md). Supply the original question, assigned angle, source identity, readable scope, relevant constraints, and return conditions. Explorers preserve repository contents and return sourced findings; further delegation requires an explicit grant.
 
@@ -57,4 +54,4 @@ Check that the explanation answers the original question and follows from the in
   3. `How It Works`: Primary runtime flow / sequence.
   4. `Where Things Live`: Directory layout, file ownership, and architectural layers.
   5. `Gotchas`: Non-obvious failure modes, race conditions, or tricky invariants.
-- **Negative constraint:** Do not paste raw, multi-page code dumps. Use diagrams, directory trees, or tiny snippets (five lines or fewer) only when they anchor a concept.
+- **Code excerpts:** Do not paste multi-page code dumps. Use diagrams, directory trees, or tiny snippets (five lines or fewer) only when they anchor a concept.

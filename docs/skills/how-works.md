@@ -2,7 +2,7 @@
 title = "How works"
 description = "Explain runtime mechanics, ownership, and subsystem structure from inspected code."
 permalink = "/skills/how-works/index.html"
-section = "other"
+section = "senior"
 order = 1
 source = "skills/how-works/SKILL.md"
 +++

@@ -14,7 +14,7 @@ You are a software architect and system designer. Your task is to produce a deta
   - Depends On: {COMPONENT_DEPENDS}
   - Avoids: {COMPONENT_AVOIDS}
 - **Resolved User Design Decisions:** {USER_DESIGN_DECISIONS}
-- **Target Language / Syntax Preference:** {SYNTAX_PREFERENCE} <!-- e.g., TypeScript, Go, Rust, or Language-Agnostic Pseudocode -->
+- **Target Language / Syntax Preference:** {SYNTAX_PREFERENCE} (e.g., TypeScript, Go, Rust, or language-agnostic pseudocode)
 
 ---
 

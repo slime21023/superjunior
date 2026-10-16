@@ -1,29 +1,20 @@
-+++
-name = "arch-detail"
-description = "Produces detailed structural and behavioral specifications for a single component defined in '_adr/base.xml'. Establishes public contracts, data models (DTOs), runtime sequences (Mermaid), invariants, and failure handling without writing business implementations. Persists specifications to '_adr/components/{component-id}.md'."
-disable_model_invocation = true
-
-[subagents.designer]
-tier = "deep-reasoning"
-readonly = false
-+++
+---
+name: arch-detail
+description: "Use to specify one component declared in `_adr/base.xml`: public contracts, data models, a Mermaid runtime sequence, invariants, and failure handling, saved to `_adr/components/{component-id}.md` without implementation bodies. Part of senior-mode."
+license: MIT
+---
 
 # Component Detailed Design Specification
 
 Create a detailed structural and behavioral specification for a single target component. This skill translates the high-level boundary definitions from `_adr/base.xml` into a concrete design document ready for subsequent implementation.
 
-**Strict Negative Constraints:**
-- **Zero Method Bodies:** Define type definitions, data structures, and interface signatures only. Never write business logic algorithms, function bodies, or framework plumbing.
-- **Strict Boundary Confinement:** Never design capabilities that violate the component's **Avoids** field or overlap another component's **Owns** field in `_adr/base.xml`.
-- **No Speculative Assumptions:** If an interaction protocol, consistency model, or error policy is undecided, halt and prompt the user.
+Define type definitions, data structures, and interface signatures only, with no business logic, function bodies, or framework plumbing. Stay inside the component's boundary in `_adr/base.xml`: never design capabilities that violate its **Avoids** field or overlap another component's **Owns** field. If an interaction protocol, consistency model, or error policy is undecided, stop and ask the user.
 
 ---
 
 ## Operating Posture
 
-- **Specification over Code:** Serve as the bridge between system architecture and implementation. Deliver clear interfaces, sequence flows, and error contracts.
-- **Anchor in `base.xml`:** Treat `_adr/base.xml` as an immutable boundary contract for this step. If a requirement breaks the boundary, advise modifying `_adr/base.xml` first.
-- **Fail-Fast Boundary Defense:** Explicitly model timeouts, fallback states, and domain error hierarchies rather than treating the happy path in isolation.
+This skill bridges architecture and implementation with interfaces, sequence flows, and error contracts. Treat `_adr/base.xml` as fixed for this step; if a requirement breaks a boundary, recommend changing `_adr/base.xml` first. Model timeouts, fallback states, and domain error hierarchies explicitly instead of describing only the happy path.
 
 ---
 

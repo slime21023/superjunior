@@ -2,8 +2,8 @@
 title = "Karpathy guidelines"
 description = "Make assumptions visible, keep changes focused, and verify checkable goals."
 permalink = "/skills/karpathy-guidelines/index.html"
-section = "other"
-order = 3
+section = "principles"
+order = 6
 source = "skills/karpathy-guidelines/SKILL.md"
 +++
 

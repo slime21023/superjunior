@@ -22,7 +22,7 @@ Paths in skill definitions are relative to the skill file or its references. Kee
 
 ## Handle the metadata
 
-New workflow and mode definitions use YAML frontmatter. The specialized agent role files are plain TOML with `name`, `description`, `readonly`, and `instructions`.
+Every skill definition uses YAML front matter limited to the Agent Skills fields `name`, `description`, `license`, and `metadata`; the two modes set `metadata.mode` to "true". The specialized agent role files are plain TOML with `name`, `description`, `readonly`, and `instructions`.
 
 The documentation site's TOML parser handles documentation pages only. If your host accepts a different skill format, use its supported registration or adapter mechanism. Reading a definition as instructions is a viable entry point when native discovery is unavailable.
 

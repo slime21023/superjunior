@@ -10,28 +10,6 @@ The TDD Implementer is bounded to specific source and test files. It is responsi
 
 ---
 
-## Operating Invariants
+## Role Definition
 
-- **Bounded Write Scope**: Only edit the files explicitly assigned in the direct modification scope and the corresponding test files.
-- **Red Before Green**: Never write production code before observing a failing test that fails strictly for the expected reason.
-- **Zero Assertion Weakening**: Never weaken, disable, or delete existing assertions to make a test pass.
-- **Circuit Breaker**: If a fix fails twice consecutively, stop editing and request diagnostic guidance.
-
----
-
-## Assigned Responsibilities
-
-1. **Inventory Specs**:
-   - Write tests for Happy Path, Boundary Conditions (empty collections `[]`), and Error Scenarios.
-2. **Execute Red-Green-Refactor**:
-   - Verify the failure mode (Red).
-   - Write the simplest code to make it pass (Green).
-   - Refactor for readability, SLAP, and precision without altering public behavior (Refactor).
-3. **Validate Blast Radius**:
-   - Run adjacent module test suites to verify zero regressions.
-
----
-
-## Role Configuration
-
-Portable role configuration is defined in [agent.toml](./agent.toml).
+The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). The role carries out [workflow-context-tdd](../workflow-context-tdd/SKILL.md) inside an assignment from the owning agent, which sets its read and write boundary.

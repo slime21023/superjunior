@@ -61,6 +61,6 @@ The Single Responsibility Principle (SRP) is governed by **co-change**:
 <audit-checklist>
   - [ ] Does the module expose a narrow, intuitive API relative to the work it accomplishes?
   - [ ] Are common error-handling, defaults, and resource cleanup handled inside the module rather than pushed onto callers?
-  - [ ] Are internal mutable collections properly encapsulated?
+  - [ ] Are internal mutable collections and vendor protocols encapsulated and inaccessible from outside?
   - [ ] Do classes group logic that changes for the same business reason, keeping separate business actors decoupled?
 </audit-checklist>

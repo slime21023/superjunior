@@ -2,8 +2,8 @@
 title = "Architecture detail"
 description = "Specify one declared component's contracts, sequences, invariants, and failure handling."
 permalink = "/skills/arch-detail/index.html"
-section = "other"
-order = 7
+section = "senior"
+order = 5
 source = "skills/arch-detail/SKILL.md"
 +++
 

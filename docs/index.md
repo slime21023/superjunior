@@ -7,7 +7,7 @@ order = 0
 permalink = "/index.html"
 +++
 
-SuperJunior is a collection of portable agent instructions. Its Four-Layer Design Principles govern software craft, its workflows enforce daily engineering discipline, and junior-mode coordinates an agreed task through the complete lifecycle.
+SuperJunior is a collection of portable agent instructions. Its Four-Layer Design Principles govern software craft, its workflows enforce daily engineering discipline, and junior-mode coordinates an agreed task through the complete lifecycle, while senior-mode handles explanation and architecture work.
 
 <ol class="cycle" aria-label="Development cycle">
 <li><small>01</small><a href="/skills/workflow-align-scope/">Align Scope</a><p>Define the problem and map blast radius.</p></li>
@@ -22,7 +22,7 @@ A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-sci
 
 - [Junior mode](/skills/junior-mode/): Coordinate a scoped feature, fix, or refactor through the full lifecycle.
 - [Workflows](/workflows/): Execute an individual daily workflow (Scope alignment, Context TDD, Self review, Atomic commit).
-- [Other skills](/other-skills/): Subsystem onboarding, historical rationale, and component architecture design.
+- [Senior mode](/skills/senior-mode/): Explain existing code, investigate design rationale, and agree on and record architecture before implementation.
 - [Four-layer design principles](/principles/): Standards across lexical, function, module, and architecture boundaries.
 - [Subagents](/subagents/): Delegate bounded tasks to specialized read-only or scoped implementation roles.
 

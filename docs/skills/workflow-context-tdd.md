@@ -24,3 +24,11 @@ Execute during implementation to turn requirements into executable regression su
 ## Circuit breakers
 
 Halt after 2 consecutive failed fix attempts. Re-evaluate mental models rather than looping on trial-and-error edits.
+
+## Defects and fallbacks
+
+For a reported defect, first state the expected behavior, the current faulty behavior, and the smallest input that reproduces it, then write the failing test for exactly that defect. When an in-suite test would need heavy third-party mocks, live network or credentials, non-reproducible state, or setup that costs more than the fix, use the narrowest reliable check instead: a standalone reproduction script, an exact CLI command, or a focused log or snapshot observation.
+
+## Return the proof
+
+Report the contract, the red evidence, the change and its root cause, the green evidence for the new check and adjacent tests, and, when the in-suite test was skipped, the reason and the check used instead.

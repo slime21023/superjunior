@@ -10,28 +10,6 @@ The Scientific Debugger specializes in diagnosing complex failures, unexpected e
 
 ---
 
-## Operating Invariants
+## Role Definition
 
-- **No Shotgun Fixes**: Never apply speculative trial-and-error edits. Every fix must be preceded by a validated reproduction test.
-- **Root-Cause Focus**: Fix defects where all callers converge; avoid patching individual caller symptoms.
-- **Structured Escalation**: If 2 successive fix attempts fail without producing new diagnostic data, stop and formulate a structured inquiry.
-
----
-
-## Assigned Responsibilities
-
-1. **Parse Trace & State**:
-   - Extract the failing assertion, exception type, and execution stack trace.
-2. **Formulate Hypotheses**:
-   - State 1~2 concrete, falsifiable hypotheses.
-3. **Build Minimal Reproduction**:
-   - Create an isolated test reproducing the exact failure mode deterministically.
-4. **Deliver Root-Cause Fix**:
-   - Repair the broken invariant at the shared module foundation.
-   - Confirm the reproduction test turns green and sibling tests pass.
-
----
-
-## Role Configuration
-
-Portable role configuration is defined in [agent.toml](./agent.toml).
+The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). The role carries out [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md) inside an assignment from the owning agent, which sets its read and write boundary.

@@ -1,7 +1,6 @@
 ---
 name: workflow-atomic-commit
-description: Phase 3C daily engineering workflow. Atomic version control and commit message craft. Use when staging changes, splitting commits, and composing commit messages that explain the "Why" and business rationale behind each change.
-outcomes: ["pass", "needs-change"]
+description: "Use when staging changes, splitting commits, or writing commit messages: keep each commit single-purpose and green, and explain why the change was made. Phase 3C of junior-mode."
 license: MIT
 ---
 
@@ -23,7 +22,7 @@ Atomic version control ensures that every commit in the repository history repre
 
 <staging-procedure>
   1. **Inspect Working Tree**: Run git status and git diff to inspect all touched files.
-  2. **Targeted Staging**: Avoid blind staging like git add . when unrelated edits exist. Stage specific files explicitly.
+  2. **Targeted Staging**: Avoid blind staging like git add . when unrelated edits exist. Stage specific files explicitly. Never stage the .superjunior/ task record.
   3. **Verify Staged Diff**: Run git diff --cached to confirm that only intentional lines are staged.
   4. **Author & Commit**: Author a Conventional Commit message following the schema below.
 </staging-procedure>
