@@ -1,6 +1,6 @@
 +++
 title = "Craft discussing"
-description = "Agree on architectural goals, feasibility, and technology tradeoffs before implementation."
+description = "Agree on goals, feasibility, and technology choices through discussion before any code is written."
 permalink = "/skills/craft-discussing/index.html"
 section = "senior"
 order = 3
@@ -9,28 +9,35 @@ source = "skills/craft-discussing/SKILL.md"
 
 ## When to use it
 
-Use for architectural ideation, system design discovery, feasibility, and stack selection. The result is a conceptual architectural brief agreed through discussion.
+Use it at the start of a new system or a significant change, when the goals, feasibility, or technology stack are still open. The agent acts as an architect you think out loud with: it challenges unnecessary complexity, prefers proven technology unless a requirement demands something specialized, and names what each option costs.
 
-## Explore and converge
+Craft discussing is part of [senior mode](/skills/senior-mode/).
 
-Start with mission, workload and performance expectations, budget, timeline, team familiarity, hosting, legacy integrations, and non-goals. State missing assumptions and verify them with the user.
+## What it does
 
-Map prerequisite knowledge, consistency requirements, access patterns, deployment considerations, and feasibility risks. Compare two or three viable approaches across operational overhead, development velocity, cognitive load, ecosystem stability, and migration flexibility.
+1. Clarifies the problem before solutions: the core mission, expected scale and latency, budget, timeline, team familiarity, hosting, legacy integrations, and non-goals. Where something is missing, it states an assumption and checks it with you.
+2. Maps what the design depends on: specialized knowledge the team needs, consistency requirements, read and write patterns, deployment and monitoring concerns, and feasibility red flags such as single points of failure.
+3. Compares two or three viable approaches on operational overhead, development speed, cognitive load, ecosystem stability, and how hard they are to migrate away from.
+4. Asks targeted questions on the forks that remain, and only summarizes once you agree on the stack and topology.
 
-Explain accepted tradeoffs. Align with the user on unresolved choices before producing the final topology and stack summary. Use the [technology evaluation prompt](/source/skills/craft-discussing/references/tech-eval-prompt.md) for complex infrastructure choices through an authorized host.
+## What you get
 
-## Return the brief
+An architecture brief with five parts:
 
-Use the [blueprint prompt](/source/skills/craft-discussing/references/blueprint-prompt.md). The result covers:
+- **Architectural verdict**: the chosen topology, governing philosophy, and main stack choices.
+- **Goals and constraints**: what the architecture guarantees, hard limits, and explicit non-goals.
+- **Stack and tradeoffs**: a table of each layer's chosen technology, the alternatives considered, and the tradeoff accepted.
+- **Knowledge and risks**: what the team must understand first, and the main failure points with mitigations.
+- **Next steps**: the first three structural steps toward implementation.
 
-- Architectural verdict and chosen topology.
-- Goals, constraints, and non-goals.
-- Stack choices, considered alternatives, and accepted costs.
-- Prerequisite knowledge and feasibility risks.
-- The first three structural implementation steps.
+## Boundaries
 
-## Boundary and next step
+This skill produces discussion only: no production code, boilerplate, build scripts, configuration files, or scaffolding. Once boundaries are agreed, [architecture componentization](/skills/arch-componentize/) records them and [architecture detail](/skills/arch-detail/) specifies individual components.
 
-This skill produces no production code, boilerplate, build scripts, or implementation scaffolding. It prefers established technology unless requirements justify another choice.
+## Example request
 
-Once boundaries are confirmed, [arch-componentize](/skills/arch-componentize/) can persist the component structure. [Arch-detail](/skills/arch-detail/) then specifies a declared component's contracts and behavior.
+```text
+Use craft-discussing.
+We need to ingest about 2,000 sensor readings per second and keep 90 days of history on a small team.
+Compare storage options and agree on a stack before we build anything.
+```

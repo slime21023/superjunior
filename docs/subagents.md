@@ -1,63 +1,42 @@
 +++
-title = "Specialized Agent Roles"
+title = "Agent roles"
 navTitle = "The five agent roles"
-description = "Bounded worker roles for scope alignment, TDD implementation, debugging, review, and commits."
+description = "Five worker roles for handing one phase of junior mode to a subagent with a clear boundary."
 section = "roles"
 order = 0
 permalink = "/subagents/index.html"
 +++
 
-The five specialized agent roles are portable definitions stored under their respective skill directories. The host supplies execution and permission enforcement. Direct execution by the primary agent remains the default; delegate to a worker when an isolated, bounded assignment improves focus and separation of concerns.
+Agent roles are for one situation only: you, or the agent you are working with, want to hand a single phase of the work to a subagent. Work in the current session never uses a role. It follows the matching workflow directly, and that is the default. Delegate when an isolated assignment helps, for example when scope investigation would flood the main conversation with context, or when you want a review from a worker that did not write the code.
 
-## Role map
+Each role is defined in an `agent.toml` file next to its skill. Claude Code, Codex CLI, and Antigravity CLI do not load these files as subagents on their own, so the delegating agent passes the role's definition to the worker together with the assignment. The host still decides what the worker is actually allowed to do.
 
-- [agent-scope-aligner](/skills/agent-scope-aligner/): Read-only investigator for exploring context, defining Done criteria, and mapping the 3-tier blast radius.
-- [agent-tdd-implementer](/skills/agent-tdd-implementer/): Bounded implementation worker executing the Red-Green-Refactor TDD cycle on assigned targets.
-- [agent-scientific-debugger](/skills/agent-scientific-debugger/): Diagnostic worker for parsing stack traces, building minimal repro tests, and resolving root causes at caller convergence.
-- [agent-code-reviewer](/skills/agent-code-reviewer/): Read-only independent auditor assessing diffs against the Four-Layer Software Design Principles.
-- [agent-git-committer](/skills/agent-git-committer/): Version control specialist for selective atomic staging and authoring intention-focused commit messages.
+## The five roles
 
-`readonly = false` permits only the assignment's declared writes. It does not provide an unrestricted workspace.
+| Role | Read-only | Matching workflow | Returns |
+| :--- | :--- | :--- | :--- |
+| [Scope aligner](/skills/agent-scope-aligner/) | Yes | [Align scope](/skills/workflow-align-scope/) | Problem statement, Done Criteria, blast radius, ordered plan |
+| [TDD implementer](/skills/agent-tdd-implementer/) | No | [Context-first TDD](/skills/workflow-context-tdd/) | Test specs, red and green evidence, changed files |
+| [Scientific debugger](/skills/agent-scientific-debugger/) | No | [Scientific debug](/skills/workflow-scientific-debug/) | Root cause, reproduction evidence, fix location, verification |
+| [Code reviewer](/skills/agent-code-reviewer/) | Yes | [Self-review](/skills/workflow-self-review/) | `pass` or `needs-change` with located findings |
+| [Git committer](/skills/agent-git-committer/) | No | [Atomic commit](/skills/workflow-atomic-commit/) | Staged files, commit message, test status |
 
-Each role's skill description says to use it only when delegating to a subagent, so a host that discovers skills does not pick a role for work in the current session. That work follows the matching workflow directly.
+A role that is not read-only may write only what its assignment allows. It is not a free hand in the workspace.
 
-## Scope Aligner (`agent-scope-aligner`)
+## Write a good assignment
 
-Supply the user request, ticket description, and codebase entrypoint. The scope aligner explores the code, traces callers, and formulates the plain-language problem, observable Done criteria, and the 3-tier Blast Radius matrix (Direct, Ripple, Untouched).
-
-Definition: [agent.toml](/source/skills/agent-scope-aligner/agent.toml). Used by [workflow-align-scope](/skills/workflow-align-scope/).
-
-## TDD Implementer (`agent-tdd-implementer`)
-
-Supply the aligned scope, contracts, and test targets. The implementer authors regression tests covering Happy Path, Boundary Conditions (empty collections `[]`), and Error Scenarios. It verifies the failure mode (Red), implements minimal code (Green), and refactors under green protection.
-
-Definition: [agent.toml](/source/skills/agent-tdd-implementer/agent.toml). Used by [workflow-context-tdd](/skills/workflow-context-tdd/).
-
-## Scientific Debugger (`agent-scientific-debugger`)
-
-Supply the failing test or exception logs. The debugger parses stack traces, formulates 1~2 falsifiable hypotheses, builds an isolated minimal reproduction test, and resolves the defect at the shared caller convergence point.
-
-Definition: [agent.toml](/source/skills/agent-scientific-debugger/agent.toml). Used by [workflow-scientific-debug](/skills/workflow-scientific-debug/).
-
-## Code Reviewer (`agent-code-reviewer`)
-
-Supply the candidate diff, requirements, and test results. The reviewer performs an objective audit across all four design layers (Lexical, Function, Module Boundaries, and Architecture). It returns structured findings detailing location, consequence, and remediation.
-
-Definition: [agent.toml](/source/skills/agent-code-reviewer/agent.toml). Used by [workflow-self-review](/skills/workflow-self-review/).
-
-## Git Committer (`agent-git-committer`)
-
-Supply the verified working tree and task rationale. The committer inspects `git status` and `diff`, stages targeted files with single responsibility, and authors a Conventional Commit message explaining the "Why" behind the change.
-
-Definition: [agent.toml](/source/skills/agent-git-committer/agent.toml). Used by [workflow-atomic-commit](/skills/workflow-atomic-commit/).
-
-## Write a useful assignment
+A worker starts without your conversation, so the assignment has to carry everything it needs. Name the role and state the task in one or two sentences. Say which snapshot of the code it works on. Draw the read and write boundary explicitly: which files or modules it may read, which it may change, and which it must leave alone. Finish with the return conditions: what the report must contain, and when to stop and report instead of continuing.
 
 ```text
 Role: agent-scope-aligner
 Task: Investigate the token refresh flow and map the blast radius for adding a timeoutMs parameter.
-Candidate: current working tree snapshot.
-Readable scope: auth module, HTTP client, and associated tests.
-Preserve all files. Do not delegate further.
-Return problem statement, 2-3 Done Criteria, and Blast Radius matrix.
+Candidate: current working tree.
+Read: the auth module, the HTTP client, and their tests.
+Write: nothing. Do not delegate further.
+Return: a problem statement, 2-3 Done Criteria, and the blast radius matrix.
+Stop and report if the refresh contract has more than one reasonable reading.
 ```
+
+## Integrate the result
+
+The agent that delegated the work still owns it. It reads the returned report, re-checks the evidence instead of taking it on trust (re-running the tests a worker says pass, for example), and folds the result into the task. A worker that stops on its circuit breaker returns its question or its failed hypotheses; the owner decides the next step, asking the user when a decision is needed.

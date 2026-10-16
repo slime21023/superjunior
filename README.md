@@ -1,36 +1,55 @@
 # SuperJunior
 
-Engineering skills for scoped, verifiable work. Start with junior-mode for code changes or senior-mode for explanation and architecture, or use a workflow, design principle, or specialist skill directly.
+SuperJunior is a set of skills for code agents such as Claude Code, Codex, and Antigravity. With them, the agent scopes a change before it writes code, proves the change with tests, reviews its own diff, and commits in small steps. Every result ends with a clear status: whether the work passed, needs changes, could not be verified, or is waiting on a decision from you.
+
+## Pick a mode
+
+| Use | When you want | You get back |
+| :--- | :--- | :--- |
+| `junior-mode` | Code changed: a feature, a bug fix, or a refactor | Tested changes, a self-review, and atomic commits |
+| `senior-mode` | Understanding or design: how code works, why it was built that way, which architecture to choose | An explanation, a decision brief, or specifications under `_adr/`, plus a handoff brief for junior-mode |
+
+Senior-mode never edits product code. When a design is ready to build, it hands a brief to junior-mode. You can also call a single workflow, design principle, or specialist skill directly when you need only one step.
+
+## Install the skills
+
+Copy every directory from `skills/` into your project's skill directory. Keep them side by side, because the skills link to each other. Copy the directories instead of symlinking them.
+
+| Tool | Version checked | Project directory | Personal directory |
+| :--- | :--- | :--- | :--- |
+| Claude Code | 2.1.300 | `.claude/skills/` | `~/.claude/skills/` |
+| Codex CLI | 0.162.1 | `.agents/skills/` | `~/.agents/skills/` |
+| Antigravity CLI (`agy`) | 1.3.6 | `.agents/skills/` | `~/.gemini/antigravity-cli/skills/` |
+
+The project directories were tested with each listed version. The personal directories come from each tool's documentation and were not tested. The tools do not start the agent roles as subagents on their own; see the handbook's host integration page.
+
+## Make a first request
+
+```text
+Use junior-mode to fix this bug: a saved filter with no selected tags shows nothing.
+It should show all items. Keep the current behavior when tags are selected.
+Reproduce the failure first, then deliver tested local commits.
+```
 
 ## Read the handbook
 
-Requires Node.js 22 or newer and npm. Run these commands from the repository root:
+The handbook explains every skill and includes example requests. Preview it locally (Node.js 22 or newer):
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the local address printed by Eleventy (normally http://localhost:8080). The handbook covers the Four-Layer Software Design Principles, daily engineering workflows, the five specialized agent roles, examples, and host integration.
+Open the address Eleventy prints, normally http://localhost:8080.
+
+## Contributing
+
+Skills live in `skills/<name>/SKILL.md`; agent roles also have an `agent.toml`. When you change a skill, update its page in `docs/skills/` too. Then run:
 
 ```sh
-npm run build
 npm run check
 ```
 
-The static site is written to `_site/`. Checks rebuild the site, verify skill coverage and internal links, and compare downloadable definitions with their source files.
+This builds the site and checks the skill pages, internal links, copied sources, and skill definitions.
 
-## Use a skill
-
-Give your coding agent access to the repository and ask it to read the appropriate skill:
-
-```text
-Read skills/junior-mode/SKILL.md and use it to fix the reported bug.
-Reproduce the failure, verify the corrected behavior, and deliver local files.
-```
-
-Definitions are portable repository instructions. Your host must provide discovery, persistent activation, delegation, tools, and permission enforcement. Command registration depends on the host.
-
-## Maintain the handbook
-
-The pages in `docs/` are hand-authored Markdown with `+++` TOML frontmatter. Update the matching reference page when a skill changes, then run `npm run check`. Skill definitions use YAML front matter limited to the Agent Skills fields.
+Optional behavior evals run against the real CLIs with `npm run eval:discovery`, `npm run eval:routing`, and `npm run eval:behavior`. They need Claude Code, Codex, and agy installed and signed in, they use your quota, and they write results to `evals/results/`. See the handbook's maintenance page for details.

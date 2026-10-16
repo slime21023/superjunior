@@ -1,6 +1,6 @@
 +++
 title = "Why"
-description = "Reconstruct historical rationale while separating documentary facts from engineering inference."
+description = "Find out why code is written the way it is, with recorded facts kept apart from inference."
 permalink = "/skills/why/index.html"
 section = "senior"
 order = 2
@@ -9,28 +9,36 @@ source = "skills/why/SKILL.md"
 
 ## When to use it
 
-Use for “why is this written this way,” historical intent, architectural tradeoffs, and the constraints that motivated a design. Anchor the investigation to a snippet, symbol, or pattern.
+Ask why a piece of code exists in its current form: an odd guard, a hardcoded timeout, a pattern that looks more complicated than it needs to be. Use it before you change or remove code whose purpose you can't see.
 
-## Gather evidence
+For how code works today, use [how works](/skills/how-works/). Why is part of [senior mode](/skills/senior-mode/).
 
-Record the target path and symbols. Inspect local Git history with focused blame and file history, then follow commit, ticket, and PR references through available tools.
+## What it does
 
-Prioritize local code, history, and PR discussion. Optional external connections can add evidence; their absence should not stall a local investigation.
+1. Pins down the code in question: file, line range, and main symbols.
+2. Digs through local Git history for the commits that introduced and reshaped it, and follows commit, PR, and ticket references. It reads PR descriptions and review comments when a GitHub or GitLab CLI is available.
+3. Looks at the surrounding code: tests that would fail without it, comments, and defensive patterns such as retries, timeouts, and null checks.
+4. Sorts every signal into documented facts, plausible inferences, and information gaps.
 
-Separate findings into three groups:
+Local history, PR discussion, and source code come first. Issue trackers and other external sources are used when available, and the investigation continues without them when they are not. For a complex investigation, the agent may hand parts of the search to investigator subagents, but only when your tool allows delegation.
 
-- Documented facts: explicit records, comments, tests, or discussions.
-- Plausible inferences: deductions from structure or defensive behavior.
-- Information gaps: context unavailable from the inspected artifacts.
+## What you get
 
-Complex investigations can use the source's [investigator](/source/skills/why/references/investigator-prompt.md) and synthesizer templates through an authorized, capable host. These supporting prompts are separate from the [agent roles](/subagents/).
+An answer that leads with the verdict, then backs it up:
 
-## Return the rationale
+- **Core verdict**: the main reason the code exists, in one or two sentences.
+- **Verified facts**: commit hashes, authors, dates, quoted PR or review text, and tests that guard the behavior.
+- **Plausible inferences**: likely tradeoffs and defensive reasons, each marked as inference.
+- **Clarification needed from you**: targeted questions about context the history doesn't hold, such as offline decisions or undocumented client constraints. This section is omitted only when the record is complete.
+- **Change guidance**: what to preserve and what looks safe to modernize.
 
-Lead with the supported core verdict. Then provide verified facts, clearly labeled inferences, targeted clarification questions for missing historical context, and change guidance describing invariants to preserve and assumptions that may safely change.
+## Boundaries
 
-Omit the clarification section only when documentary evidence is complete. Use the [synthesizer template](/source/skills/why/references/synthesizer-prompt.md) to keep the explanation grounded.
+An inference about intent is never presented as recorded fact. When the trail runs cold, for example a commit that says only "fix edge case", it asks you rather than inventing a reason. It reads code and history only and never changes files.
 
-## Boundary
+## Example request
 
-An inference about intent is not a recorded historical fact. Ask precise questions when essential context is missing; do not invent rationale.
+```text
+Use the why skill: why does src/sync/client.ts retry exactly three times with a 900 ms delay?
+Tell me what must be preserved if I replace it with the shared retry helper.
+```

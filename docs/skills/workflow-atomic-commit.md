@@ -1,6 +1,6 @@
 +++
 title = "Atomic commit"
-description = "Phase 3C delivery: Single-responsibility commits with informative Why-rationale messages."
+description = "Stage and commit work as single-purpose commits that pass the tests and explain why the change was made."
 permalink = "/skills/workflow-atomic-commit/index.html"
 section = "workflows"
 order = 5
@@ -9,14 +9,29 @@ source = "skills/workflow-atomic-commit/SKILL.md"
 
 ## When to use it
 
-Execute when staging, splitting, and finalizing git commits for delivery.
+Use it when staging changes, splitting work into commits, or writing commit messages. It is the last phase of the full, defect, and light routes in [junior mode](/skills/junior-mode/).
 
-## Core invariants
+## What it does
 
-1. **One Commit, One Responsibility**: Never mix formatting, refactoring, and functional changes in the same commit.
-2. **Every Commit Builds and Passes Tests**: Intermediate broken commits are forbidden; every commit must be independently releasable or bisect-friendly.
-3. **Commit Messages Explain "Why"**: The diff documents what changed; the commit message explains the business problem, context, and trade-offs.
+1. Inspects the working tree and the full diff.
+2. Stages specific files rather than everything at once when unrelated edits are present. The `.superjunior/` task record is never staged.
+3. Reviews the staged diff to confirm only the intended lines are included.
+4. Writes a Conventional Commits message and commits.
 
-## Structure
+Each commit follows three rules. It does one thing, so reformatting never shares a commit with a behavior change. It leaves the tests passing, so any commit can be checked out, reverted, or bisected on its own. Its message explains why: the diff already shows what changed.
 
-Follow Conventional Commits (`type(scope): summary`) with a body detailing root cause and preserved invariants.
+The message starts with a type, an optional scope, and a short imperative summary, such as `fix(billing): round totals once per invoice`. The body covers the reason for the change, alternatives that were rejected, and any rules or contracts the change preserves. The allowed types are `feat`, `fix`, `refactor`, `test`, `chore`, and `docs`.
+
+## What you get
+
+Commits in your repository history that each hold one coherent change with a clear rationale, returned as `pass`. If the staged changes mix several purposes or the message does not explain why, the outcome is `needs-change`.
+
+## Boundaries
+
+The workflow does not commit a broken intermediate state with a plan to fix it later. It packages work that is already done and verified; run [self review](/skills/workflow-self-review/) first if the diff has not been checked.
+
+## Example request
+
+```text
+Use workflow-atomic-commit. My working tree has a bug fix and some unrelated formatting changes; split them into separate commits.
+```

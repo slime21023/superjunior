@@ -1,23 +1,36 @@
 +++
 title = "Four-layer software design"
-description = "Overview of the four design layers to reduce cognitive load and system complexity."
+description = "The map that connects naming, functions, modules, and architecture into one set of design rules."
 permalink = "/skills/principles-four-layer-design/index.html"
 section = "principles"
 order = 1
 source = "skills/principles-four-layer-design/SKILL.md"
 +++
 
-## When to use it
+This skill gives the agent the whole framework in one place: a short summary of every layer's rules, a link to each detailed layer skill, and guidance on which layers matter in which phase.
 
-Apply when designing new modules, planning system architecture, executing refactorings, or conducting pre-commit self-reviews.
+## When to apply it
 
-## The four layers
+Use it when you are designing a new module, planning a refactor, or reviewing a change and want the agent to consider every level of the code, from names up to package dependencies. When you only care about one level, ask for that layer's skill instead.
 
-1. **Lexical & Expression Layer**: Precise naming with explicit physical units, clear separation of code (How) and comments (Why/Trade-offs), and a single ubiquitous domain vocabulary.
-2. **Function & Control Flow Layer**: Single Level of Abstraction (SLAP), extracting functions strictly by concept, Command-Query Separation (CQS), and error elimination by design (empty collections `[]` instead of nulls).
-3. **Class & Module Boundaries Layer**: Deep modules exposing minimal interfaces, pushing complexity down into module internals, strict information hiding, and co-change cohesion (SRP).
-4. **System Architecture & Evolution Layer**: Dependency Inversion (DIP), Acyclic Dependencies (ADP DAG), intention-revealing directory structures, and the Boy Scout rule (10%~20% micro-refactoring budget).
+## The rules
 
-## Practical impact
+Each layer collects a few rules. The detailed pages explain each one with examples.
 
-This framework aligns every granularity of a codebase—from single variable names to cross-package dependencies—ensuring predictable, readable, and highly maintainable systems.
+1. **[Lexical and expression](/skills/principles-lexical-expression/)**: names carry intent and units (`retryIntervalMs`), code shows how while comments explain why, and each domain concept has one word.
+2. **[Function and control flow](/skills/principles-function-control-flow/)**: a function stays at one level of abstraction, extraction is reserved for real concepts, commands and queries are separate, and return types absorb edge cases (`[]` instead of `null`).
+3. **[Module boundaries](/skills/principles-module-boundaries/)**: modules have small interfaces over substantial internals, absorb complexity for their callers, hide their data, and group logic that changes for the same reason.
+4. **[Architecture and evolution](/skills/principles-architecture-evolution/)**: the domain defines interfaces that infrastructure implements, dependencies form no cycles, folders are named by domain, and each change leaves nearby code a little cleaner.
+
+## When each layer matters
+
+During planning, layers 3 and 4 decide boundaries and dependency direction. During implementation and testing, layers 1 and 2 shape the code you write. During review, the diff is checked against all four.
+
+## Review checklist
+
+This skill has no checklist of its own. A review runs the checklist at the end of each layer's skill, which is what [self-review](/skills/workflow-self-review/) does.
+
+## Related
+
+- [Principles overview](/principles/) for the layer table and how junior mode uses it.
+- [Karpathy guidelines](/skills/karpathy-guidelines/) for keeping changes small and verified.

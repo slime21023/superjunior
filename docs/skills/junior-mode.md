@@ -1,63 +1,76 @@
 +++
 title = "Junior mode"
-description = "Coordinate the complete engineering lifecycle from scope alignment to atomic commit."
+description = "Deliver everyday code changes, such as features, bug fixes, and refactors, with an agreed scope, tests, a review, and clean commits."
 permalink = "/skills/junior-mode/index.html"
 section = "mode"
 order = 0
 source = "skills/junior-mode/SKILL.md"
 +++
 
-Junior mode coordinates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
+## When to use it
 
-## Activate and scope the mode
+Use junior mode when you want code changed: a new feature, a bug fix, or a refactor. It picks a route for the request, runs the matching [workflows](/workflows/) in order, and reports what was done and how it was verified.
 
-Use junior-mode when explicitly invoked or retained as active by the host. It stays active across engineering follow-ups until the user opts out. Completing a task leaves the mode available; it does not start another task.
-
-A status question or correction updates the active task. An explicit new task starts a new route. Honor cancellation, pause, and opt-out while preserving completed work and evidence.
-
-The definition is a portable contract. [The host](/host-integration/) provides discovery, persistent activation, tools, worker execution, and permissions.
+Once started, junior mode stays active for follow-up engineering requests until you turn it off. A status question or a correction updates the current task, and a clearly new task starts a new route. Finishing a task leaves the mode on without starting anything new. Whether the mode stays active between messages depends on your tool; see [Host integration](/host-integration/).
 
 ## Choose the route
 
-Junior mode checks four routes in order and takes the first that matches:
+Junior mode checks four routes in this order and takes the first one that fits:
 
-1. **Design decision pending**: the request needs an unmade design or technology choice, such as a storage engine, framework, component boundary, or public API shape. Junior mode does not choose; it returns `needs-decision`, hands the question to [senior mode](/skills/senior-mode/) with the options and tradeoffs, and resumes once the decision is confirmed.
-2. **Defect route**: the request reports an exception, a failing test, or an intermittent failure. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to self-review and commit. An intermittent failure first isolates its nondeterministic input.
-3. **Light route**: the change cannot alter runtime behavior, such as documentation, comments, formatting, or configuration values that no code path branches on. It gets a brief scope alignment, the change, the narrowest observable check for the touched files, and an atomic commit.
-4. **Full route**: every other change.
+1. **Design decision pending.** The work needs a choice nobody has made yet, such as a storage engine, framework, component boundary, or public API shape. Junior mode does not make that choice, even when one option looks obvious. It returns `needs-decision`, lays out the options and their tradeoffs, and points you to [senior mode](/skills/senior-mode/). It resumes once you confirm a decision or bring back a senior-mode handoff brief.
+2. **Defect.** You report an exception, a failing test, or a test that passes on some runs and fails on others. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to self-review and commit. For an intermittent failure, the agent first pins down the source of nondeterminism, such as time, randomness, ordering, concurrency, shared state, or network.
+3. **Light.** The change cannot affect runtime behavior: documentation, comments, formatting, or a configuration value that no code path depends on. The agent writes a short problem statement and Done Criteria, makes the change, runs the narrowest check that shows it works (a build, render, or lint), runs self-review's hygiene checks (the four-layer audit does not apply because no runtime code changed), and commits it. If the effect on behavior is uncertain, it takes the full route instead.
+4. **Full.** Every other change.
 
-Questions about how code works or why it was written that way also belong to senior mode.
+## The phases of the full route
+
+1. [Align scope](/skills/workflow-align-scope/): agree on the problem, the Done Criteria, and which files are affected.
+2. [Context TDD](/skills/workflow-context-tdd/): learn the surrounding code, then build the change test-first.
+3. [Scientific debug](/skills/workflow-scientific-debug/), only when a defect appears: reproduce it, find the root cause, and fix it there.
+4. [Self review](/skills/workflow-self-review/): check the diff against the [four-layer design principles](/skills/principles-four-layer-design/) and basic hygiene.
+5. [Atomic commit](/skills/workflow-atomic-commit/): stage and commit the work in single-purpose commits.
+
+Each phase returns an outcome that decides the next step:
+
+| Outcome | Next step |
+| :--- | :--- |
+| `pass` | Continue to the next phase on the chosen route. |
+| `needs-change` | Go back to TDD or debugging to fix the problem. |
+| `unverified` | Stop and get the missing evidence, such as a working test runner or environment. |
+| `needs-decision` | Stop and ask you a specific question with the options laid out. |
 
 ## Keep the task record
 
-Junior mode records the active task in `.superjunior/task.md`: route (full, light, or defect), current phase, Done Criteria, candidate files, evidence per phase, and open decisions. The record is updated at every phase transition and never committed. A paused task keeps it; a delivered or cancelled task deletes it. To resume, the owner re-runs evidence whose files, dependencies, inputs, or environment changed and continues from the earliest phase with missing or invalid evidence.
+Junior mode tracks the current task in `.superjunior/task.md` at the repository root. The record is created as soon as the route is chosen, whichever phase that route starts in. It holds the route, the current phase, the Done Criteria, the changed files, the evidence from each phase, and any open decisions. It is updated at every phase change so the work can survive a pause or a new session.
 
-## The engineering route
+The record is never staged or committed; it describes the work, not the product. If you pause, it stays. If you cancel, the agent stops, leaves completed work in your working tree, and deletes the record. It is also deleted once the task is delivered.
 
-- Phase 1: [Align scope](/skills/workflow-align-scope/) to define the problem, Done criteria, and mapped blast radius.
-- Phase 2: [Context TDD](/skills/workflow-context-tdd/) for test-driven development across Happy Path, Boundary Conditions (`[]`), and Error Scenarios.
-- Phase 3A: [Scientific debug](/skills/workflow-scientific-debug/) when defects occur to observe logs, formulate hypotheses, build minimal repro tests, and fix root causes.
-- Phase 3B: [Self review](/skills/workflow-self-review/) to audit diffs against the Four-Layer Software Design Principles.
-- Phase 3C: [Atomic commit](/skills/workflow-atomic-commit/) for single-responsibility staged diffs and informative why-commit messages.
+To resume, the agent reads the record, compares it with the working tree, and re-runs any check whose files, dependencies, inputs, or environment have changed. It then continues from the earliest phase whose evidence is missing or no longer valid. If the record is gone, it rebuilds one from the working tree and your description.
 
-## Interpret the result
+## Delegation to roles
 
-- **pass**: Advance to subsequent phase on agreed route
-- **needs-change**: Route confirmed defect or smell to implementation or debugging
-- **unverified**: Stay at affected phase; obtain reliable observations or report gap
-- **needs-decision**: Halt dependent execution; escalate structured question to user
+The agent works directly by default. When your tool allows subagents and a separate assignment would help, it can hand a phase to the matching [agent role](/subagents/) with an explicit read or write boundary:
 
-## Delegate through workflows
+| Phase | Role |
+| :--- | :--- |
+| Align scope | [agent-scope-aligner](/skills/agent-scope-aligner/) |
+| Context TDD | [agent-tdd-implementer](/skills/agent-tdd-implementer/) |
+| Scientific debug | [agent-scientific-debugger](/skills/agent-scientific-debugger/) |
+| Self review | [agent-code-reviewer](/skills/agent-code-reviewer/) |
+| Atomic commit | [agent-git-committer](/skills/agent-git-committer/) |
 
-Work directly by default. Delegate when authorized and useful using the [specialized agent roles](/subagents/) and host-configured models:
-- Scope exploration to [agent-scope-aligner](/skills/agent-scope-aligner/)
-- TDD implementation to [agent-tdd-implementer](/skills/agent-tdd-implementer/)
-- Defect diagnosis to [agent-scientific-debugger](/skills/agent-scientific-debugger/)
-- Objective code audit to [agent-code-reviewer](/skills/agent-code-reviewer/)
-- Atomic commit preparation to [agent-git-committer](/skills/agent-git-committer/)
+The main agent stays responsible: it integrates each result and re-checks the evidence before moving on.
 
-## Return honestly
+## What you get
 
-Return the result, completion status, current phase, decisive evidence, limitations, and next action.
+Every task ends with a report covering the result, whether it is complete, the current phase, the evidence that decided it, any limitations, and the next action. `pass` means the whole agreed route, including the commit, is done. If you asked only for a review or a verification, the report gives that phase's actual outcome.
 
-Use `pass` when the agreed route and delivery are complete. A review-only or verification-only request returns its actual phase outcome even when the report completes the task.
+## Boundaries
+
+Junior mode changes code; it does not decide design. Questions about how code works, why it was written a certain way, or which architecture to choose belong to [senior mode](/skills/senior-mode/). Pause or finish the current task before switching.
+
+## Example request
+
+```text
+Use junior-mode to add a retry limit to the webhook sender so a failing endpoint is tried at most five times, then commit the change.
+```

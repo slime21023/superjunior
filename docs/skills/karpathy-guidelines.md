@@ -1,32 +1,42 @@
 +++
 title = "Karpathy guidelines"
-description = "Make assumptions visible, keep changes focused, and verify checkable goals."
+description = "Make assumptions visible, write the minimum code, change only what the task needs, and verify the result."
 permalink = "/skills/karpathy-guidelines/index.html"
 section = "principles"
 order = 6
 source = "skills/karpathy-guidelines/SKILL.md"
 +++
 
-## When to use it
+These guidelines target the mistakes coding agents actually make. Based on [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876), those are rarely syntax errors. They are the errors of a hasty junior developer: silent assumptions, bloated code, and edits to things nobody asked to change. Agents are good at looping toward a clear goal, so the guidelines give them one.
 
-Apply while writing, reviewing, or refactoring code. The goal is the smallest correct change with visible assumptions and verified success. Use judgment on trivial tasks.
+## When to apply it
 
-## The four rules
+Use it whenever an agent writes, reviews, or refactors code. The rules favor caution over speed; on a trivial edit, use judgment instead of adding process.
 
-**Think before coding.** State assumptions and surface competing readings of the request. Ask when uncertainty matters. Propose a simpler approach when it meets the need.
+## The rules
 
-**Simplicity first.** Implement the minimum capability that solves the problem. Avoid unrequested features, abstractions, configuration, and handling for impossible cases.
+**Think before coding.** State assumptions and ask when unsure, because a wrong guess costs more than a question. When a request can be read several ways, list the readings instead of picking one silently. Suggest a simpler approach when one exists.
 
-**Surgical changes.** Tie every changed line to the task, match existing style, and preserve adjacent code, comments, and formatting. Remove what this change made unused; mention unrelated dead code without deleting it.
+**Keep it simple.** Write the minimum code that solves the problem: no unrequested features, abstractions, or configuration, and no handling for cases that cannot happen. If 200 lines could be 50, rewrite it. A useful test is whether a senior engineer would call the result overcomplicated.
 
-**Goal-driven execution.** Convert work into checkable goals. Pair each meaningful step with its observation and iterate toward the agreed result.
+**Make surgical changes.** Every changed line should trace back to the request. Leave neighboring code, comments, and formatting alone, and match the existing style. Remove what your change made unused; mention other dead code without deleting it.
 
-## Example
+**Work toward checkable goals.** Turn the task into something you can verify, then loop until the checks pass. For multi-step work, pair each step with its check.
 
-“Fix empty input” becomes a concrete behavior: empty input returns an empty collection. A reliable failing check identifies the defect, and the minimal correction makes it pass while preserving sibling behavior.
+```text
+before: fix the bug
+after:  write a failing test for empty input, then make it pass
+```
 
-## Boundaries and related skills
+## Review checklist
 
-A clear goal guides implementation decisions; it does not justify silently changing scope or assumptions. Avoid adding process for a trivial edit.
+- Assumptions and alternative readings were stated, not chosen silently.
+- No unrequested features, abstractions, or impossible-case handling were added.
+- Every changed line relates to the task, and only newly unused code was removed.
+- Each goal has a check, and the checks pass.
 
-Use [four-layer design](/skills/principles-four-layer-design/) for clean abstraction and encapsulation, [align scope](/skills/workflow-align-scope/) for acceptance conditions, and [context TDD](/skills/workflow-context-tdd/) for regression verification.
+## Related
+
+- [Four-layer design](/skills/principles-four-layer-design/) for what well-designed code looks like.
+- [Align scope](/skills/workflow-align-scope/) for turning a request into Done Criteria.
+- [Context-first TDD](/skills/workflow-context-tdd/) for verifying behavior with tests.

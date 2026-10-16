@@ -1,40 +1,45 @@
 +++
 title = "Architecture detail"
-description = "Specify one declared component's contracts, sequences, invariants, and failure handling."
+description = "Specify one component's contracts, runtime flow, invariants, and failure handling before it is built."
 permalink = "/skills/arch-detail/index.html"
 section = "senior"
 order = 5
 source = "skills/arch-detail/SKILL.md"
 +++
 
-## Required anchor
+## When to use it
 
-Read `_adr/base.xml` and locate the requested component by its unique ID. Use scope and ownership to define capabilities, delegates and dependencies to define outbound interactions, and exclusions to guard the boundary.
+Use it for a component that is already declared in `_adr/base.xml` and is about to be implemented. It turns that component's boundary into a design concrete enough to build and test against. If the component doesn't exist in the architecture file yet, run [architecture componentization](/skills/arch-componentize/) first.
 
-Treat the base specification as immutable during this step. If a requirement violates its boundary, resolve the architecture change first.
+Architecture detail is part of [senior mode](/skills/senior-mode/).
 
-## Resolve operational choices
+## What it does
 
-Identify undecided interaction style, state lifecycle, concurrency assumptions, consistency, retries, idempotency, and failure tolerances.
+1. Reads `_adr/base.xml` and finds the component by its ID. Its scope and ownership define what to design, its delegates and dependencies define the outbound calls, and its exclusions mark what to keep out.
+2. Looks for operational choices that are still open: synchronous request versus asynchronous messaging, in-memory versus durable state, concurrency assumptions, retries, idempotency, and circuit breaking. If a critical one is undecided, it asks you one to three questions with the options and their tradeoffs, and writes nothing until you answer.
+3. Models the component in five parts: contracts, runtime flow, invariants, failures, and verification.
+4. Saves the result to `_adr/components/{component-id}.md`.
 
-When a critical choice is unresolved, ask one to three targeted decision questions and wait before creating the detailed document. Do not invent protocols or error policies.
+## What you get
 
-## Model five dimensions
+A component specification with these sections:
 
-Use the [component detail prompt](/source/skills/arch-detail/references/component-detail-prompt.md) to specify:
+- **Scope and responsibilities**: the component's mission, what it owns, what it delegates, and what it must never do.
+- **Public contracts and data models**: type definitions and interface signatures, written in the language you prefer or in neutral pseudocode.
+- **Runtime flow**: a Mermaid sequence diagram of the main path between the caller, the component, and its dependencies.
+- **Invariants and state**: preconditions, postconditions, business rules that always hold, and allowed state transitions.
+- **Failure handling**: a table of failure conditions, whether each is a domain error or a system fault, how it is detected, and how to recover.
+- **Verification anchors**: the observable outcome that proves the main path works, the edge cases to cover in tests, and how to isolate dependencies while testing.
 
-1. Public contracts and input/output data models using pure signatures.
-2. Runtime interactions through a Mermaid sequence diagram.
-3. State, preconditions, postconditions, and transition invariants.
-4. Domain errors, system faults, and recovery actions.
-5. Observable behavior and verification anchors for later regression checks.
+The reply confirms the path, shows the full document, and summarizes the primary interface, the outbound dependencies, and the most important invariant or recovery rule.
 
-## Persist and return
+## Boundaries
 
-Save the resolved design to `_adr/components/{component-id}.md`. Return the path, full specification, and three takeaways covering the primary interface, outbound flow, and critical invariant or recovery rule.
+The specification contains signatures and data shapes only, with no business logic, function bodies, or framework plumbing. It never adds capabilities the component is meant to avoid or that another component owns. The architecture file is treated as fixed: if a requirement breaks a boundary, it recommends changing `_adr/base.xml` first. Building the component is a separate task for [junior mode](/skills/junior-mode/).
 
-## Boundary
+## Example request
 
-Define interfaces, types, and structures without business algorithms, function bodies, or framework plumbing. Do not overlap another component's ownership or violate the target's exclusions.
-
-If the base component is missing or its boundary is unsuitable, return that dependency to [arch-componentize](/skills/arch-componentize/). Implementation follows as a separately authorized development task.
+```text
+Use arch-detail to specify the event-dispatcher component from _adr/base.xml in TypeScript.
+Cover timeouts and duplicate deliveries.
+```

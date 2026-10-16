@@ -1,36 +1,39 @@
 +++
-title = "The engineering workflows"
+title = "Workflows"
 navTitle = "Workflows overview"
-description = "Systematic daily workflows to control risk, verify contracts, and ensure code quality."
+description = "Five workflows that take a code change from an agreed scope to a clean commit. Junior mode runs them in order; you can also run any one on its own."
 section = "workflows"
 order = 0
 permalink = "/workflows/index.html"
 +++
 
-## Workflow contracts
+Each workflow covers one phase of a code change. Together they are the phases of [junior mode's](/skills/junior-mode/) full route: agree on the scope, build the change test-first, debug any defect, review the diff, and commit it.
 
-The engineering workflows guide each phase of implementation from initial pre-flight alignment to final atomic commit. Each workflow has strict contracts and observable exit criteria:
+## The five workflows
 
-- [Align scope](/skills/workflow-align-scope/): Pre-flight alignment defining problem statement, Done criteria, and mapped blast radius before modifying code.
-- [Context TDD](/skills/workflow-context-tdd/): Implementation cycle covering Happy Path, Boundary Conditions (`[]`), and Error Scenarios under Red-Green-Refactor.
-- [Scientific debug](/skills/workflow-scientific-debug/): Empirical protocol parsing logs, formulating hypotheses, and building minimal reproduction tests to fix root causes.
-- [Self review](/skills/workflow-self-review/): Pre-commit quality gate auditing diffs against the Four-Layer Software Design Principles.
-- [Atomic commit](/skills/workflow-atomic-commit/): Final delivery ensuring single responsibility, passing test invariants, and informative why-commit messages.
+| Workflow | Use it when | You get |
+| :--- | :--- | :--- |
+| [Align scope](/skills/workflow-align-scope/) | You are about to change code and want the problem, finish line, and affected files agreed first. | A scope card: problem statement, Done Criteria, blast radius, and the order of work. |
+| [Context TDD](/skills/workflow-context-tdd/) | You are adding a feature or fixing a reported defect. | Code built test-first, with failing and passing evidence for each check. |
+| [Scientific debug](/skills/workflow-scientific-debug/) | An exception, failing test, or unexpected behavior shows up. | A reproduction test, a root-cause fix, and a green suite, or a structured question when the agent is stuck. |
+| [Self review](/skills/workflow-self-review/) | The change is ready and you want it checked before it is committed or handed off. | A pass, or a list of concrete findings to fix. |
+| [Atomic commit](/skills/workflow-atomic-commit/) | You are staging changes and writing commit messages. | Single-purpose commits that each pass the tests and explain why the change was made. |
 
-## Shared outcomes
+## Outcomes
 
-- **pass**: Required conditions are satisfied; advance to subsequent phase.
-- **needs-change**: Confirmed defect or smell remains; return to implementation or debugging.
-- **unverified**: Required test evidence is missing or unreliable; restore test environment.
-- **needs-decision**: Consequential requirement unresolved; escalate structured question to user.
+Every workflow ends with one of four outcomes. Not every workflow uses all four; each page lists the ones it can return.
 
-The owner reconciles each returned result with the actual candidate. A passing phase establishes only that phase's conclusion.
+| Outcome | Meaning | What happens next |
+| :--- | :--- | :--- |
+| `pass` | The phase finished and its conditions are met. | Move to the next phase. |
+| `needs-change` | A confirmed defect or design problem remains. | Go back to implementation or debugging. |
+| `unverified` | The evidence is missing or unreliable, for example a broken test environment. | Stay in the phase until reliable evidence exists, or report the gap. |
+| `needs-decision` | A requirement or design choice has more than one valid answer. | Stop and ask you a specific question. |
 
-## Run the cycle
+A `pass` covers only that phase. A passing review does not mean the change has been committed.
 
-[Junior-mode](/skills/junior-mode/) coordinates the complete daily engineering cycle:
-1. **Align Scope**: Define the problem and map direct, ripple, and untouched blast radius.
-2. **Context TDD**: Formulate tests across Happy Path, Boundary, and Error quadrants; run Red ➔ Green ➔ Refactor.
-3. **Scientific Debug** (when defects occur): Parse logs, build minimal repro, fix root cause at caller convergence.
-4. **Self Review**: Audit code against the Four-Layer Software Design Principles.
-5. **Atomic Commit**: Package deliverables into single-responsibility commits explaining the "Why".
+## On its own or through junior mode
+
+Run a single workflow when you need only that phase: aligning scope before you write the code yourself, debugging one failure, reviewing a diff, or tidying up commits. Name the workflow in your request and the agent follows it and returns that phase's outcome.
+
+Use junior mode when you want the whole change delivered. It picks the route, runs the workflows in order, sends defects to debugging, keeps a task record so the work can be paused and resumed, and ends with one report covering every phase.

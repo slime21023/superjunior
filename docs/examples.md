@@ -1,78 +1,83 @@
 +++
-title = "Example tasks"
+title = "Example requests"
 navTitle = "Examples"
-description = "Portable prompts for a complete loop, bounded phases, architecture, and resumption."
+description = "Requests for common situations, and what to expect from each."
 section = "practice"
 order = 0
 permalink = "/examples/index.html"
 +++
 
-These prompts ask the agent to read repository instructions. Replace the illustrative behavior and paths with your real task and available artifacts. Registered commands depend on your [host](/host-integration/).
+Replace the behavior and file names with your own. If your tool does not discover skills, start each request with `Read <skill directory>/SKILL.md` instead of naming the skill.
 
-## Complete a bug fix locally
-
-```text
-Read skills/junior-mode/SKILL.md.
-Fix the shared parser: an empty input must return an empty collection.
-Preserve valid nonempty-input behavior and inspect all affected callers.
-Align scope, follow context-first TDD, perform four-layer self-review, and deliver via atomic commit.
-```
-
-Expected route: align scope → context TDD (scientific debug on failure) → self-review → atomic commit.
-
-## Align scope before touching code
+## Fix a bug end to end
 
 ```text
-Read skills/workflow-align-scope/SKILL.md.
-Analyze the requested payment retry timeout feature.
-State the problem, define 2-3 Done Criteria, map the blast radius (direct, ripple, untouched), and sequence steps.
+Use junior-mode to fix the shared parser: an empty input must return an empty list instead of throwing.
+Keep the current behavior for nonempty input and check every caller.
+Deliver local commits.
 ```
 
-## Review without modifying code
+Junior mode aligns scope, reproduces the defect with a failing test, fixes the root cause, reviews the diff, and commits. Expect a report listing the failing and passing test output and the outcome.
+
+## Build a feature test-first
 
 ```text
-Read skills/workflow-self-review/SKILL.md.
-Audit the candidate pull request against the Four-Layer Software Design Principles.
-Inspect naming, SLAP, CQS, deep module boundaries, and DIP/ADP compliance.
-Preserve product contents. Return actionable findings and review status.
+Use workflow-context-tdd to add a batch token validator.
+Cover the normal case, an empty batch, and malformed tokens.
+Test through the public interface and mock only external services.
 ```
 
-A confirmed smell returns `needs-change`, even when the findings report completes the review request.
+The agent reads the surrounding code, lists test cases across normal, boundary, and error cases, and goes red, green, then refactor. When an in-suite test is impractical, it uses a narrow reproduction check and says why.
 
-## Execute TDD with strict boundaries
+## Review without changing code
 
 ```text
-Read skills/workflow-context-tdd/SKILL.md.
-Implement the new batch token validator using Context-First TDD.
-Author test specs for Happy Path, Boundary Conditions (empty collections), and Error Scenarios.
-Run Red-Green-Refactor with zero assertion weakening.
+Use workflow-self-review on the current diff.
+Check it against the four design layers and the original acceptance criteria.
+Do not modify any files; return findings only.
 ```
 
-## Deliver via atomic commit
+Expect findings grouped by design layer. A confirmed problem returns `needs-change` even though the review itself is complete.
+
+## Prepare commits
 
 ```text
-Read skills/workflow-atomic-commit/SKILL.md.
-Inspect staged changes and verify that all automated tests pass.
-Ensure single responsibility and format a Conventional Commit message explaining the "Why".
+Use workflow-atomic-commit for the staged and unstaged changes.
+Split them into single-purpose commits that each pass the tests, and explain why in each message.
 ```
 
-## Resume after a handoff
+The agent groups the changes, runs the tests for each commit, and writes messages that explain the reason for the change. It never commits the `.superjunior/` task record.
+
+## Resume a paused task
 
 ```text
-Read skills/junior-mode/SKILL.md and .superjunior/task.md.
-Resume the agreed task using the current working-tree contents.
-Revalidate the recorded candidate and any destination state.
-Continue from the earliest required phase with missing or invalid evidence.
+Use junior-mode and resume the task in .superjunior/task.md.
 ```
 
-A recorded passing test is historical evidence. Changes to contents, dependencies, inputs, or environment can require affected checks to run again.
+The agent compares the record with your working tree, re-runs checks whose files or inputs changed, and continues from the earliest phase without valid evidence. An old passing test does not count once the code under it has changed.
 
-## Discuss architecture before implementation
+## Explain how code works
 
 ```text
-Read skills/senior-mode/SKILL.md.
-Compare viable architectures for the stated workload and constraints.
-Agree on boundaries and technology tradeoffs, record them, and hand off the first component.
+Use senior-mode: how does a request flow from the HTTP handler to the database in the orders service?
+Which layer owns validation?
 ```
 
-Senior mode runs craft-discussing, arch-componentize, and arch-detail in turn and ends with a handoff brief for junior mode.
+Senior mode runs [how works](/skills/how-works/). Expect a conceptual walkthrough of how the parts collaborate, based on the code it inspected, not a line-by-line dump. No files change.
+
+## Ask why code is the way it is
+
+```text
+Use senior-mode: why does the cache layer write through instead of invalidating on update?
+```
+
+Senior mode runs [why](/skills/why/), which searches Git history, pull requests, and the code. The answer leads with the main reason, separates verified facts from inferences, and asks you when the evidence runs out.
+
+## Decide an architecture, then build it
+
+```text
+Use senior-mode to design the notification system for our expected load and constraints.
+Compare viable architectures, agree on boundaries, record them, and specify the first component.
+```
+
+Senior mode discusses options and tradeoffs with you, records the confirmed boundaries in `_adr/base.xml`, specifies the first component under `_adr/components/`, and ends with an implementation handoff brief. Start [junior mode](/skills/junior-mode/) with that brief to build it.

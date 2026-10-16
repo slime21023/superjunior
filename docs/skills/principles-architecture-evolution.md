@@ -1,23 +1,46 @@
 +++
-title = "Architecture & evolution"
-description = "Dependency inversion, acyclic dependencies, intention-revealing folders, and the Boy Scout rule."
+title = "Architecture and evolution"
+description = "Layer 4: dependencies on abstractions, no dependency cycles, folders named by domain, and steady small cleanups."
 permalink = "/skills/principles-architecture-evolution/index.html"
 section = "principles"
 order = 5
 source = "skills/principles-architecture-evolution/SKILL.md"
 +++
 
-## When to use it
+Layer 4 covers the shape of the whole system and how it stays healthy over time: which way dependencies point, how code is organized, and the small cleanups that keep debt from piling up.
 
-Apply when structuring packages, managing cross-module dependencies, naming directories, and performing continuous maintenance.
+## When to apply it
 
-## Core rules
+Use it when organizing packages and folders, adding a dependency between modules, connecting business logic to databases or external services, or deciding how much nearby code to tidy during a change.
 
-- **Dependency Inversion (DIP)**: Core business domain defines abstract interfaces; infrastructure (databases, networks, UI) depends on core abstractions.
-- **Acyclic Dependencies Principle (ADP)**: Enforce a strict Directed Acyclic Graph (DAG); circular dependencies between modules are strictly prohibited.
-- **Intention-Revealing Directories**: Group code by business domain; eliminate catch-all junk folders (`utils/`, `misc/`, `common/`).
-- **Boy Scout Rule**: Leave the campground cleaner than you found it—invest 10%~20% effort on opportunistic micro-refactoring on every touch.
+## The rules
 
-## Boundary
+**Depend on abstractions, not infrastructure.** The business core defines interfaces such as `UserRepository` or `PaymentGateway`, and the database or HTTP code implements them. Business rules then stay testable without a network or database and survive a change of technology.
 
-Micro-refactorings must stay bounded to the testable blast radius of the primary change. Do not launch unrequested broad architectural rewrites under the guise of the Boy Scout rule.
+**Allow no dependency cycles.** Module dependencies must form a directed acyclic graph: if B depends on A, directly or through others, A never depends on B. Break a cycle by moving the shared contract into a lower module both can use, or by inverting one dependency through an interface.
+
+**Name folders by domain.** Folders like `billing/`, `auth/`, and `orders/` tell you what the system does. Catch-all folders such as `utils/`, `misc/`, `common/`, and `helpers/` name nothing and collect unrelated code.
+
+```text
+before: utils.ts
+after:  formatting/currency.ts, crypto/tokens.ts
+```
+
+**Leave the code cleaner than you found it.** Spend about 10 to 20 percent of each task tidying the code you touch: rename an unclear variable, delete code your change made dead, name a confusing condition, or fix a misleading comment.
+
+## Boundaries
+
+Cleanups stay small and inside the area your change already tests. The cleanup rule never justifies an unrequested rewrite across modules.
+
+## Review checklist
+
+- Dependencies point inward toward domain abstractions.
+- No two modules depend on each other, directly or indirectly.
+- New files live in domain folders, not `utils/` or `misc/`.
+- The touched files are safely cleaner than before.
+
+## Related
+
+- [Module boundaries](/skills/principles-module-boundaries/), the layer below.
+- [Four-layer design](/skills/principles-four-layer-design/) for the full framework.
+- [Architecture componentization](/skills/arch-componentize/) for recording layers and dependency direction as a design.

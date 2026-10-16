@@ -1,43 +1,48 @@
 +++
-title = "A deliberate engineering loop"
+title = "Engineering skills for code agents"
 navTitle = "Overview"
-description = "Align scope, execute context-first TDD, self-review against four design layers, and deliver atomic commits."
+description = "Skills that help a code agent make scoped, tested, reviewed changes, and explain and design before it builds."
 section = "start"
 order = 0
 permalink = "/index.html"
 +++
 
-SuperJunior is a collection of portable agent instructions. Its Four-Layer Design Principles govern software craft, its workflows enforce daily engineering discipline, and junior-mode coordinates an agreed task through the complete lifecycle, while senior-mode handles explanation and architecture work.
+SuperJunior gives your code agent two ways to work. [Junior mode](/skills/junior-mode/) handles daily code changes: features, fixes, and refactors. [Senior mode](/skills/senior-mode/) handles work that ends in understanding or design: explaining code, finding out why it was written that way, and agreeing on architecture before anyone builds it. Senior mode never edits product code; when a design is ready, it hands a brief to junior mode.
+
+## The building blocks
+
+Both modes are built from smaller skills you can also use on their own.
+
+- [Workflows](/workflows/) are the steps of a code change: align scope, test-first implementation, scientific debugging, self-review, and atomic commits.
+- [Design principles](/principles/) are the standards a self-review checks: naming, functions and control flow, module boundaries, and architecture.
+- [Agent roles](/subagents/) let the agent hand one workflow to a subagent with a clear read or write boundary. In a single session, the agent follows the workflow itself.
+
+## The junior mode cycle
 
 <ol class="cycle" aria-label="Development cycle">
-<li><small>01</small><a href="/skills/workflow-align-scope/">Align Scope</a><p>Define the problem and map blast radius.</p></li>
-<li><small>02</small><a href="/skills/workflow-context-tdd/">Context TDD</a><p>Red-Green-Refactor with 3-quadrant specs.</p></li>
-<li><small>03</small><a href="/skills/workflow-self-review/">Self Review</a><p>Audit against the 4 design layers.</p></li>
-<li><small>04</small><a href="/skills/workflow-atomic-commit/">Atomic Commit</a><p>Deliver single-responsibility commits.</p></li>
+<li><small>01</small><a href="/skills/workflow-align-scope/">Align Scope</a><p>State the problem, the done criteria, and what the change touches.</p></li>
+<li><small>02</small><a href="/skills/workflow-context-tdd/">Context TDD</a><p>Write a failing test, make it pass, then tidy up.</p></li>
+<li><small>03</small><a href="/skills/workflow-self-review/">Self Review</a><p>Check the diff against the four design layers.</p></li>
+<li><small>04</small><a href="/skills/workflow-atomic-commit/">Atomic Commit</a><p>Commit in small steps that each build and pass.</p></li>
 </ol>
 
-A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-scientific-debug/) to build a minimal reproduction test and fix the root cause. Missing test evidence stays at the affected phase. A consequential decision pauses dependent work.
+An exception or a failing test sends the work to [scientific debugging](/skills/workflow-scientific-debug/), which reproduces the defect and fixes its root cause. Changes that cannot alter runtime behavior, such as documentation or formatting, take a shorter light route. An open design question pauses the work and comes back to you.
 
-## Choose an entry point
+## Choose where to start
 
-- [Junior mode](/skills/junior-mode/): Coordinate a scoped feature, fix, or refactor through the full lifecycle.
-- [Workflows](/workflows/): Execute an individual daily workflow (Scope alignment, Context TDD, Self review, Atomic commit).
-- [Senior mode](/skills/senior-mode/): Explain existing code, investigate design rationale, and agree on and record architecture before implementation.
-- [Four-layer design principles](/principles/): Standards across lexical, function, module, and architecture boundaries.
-- [Subagents](/subagents/): Delegate bounded tasks to specialized read-only or scoped implementation roles.
+| You want to | Start with |
+| :--- | :--- |
+| Add a feature, fix a bug, or refactor | [Junior mode](/skills/junior-mode/) |
+| Understand how code works or why it was built that way | [Senior mode](/skills/senior-mode/) |
+| Decide on an architecture before building | [Senior mode](/skills/senior-mode/) |
+| Run one step, such as a review or a commit | The matching [workflow](/workflows/) |
+| Check code against a specific standard | A [design principle](/principles/) |
 
-## Start with a concrete outcome
-
-Give the agent access to this repository and specify the acceptance condition and delivery form:
+## A first request
 
 ```text
-Read skills/junior-mode/SKILL.md.
-Fix the parser so an empty input returns an empty result without throwing.
-Check the affected callers and deliver the changes as local files.
+Use junior-mode to fix the parser: an empty input should return an empty result instead of throwing.
+Check the callers that depend on it and deliver tested local commits.
 ```
 
-Read [Getting started](/getting-started/) for the working sequence and [Examples](/examples/) for narrower routes. [Host integration](/host-integration/) explains discovery, activation, delegation, and permissions.
-
-## How to read this handbook
-
-The skill reference pages are hand-authored explanations. Each links to its checked-in source definition. The [specialized agent roles](/subagents/) keep their TOML definitions in their respective skill directories. The source definition is the execution contract; the handbook provides context and examples.
+[Getting started](/getting-started/) covers installation and how to write a good request. [Examples](/examples/) has requests for common situations, and [Host integration](/host-integration/) explains what your code agent must support.
