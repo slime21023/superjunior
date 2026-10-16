@@ -17,16 +17,11 @@ The module boundary layer governs how internal complexity is hidden behind minim
 A **deep module** provides a simple, narrow interface that conceals a substantial volume of complex implementation:
 
 <module-patterns>
-  <deep-module>
-    <interface-cost>Small, simple, intuitive public API.</interface-cost>
-    <internal-value>Substantial internal implementation (caching, retry logic, concurrency coordination, edge-case recovery).</internal-value>
-    <architectural-leverage>High leverage: low cognitive cost to callers, high internal power.</architectural-leverage>
-  </deep-module>
-  <shallow-module>
-    <interface-cost>Wide, verbose, sprawling interface (e.g., classes with 20 getters/setters mirroring raw fields).</interface-cost>
-    <internal-value>Minimal internal logic; merely passes arguments through.</internal-value>
-    <architectural-leverage>Negative leverage: high interface cognitive cost, low benefit.</architectural-leverage>
-  </shallow-module>
+  | | Deep module | Shallow module |
+  | :--- | :--- | :--- |
+  | Interface cost | Small, simple, intuitive public API. | Wide, verbose, sprawling interface (e.g., classes with 20 getters/setters mirroring raw fields). |
+  | Internal value | Substantial internal implementation (caching, retry logic, concurrency coordination, edge-case recovery). | Minimal internal logic; merely passes arguments through. |
+  | Architectural leverage | High leverage: low cognitive cost to callers, high internal power. | Negative leverage: high interface cognitive cost, low benefit. |
 </module-patterns>
 
 ---
@@ -36,15 +31,7 @@ A **deep module** provides a simple, narrow interface that conceals a substantia
 When a problem can be solved either by the caller or by the module itself, **always push the complexity down into the module**:
 
 <complexity-down-rules>
-  <rule type="sane-defaults">
-    The module must configure sensible defaults, handle thread-safety, and manage resource lifecycles internally.
-  </rule>
-  <rule type="transparent-resilience">
-    Callers should not wrap every call in retry loops and fallback switches if the module can handle transient failures transparently.
-  </rule>
-  <rule type="leverage-principle">
-    It is far better for 1 module author to handle complexity once than for 50 callers to suffer implementing boilerplate error-handling and coordination.
-  </rule>
+  The module configures sensible defaults, handles thread-safety, and manages resource lifecycles internally. When the module can handle transient failures transparently, callers should not wrap every call in retry loops and fallback switches. It is far better for one module author to handle complexity once than for 50 callers to implement boilerplate error handling and coordination.
 </complexity-down-rules>
 
 ---
@@ -54,15 +41,7 @@ When a problem can be solved either by the caller or by the module itself, **alw
 Information hiding is the primary defense against systemic fragility:
 
 <information-hiding-constraints>
-  <constraint type="encapsulate-data-structures">
-    Never expose internal mutable collections (arrays, maps, sets). Return read-only views, frozen snapshots, or defensive copies.
-  </constraint>
-  <constraint type="isolate-protocols">
-    File formats, network serialization protocols, and third-party vendor schemas must remain private to the adapter module. Never let external third-party DTOs leak into core domain entities.
-  </constraint>
-  <constraint type="private-by-default">
-    Mark fields, helper methods, and internal types private. Expose access only when an explicit external consumer contract requires it.
-  </constraint>
+  Never expose internal mutable collections (arrays, maps, sets); return read-only views, frozen snapshots, or defensive copies. File formats, network serialization protocols, and third-party vendor schemas stay private to the adapter module, so external third-party DTOs never leak into core domain entities. Mark fields, helper methods, and internal types private, and expose access only when an explicit external consumer contract requires it.
 </information-hiding-constraints>
 
 ---
@@ -72,15 +51,7 @@ Information hiding is the primary defense against systemic fragility:
 The Single Responsibility Principle (SRP) is governed by **co-change**:
 
 <cohesion-rules>
-  <rule type="gather-co-changes">
-    Logic that changes for the same business reason and at the same cadence belongs together in the same module.
-  </rule>
-  <rule type="separate-independent-drivers">
-    Logic driven by different business actors or external systems must be separated, even if the code looks superficially similar.
-  </rule>
-  <rule type="avoid-premature-sharing">
-    Two routines that perform different business calculations are not duplicate code merely because both use a loop. Forcing them into a shared abstraction couples two independent evolutionary paths.
-  </rule>
+  Logic that changes for the same business reason and at the same cadence belongs together in the same module. Logic driven by different business actors or external systems is separated, even when the code looks superficially similar: two routines that perform different business calculations are not duplicate code merely because both use a loop, and forcing them into a shared abstraction couples two independent evolutionary paths.
 </cohesion-rules>
 
 ---
@@ -88,8 +59,8 @@ The Single Responsibility Principle (SRP) is governed by **co-change**:
 ## Verification & Audit Checklist
 
 <audit-checklist>
-  <item check="deep-module">Does the module expose a narrow, intuitive API relative to the work it accomplishes?</item>
-  <item check="complexity-down">Are common error-handling, defaults, and resource cleanup handled inside the module rather than pushed onto callers?</item>
-  <item check="encapsulation">Are internal mutable collections properly encapsulated?</item>
-  <item check="cohesion">Do classes group logic that changes for the same business reason, keeping separate business actors decoupled?</item>
+  - [ ] Does the module expose a narrow, intuitive API relative to the work it accomplishes?
+  - [ ] Are common error-handling, defaults, and resource cleanup handled inside the module rather than pushed onto callers?
+  - [ ] Are internal mutable collections properly encapsulated?
+  - [ ] Do classes group logic that changes for the same business reason, keeping separate business actors decoupled?
 </audit-checklist>

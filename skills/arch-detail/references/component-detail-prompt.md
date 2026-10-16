@@ -21,9 +21,9 @@ You are a software architect and system designer. Your task is to produce a deta
 ## Design Instructions
 
 ### 1. Enforce Boundary Integrity
-- Model only capabilities explicitly listed under `<owns>`.
-- Do not add features that belong to downstream systems or that violate `<avoids>`.
-- Outbound calls must map to components defined in `<depends>` or `<delegates>`.
+- Model only capabilities explicitly listed in the **Owns** field.
+- Do not add features that belong to downstream systems or that violate the **Avoids** field.
+- Outbound calls must map to components listed in the **Depends** or **Delegates** fields.
 
 ### 2. Pure Contract Definitions (Negative Constraint)
 - Express operations and data transfers as interface declarations, type definitions, or struct shapes.

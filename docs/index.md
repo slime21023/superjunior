@@ -20,16 +20,6 @@ A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-sci
 
 ## Choose an entry point
 
-```xml
-<entry-points>
-  <entry task="Complete a feature, fix, or refactor">Junior mode</entry>
-  <entry task="Perform one engineering phase">Workflows</entry>
-  <entry task="Explain a subsystem or investigate a historical choice">Other skills</entry>
-  <entry task="Master software design craft">Four-layer design principles</entry>
-  <entry task="Assign a bounded investigation or implementation slice">Subagents</entry>
-</entry-points>
-```
-
 - [Junior mode](/skills/junior-mode/): Coordinate a scoped feature, fix, or refactor through the full lifecycle.
 - [Workflows](/workflows/): Execute an individual daily workflow (Scope alignment, Context TDD, Self review, Atomic commit).
 - [Other skills](/other-skills/): Subsystem onboarding, historical rationale, and component architecture design.

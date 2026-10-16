@@ -11,16 +11,6 @@ The five specialized agent roles are portable definitions stored under their res
 
 ## Role map
 
-```xml
-<agent-roles>
-  <agent name="agent-scope-aligner" readonly="true">Explore context, define Done criteria, map blast radius</agent>
-  <agent name="agent-tdd-implementer" readonly="false">Author red tests, minimal green code, safe refactorings</agent>
-  <agent name="agent-scientific-debugger" readonly="false">Formulate hypotheses, build minimal repro tests, fix root causes</agent>
-  <agent name="agent-code-reviewer" readonly="true">Audit code against the Four-Layer Software Design Principles</agent>
-  <agent name="agent-git-committer" readonly="false">Organize atomic staging and author intention-focused commit messages</agent>
-</agent-roles>
-```
-
 - [agent-scope-aligner](/skills/agent-scope-aligner/): Read-only investigator for exploring context, defining Done criteria, and mapping the 3-tier blast radius.
 - [agent-tdd-implementer](/skills/agent-tdd-implementer/): Bounded implementation worker executing the Red-Green-Refactor TDD cycle on assigned targets.
 - [agent-scientific-debugger](/skills/agent-scientific-debugger/): Diagnostic worker for parsing stack traces, building minimal repro tests, and resolving root causes at caller convergence.

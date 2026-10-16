@@ -14,15 +14,7 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 ## Operating Constraints & Boundaries
 
 <constraints>
-  <constraint type="no-premature-code">
-    Strictly forbid outputting more than 50 lines of refactored or implementation code before confirming the blast radius.
-  </constraint>
-  <constraint type="concrete-boundaries">
-    Prohibit vague adjectives (e.g., "improve maintainability", "optimize architecture"); explicitly identify concrete coupled files, interface breakage, or data structure changes.
-  </constraint>
-  <constraint type="untouched-containment">
-    Strictly bound the "Untouched" scope; never drag unrelated files into the modification plan or expand scope opportunistically.
-  </constraint>
+  Do not write more than 50 lines of refactored or implementation code until the blast radius is confirmed; code written earlier anchors the plan to a guess. Describe scope in concrete terms — coupled files, interface breakage, data structure changes — rather than vague adjectives such as "improve maintainability" or "optimize architecture". Files in the Untouched tier stay out of the modification plan, even when a nearby improvement is tempting.
 </constraints>
 
 ---
@@ -30,18 +22,10 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 ## 4-Step Alignment Procedure
 
 <procedure>
-  <step id="1" name="Problem Definition & Done Criteria">
-    Write 1~2 plain-language sentences defining the root problem. Enumerate 2~3 concrete, observable Done Criteria that can be verified automatically.
-  </step>
-  <step id="2" name="Blast Radius Mapping">
-    Categorize files into three strict concentric tiers using the schema below.
-  </step>
-  <step id="3" name="Sequential Implementation Plan">
-    Sequence execution order: Types & Contracts ➔ Core Logic ➔ Verification Commands.
-  </step>
-  <step id="4" name="Decision Check">
-    If requirements or contracts remain ambiguous, stop and trigger the circuit breaker.
-  </step>
+  1. **Problem Definition & Done Criteria**: Write 1~2 plain-language sentences defining the root problem. Enumerate 2~3 concrete, observable Done Criteria that can be verified automatically.
+  2. **Blast Radius Mapping**: Categorize files into three strict concentric tiers using the schema below.
+  3. **Sequential Implementation Plan**: Sequence execution order: Types & Contracts ➔ Core Logic ➔ Verification Commands.
+  4. **Decision Check**: If requirements or contracts remain ambiguous, stop and trigger the circuit breaker.
 </procedure>
 
 ---
@@ -49,15 +33,9 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 ## Blast Radius Schema
 
 <blast-radius-schema>
-  <tier name="Direct Modification">
-    <description>The primary files, classes, or functions whose implementation must change.</description>
-  </tier>
-  <tier name="Ripple Effects">
-    <description>Upstream callers, downstream consumers, database schemas, and shared types that interact with the change; regression suites to run.</description>
-  </tier>
-  <tier name="Untouched Boundaries">
-    <description>Adjacent files, related subsystems, or potential nice-to-have enhancements that are strictly off-limits.</description>
-  </tier>
+  - **Direct Modification**: The primary files, classes, or functions whose implementation must change.
+  - **Ripple Effects**: Upstream callers, downstream consumers, database schemas, and shared types that interact with the change; regression suites to run.
+  - **Untouched Boundaries**: Adjacent files, related subsystems, or potential nice-to-have enhancements that are strictly off-limits.
 </blast-radius-schema>
 
 ---
@@ -65,8 +43,7 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 ## Circuit Breaker
 
 <circuit-breaker>
-  If any business rule, contract boundary, or dependency has multiple valid interpretations, DO NOT assume silently.
-  Halt execution and return needs-decision with targeted, structured multiple-choice questions for the user.
+  If any business rule, contract boundary, or dependency has more than one valid interpretation, do not choose one silently. Halt and return needs-decision with targeted, structured multiple-choice questions for the user.
 </circuit-breaker>
 
 ---
@@ -93,6 +70,6 @@ The Change Scope Alignment workflow acts as a mandatory pre-flight gate. It halt
 ## Return Outcomes
 
 <workflow-outcomes>
-  <outcome code="pass">Scope is unambiguous, blast radius is mapped, and execution steps are ready. Advance to workflow-context-tdd.</outcome>
-  <outcome code="needs-decision">Unresolved product requirement or architectural fork detected; wait for user clarification before proceeding.</outcome>
+  - **pass**: Scope is unambiguous, blast radius is mapped, and execution steps are ready. Advance to workflow-context-tdd.
+  - **needs-decision**: Unresolved product requirement or architectural fork detected; wait for user clarification before proceeding.
 </workflow-outcomes>

@@ -9,18 +9,6 @@ permalink = "/other-skills/index.html"
 
 Choose the skill that matches the requested result. Discussion and investigation stay within their scope; implementation requires an implementation task.
 
-```xml
-<specialist-skills>
-  <skill name="How works">Runtime mechanics, code ownership, subsystem onboarding</skill>
-  <skill name="Why">Historical motivation and engineering rationale</skill>
-  <skill name="Karpathy guidelines">Clear assumptions, simple changes, observable goals</skill>
-  <skill name="TDD">Explicit regression request or cheap local bug reproduction</skill>
-  <skill name="Craft discussing">Architectural discovery, feasibility, technology choices</skill>
-  <skill name="Architecture componentization">Persisting confirmed boundaries and dependencies</skill>
-  <skill name="Architecture detail">Specifying one component contracts and behavior</skill>
-</specialist-skills>
-```
-
 - [How works](/skills/how-works/): Explains runtime mechanics, ownership, and subsystem structure.
 - [Why](/skills/why/): Explores historical motivation and engineering rationale.
 - [Karpathy guidelines](/skills/karpathy-guidelines/): Guidelines to keep changes simple, surface assumptions, and verify goals.

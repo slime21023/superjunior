@@ -13,20 +13,7 @@ The system architecture and evolution layer governs long-term code health, bound
 ## 1. Dependency Inversion Principle (DIP)
 
 <dependency-inversion>
-  <principle-statement>
-    High-level policy and core business logic must not depend on low-level technical details (databases, file systems, HTTP frameworks, message brokers). Both must depend on abstractions.
-  </principle-statement>
-  <direction-rules>
-    <rule type="core-defines-abstractions">
-      The domain core defines the abstract interfaces (e.g., UserRepository, PaymentGateway).
-    </rule>
-    <rule type="infrastructure-implements-abstractions">
-      The infrastructure layer implements those domain-defined interfaces.
-    </rule>
-    <rule type="pluggable-infrastructure">
-      Business rules remain testable without network or database dependencies, and resilient to technology migrations.
-    </rule>
-  </direction-rules>
+  High-level policy and core business logic do not depend on low-level technical details such as databases, file systems, HTTP frameworks, or message brokers; both depend on abstractions. The domain core defines the abstract interfaces (e.g., UserRepository, PaymentGateway), and the infrastructure layer implements them. As a result, business rules stay testable without network or database dependencies and survive technology migrations.
 </dependency-inversion>
 
 ---
@@ -34,12 +21,7 @@ The system architecture and evolution layer governs long-term code health, bound
 ## 2. Acyclic Dependencies Principle (ADP)
 
 <acyclic-dependencies>
-  <graph-rule>The dependency structure between packages and modules must form a strict Directed Acyclic Graph (DAG).</graph-rule>
-  <zero-cycles-rule>Module A must never depend on Module B if Module B depends on Module A (directly or transitively).</zero-cycles-rule>
-  <cycle-breaking-strategies>
-    <strategy id="extract-shared-contract">Extract the shared contract into an independent, lower-tier module that both depend on.</strategy>
-    <strategy id="invert-dependency">Use Dependency Inversion (DIP) to reverse one of the dependency arrows via an interface.</strategy>
-  </cycle-breaking-strategies>
+  The dependency structure between packages and modules forms a strict Directed Acyclic Graph (DAG): Module A never depends on Module B if Module B depends on Module A, directly or transitively. To break a cycle, either extract the shared contract into an independent, lower-tier module that both depend on, or use Dependency Inversion (DIP) to reverse one of the dependency arrows through an interface.
 </acyclic-dependencies>
 
 ---
@@ -49,15 +31,7 @@ The system architecture and evolution layer governs long-term code health, bound
 Directories should scream the business domain and system purpose, not generic technical plumbing:
 
 <directory-structure-rules>
-  <rule type="domain-grouping">
-    Group files by feature or business domain (e.g., billing/, auth/, orders/, inventory/).
-  </rule>
-  <rule type="forbid-junk-drawers">
-    Strictly forbid generic grab-bag directories such as utils/, misc/, common/, helpers/.
-  </rule>
-  <rule type="decompose-temptations">
-    When tempted to create utils.ts, identify the cohesive domain concept (e.g., formatting/currency.ts, crypto/tokens.ts) or push the logic down into the consuming module.
-  </rule>
+  Group files by feature or business domain (e.g., billing/, auth/, orders/, inventory/). Generic grab-bag directories such as utils/, misc/, common/, and helpers/ are not allowed, because they name no domain and attract unrelated code. When tempted to create utils.ts, identify the cohesive domain concept (e.g., formatting/currency.ts, crypto/tokens.ts) or push the logic down into the consuming module.
 </directory-structure-rules>
 
 ---
@@ -67,16 +41,14 @@ Directories should scream the business domain and system purpose, not generic te
 *"Always leave the campground cleaner than you found it."*
 
 <boy-scout-budget>
-  <budget-allocation>Allocate 10%~20% of effort on every task to tidy up the immediate surrounding code.</budget-allocation>
-  <permitted-actions>
-    <action>Rename an ambiguous variable encountered during the fix.</action>
-    <action>Delete dead code made obsolete by your change.</action>
-    <action>Extract a confusing boolean conditional into an intention-revealing variable.</action>
-    <action>Clarify an outdated or misleading comment.</action>
-  </permitted-actions>
-  <negative-constraints>
-    Micro-refactorings must remain surgical and within the testable blast radius of the primary change. Never launch an unrequested multi-module rewrite under the guise of the Boy Scout rule.
-  </negative-constraints>
+  Allocate 10%~20% of effort on every task to tidy up the immediate surrounding code, for example:
+
+  - Rename an ambiguous variable encountered during the fix.
+  - Delete dead code made obsolete by your change.
+  - Extract a confusing boolean conditional into an intention-revealing variable.
+  - Clarify an outdated or misleading comment.
+
+  Keep these micro-refactorings surgical and within the testable blast radius of the primary change; the Boy Scout rule never justifies an unrequested multi-module rewrite.
 </boy-scout-budget>
 
 ---
@@ -84,8 +56,8 @@ Directories should scream the business domain and system purpose, not generic te
 ## Verification & Audit Checklist
 
 <audit-checklist>
-  <item check="dip">Does dependency flow point inward toward domain abstractions?</item>
-  <item check="adp">Are modules free of bidirectional or circular dependencies?</item>
-  <item check="directories">Are new files placed in domain-driven folders rather than utils/ or misc/?</item>
-  <item check="boy-scout">Did this change safely leave the touched files cleaner than before?</item>
+  - [ ] Does dependency flow point inward toward domain abstractions?
+  - [ ] Are modules free of bidirectional or circular dependencies?
+  - [ ] Are new files placed in domain-driven folders rather than utils/ or misc/?
+  - [ ] Did this change safely leave the touched files cleaner than before?
 </audit-checklist>

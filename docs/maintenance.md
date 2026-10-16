@@ -50,6 +50,12 @@ When a skill changes, update its matching reference page and any affected exampl
 
 The why skill currently names `references/investigator-prompt.md`, while its checked-in template is [references/inversigator-prompt.md](/source/skills/why/references/inversigator-prompt.md). The handbook links the available file and records this discrepancy. The source definitions retain their original contents.
 
+## Tag skill definitions
+
+Skill definitions use XML tags only to delimit blocks. Keep tags bare: no attributes, no self-closing tags, and at most two levels of nesting. A first-level tag marks a block an agent must locate as a whole, such as constraints, a procedure, or an output contract. Use a second level only for repeated items with several fields. Front matter carries metadata.
+
+Inside tags, write prose by default; connected sentences keep the reasons, conditions, and exceptions that bullet fragments drop. Use an ordered list for steps the agent executes in sequence, a checklist for items it must verify one by one, a table for items compared along the same dimensions, named items only when the name is referenced elsewhere (outcome codes, template fields), and templates for output the agent must fill in. State rules directly and give the reason instead of relying on emphatic wording.
+
 ## Run the checks
 
 `npm run check` builds the site and uses Node's test runner to verify:

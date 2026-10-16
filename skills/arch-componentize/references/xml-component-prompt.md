@@ -15,16 +15,16 @@ You are a software architect and system designer focusing on clear structural de
 ## Synthesis Instructions
 
 1. **Map Structural Tiers (Layers):**
-   - Group components into logical tiers ordered by the `level` attribute (level 1 is the topmost consumer-facing entrypoint or public API).
+   - Group components into logical tiers listed in the `<layers>` block; the list number is the layer level (level 1 is the topmost consumer-facing entrypoint or public API).
    - For applications: Presentation/API -> Domain Core -> Infrastructure/Storage.
    - For libraries/tools: Public Facade/Entry -> Processing Core/Pipeline -> Parsers/Platform Adapters.
 
-2. **Crisp Responsibility Boundaries:**
-   - `<scope>`: 1 sentence summarizing primary functional responsibility.
-   - `<owns>`: Capabilities and logic explicitly managed by this component/module.
-   - `<delegates to="..." task="..." />`: Tasks handed off to other components (self-closing).
-   - `<depends on="..." reason="..." />`: Explicit dependencies and rationale (self-closing).
-   - `<avoids>`: Deliberate non-responsibilities to prevent scope creep.
+2. **Crisp Responsibility Boundaries:** Record each component as a `<component>` block with these Markdown fields:
+   - **Scope**: 1 sentence summarizing primary functional responsibility.
+   - **Owns**: Capabilities and logic explicitly managed by this component/module.
+   - **Delegates**: Nested list of `[component-id]: [task]` items handed off to other components.
+   - **Depends**: Nested list of `[component-or-system-id]: [reason]` items stating explicit dependencies and rationale.
+   - **Avoids**: Deliberate non-responsibilities to prevent scope creep.
 
 3. **Capture Cross-Cutting or Shared Concerns:**
    - Identify shared concerns across modules (e.g., Error Handling, Logging, Zero-Allocation Buffering, Configuration).
@@ -40,30 +40,40 @@ You are a software architect and system designer focusing on clear structural de
 
 ## Compact XML Schema Standard
 
-Generate the document using this streamlined structure:
+Generate the document using this streamlined structure. Repeat `<component>` once per component directly under `<architecture>`. Write `- None` under **Delegates** or **Depends** when empty. Omit `<pending-decisions>` when no fork remains.
 
 ```xml
-<architecture target="[Project or Library Name]" type="[library | service | cli | tool]" pattern="[e.g., Layered, Pipeline, Modular Core]" version="1.0">
-  <summary>[Core purpose, usage scenario, and design philosophy in 1-2 sentences]</summary>
+<architecture>
+  <overview>
+    - **Target**: [Project or Library Name]
+    - **Type**: [library | service | cli | tool]
+    - **Pattern**: [e.g., Layered, Pipeline, Modular Core]
+    - **Version**: 1.0
+    - **Summary**: [Core purpose, usage scenario, and design philosophy in 1-2 sentences]
+  </overview>
 
-  <layer level="1" id="[layer-id]" name="[Layer Name]" rule="[Access or dependency rule]">
-    <component id="[component-id]" name="[Component or Module Name]">
-      <scope>[Primary domain or module responsibility]</scope>
-      <owns>[Explicitly owned capabilities]</owns>
-      <delegates to="[downstream-component-id]" task="[Delegated capability]" />
-      <depends on="[component-or-system-id]" reason="[Why coupling exists]" />
-      <avoids>[Explicit non-responsibility / what this module must not do]</avoids>
-    </component>
-  </layer>
+  <layers>
+    1. **[layer-id]** — [Layer Name]: [Access or dependency rule]
+  </layers>
+
+  <component>
+    - **ID**: [component-id]
+    - **Name**: [Component or Module Name]
+    - **Layer**: [layer-id]
+    - **Scope**: [Primary domain or module responsibility]
+    - **Owns**: [Explicitly owned capabilities]
+    - **Delegates**:
+      - [downstream-component-id]: [Delegated capability]
+    - **Depends**:
+      - [component-or-system-id]: [Why coupling exists]
+    - **Avoids**: [Explicit non-responsibility / what this module must not do]
+  </component>
 
   <cross-cutting>
-    <concern id="[concern-id]" name="[Name]" affects="[layer-id-1, layer-id-2]">
-      [Shared strategy, e.g., unified error hierarchy, zero-copy buffer reuse]
-    </concern>
+    - **[concern-id]** — [Name] (affects: [layer-id-1], [layer-id-2]): [Shared strategy, e.g., unified error hierarchy, zero-copy buffer reuse]
   </cross-cutting>
 
-  <!-- Include only if unresolved architectural forks remain -->
   <pending-decisions>
-    <decision topic="[Unresolved design question]" options="[Option A vs Option B]" />
+    - **[Unresolved design question]**: [Option A vs Option B]
   </pending-decisions>
 </architecture>

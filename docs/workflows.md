@@ -11,16 +11,6 @@ permalink = "/workflows/index.html"
 
 The engineering workflows guide each phase of implementation from initial pre-flight alignment to final atomic commit. Each workflow has strict contracts and observable exit criteria:
 
-```xml
-<lifecycle-contracts>
-  <workflow name="Align scope" phase="pre-flight">Problem statement, Done criteria, and mapped blast radius</workflow>
-  <workflow name="Context TDD" phase="implementation">Passing test specs (Happy Path, Boundary, Error) and minimal implementation</workflow>
-  <workflow name="Scientific debug" phase="defect-diagnosis">Falsifiable hypothesis, minimal repro test, and root-cause fix</workflow>
-  <workflow name="Self review" phase="pre-commit">Four-layer design audit checklist satisfying quality gates</workflow>
-  <workflow name="Atomic commit" phase="delivery">Single-responsibility staged diff and informative why-commit message</workflow>
-</lifecycle-contracts>
-```
-
 - [Align scope](/skills/workflow-align-scope/): Pre-flight alignment defining problem statement, Done criteria, and mapped blast radius before modifying code.
 - [Context TDD](/skills/workflow-context-tdd/): Implementation cycle covering Happy Path, Boundary Conditions (`[]`), and Error Scenarios under Red-Green-Refactor.
 - [Scientific debug](/skills/workflow-scientific-debug/): Empirical protocol parsing logs, formulating hypotheses, and building minimal reproduction tests to fix root causes.
@@ -29,14 +19,10 @@ The engineering workflows guide each phase of implementation from initial pre-fl
 
 ## Shared outcomes
 
-```xml
-<workflow-outcomes>
-  <outcome code="pass">Required conditions are satisfied; advance to subsequent phase.</outcome>
-  <outcome code="needs-change">Confirmed defect or smell remains; return to implementation or debugging.</outcome>
-  <outcome code="unverified">Required test evidence is missing or unreliable; restore test environment.</outcome>
-  <outcome code="needs-decision">Consequential requirement unresolved; escalate structured question to user.</outcome>
-</workflow-outcomes>
-```
+- **pass**: Required conditions are satisfied; advance to subsequent phase.
+- **needs-change**: Confirmed defect or smell remains; return to implementation or debugging.
+- **unverified**: Required test evidence is missing or unreliable; restore test environment.
+- **needs-decision**: Consequential requirement unresolved; escalate structured question to user.
 
 The owner reconciles each returned result with the actual candidate. A passing phase establishes only that phase's conclusion.
 

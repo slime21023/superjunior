@@ -11,14 +11,10 @@ The Four-Layer Software Design Principles provide clear, structured guidelines t
 
 ## Layer hierarchy
 
-```xml
-<architecture-layers>
-  <layer level="4" name="System Architecture & Evolution">DIP, ADP (DAG), domain folders, Boy Scout rule</layer>
-  <layer level="3" name="Class & Module Boundaries">Deep modules, complexity pushed down, encapsulation, SRP</layer>
-  <layer level="2" name="Function & Control Flow">SLAP, concept extraction, CQS, error elimination by design</layer>
-  <layer level="1" name="Lexical & Expression">Precise naming with units, How vs Why comments, unified vocabulary</layer>
-</architecture-layers>
-```
+1. **Layer 4 — System Architecture & Evolution**: DIP, ADP (DAG), domain folders, Boy Scout rule
+2. **Layer 3 — Class & Module Boundaries**: Deep modules, complexity pushed down, encapsulation, SRP
+3. **Layer 2 — Function & Control Flow**: SLAP, concept extraction, CQS, error elimination by design
+4. **Layer 1 — Lexical & Expression**: Precise naming with units, How vs Why comments, unified vocabulary
 
 ## Reference map
 

@@ -16,66 +16,47 @@ workflows:
 
 Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
 
-<lifecycle-route>
-  <phase id="1" name="Scope Alignment" workflow="../workflow-align-scope/SKILL.md">
-    Problem definition, Done criteria, and 3-tier Blast Radius matrix.
-  </phase>
-  <phase id="2" name="Context TDD" workflow="../workflow-context-tdd/SKILL.md">
-    Context exploration, 3-quadrant test specs, and Red-Green-Refactor loop.
-    <on-failure invoke="../workflow-scientific-debug/SKILL.md">
-      If unexpected exception or failing test occurs, route to Scientific Debug.
-    </on-failure>
-  </phase>
-  <phase id="3A" name="Scientific Debug" workflow="../workflow-scientific-debug/SKILL.md">
-    Empirical diagnosis: observe stack trace, hypothesize, build minimal repro, fix root cause.
-  </phase>
-  <phase id="3B" name="Four-Layer Self-Review" workflow="../workflow-self-review/SKILL.md">
-    Systematic design audit against Lexical, Function, Module, and Architecture layers.
-  </phase>
-  <phase id="3C" name="Atomic Commit" workflow="../workflow-atomic-commit/SKILL.md">
-    Single-responsibility staged commit with an informative Why commit message.
-  </phase>
-</lifecycle-route>
-
 ---
 
 ## 1. Lifecycle Route & Execution Flow
 
-### Phase 1: Scope Alignment
-- Execute `workflow-align-scope`.
-- Establish the plain-language problem, 2~3 observable Done Criteria, and the Blast Radius matrix.
-- Sequence the steps (Types ➔ Core ➔ Verification).
-- If ambiguous, halt and ask the user targeted questions before touching code.
-
-### Phase 2: Context-First TDD
-- Execute `workflow-context-tdd`.
-- Explore codebase context and conventions.
-- Inventory test specs (Happy Path, Boundary Conditions with empty collections `[]`, Error Scenarios).
-- Execute the Red ➔ Green ➔ Refactor loop.
-- If an unexpected error or regression occurs, invoke `workflow-scientific-debug` to isolate the root cause.
-
-### Phase 3: Review, Debug & Delivery
-- **Phase 3A (On Defects)**: If an exception occurs, follow `workflow-scientific-debug` to observe the stack trace, hypothesize, write a minimal reproduction test, and fix the root cause at the caller convergence point.
-- **Phase 3B (Self-Review)**: Run `workflow-self-review` against the Four-Layer Software Design Principles (Lexical, Function/SLAP/CQS, Deep Module/Information Hiding, Architecture/DIP/ADP).
-- **Phase 3C (Commit)**: Prepare the final delivery via `workflow-atomic-commit`, ensuring each commit has a single responsibility and a commit message that explains the "Why".
+<lifecycle-route>
+  <phase>
+    **Phase 1: Scope Alignment** — [workflow-align-scope](../workflow-align-scope/SKILL.md)
+    - Establish the plain-language problem, 2~3 observable Done Criteria, and the 3-tier Blast Radius matrix.
+    - Sequence the steps (Types ➔ Core ➔ Verification).
+    - If ambiguous, halt and ask the user targeted questions before touching code.
+  </phase>
+  <phase>
+    **Phase 2: Context-First TDD** — [workflow-context-tdd](../workflow-context-tdd/SKILL.md)
+    - Explore codebase context and conventions.
+    - Inventory test specs (Happy Path, Boundary Conditions with empty collections `[]`, Error Scenarios).
+    - Execute the Red ➔ Green ➔ Refactor loop.
+    - **On failure**: If an unexpected exception, failing test, or regression occurs, route to Phase 3A.
+  </phase>
+  <phase>
+    **Phase 3A: Scientific Debug (On Defects)** — [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md)
+    - Observe the stack trace, hypothesize, write a minimal reproduction test, and fix the root cause at the caller convergence point.
+  </phase>
+  <phase>
+    **Phase 3B: Four-Layer Self-Review** — [workflow-self-review](../workflow-self-review/SKILL.md)
+    - Audit against the Four-Layer Software Design Principles (Lexical, Function/SLAP/CQS, Deep Module/Information Hiding, Architecture/DIP/ADP).
+  </phase>
+  <phase>
+    **Phase 3C: Atomic Commit** — [workflow-atomic-commit](../workflow-atomic-commit/SKILL.md)
+    - Prepare the final delivery so each commit has a single responsibility and a commit message that explains the "Why".
+  </phase>
+</lifecycle-route>
 
 ---
 
 ## 2. Managing Workflow Transitions
 
 <workflow-transitions>
-  <transition outcome="pass">
-    <action>Advance to the subsequent phase on the agreed lifecycle route.</action>
-  </transition>
-  <transition outcome="needs-change">
-    <action>Return candidate to workflow-context-tdd or workflow-scientific-debug for correction.</action>
-  </transition>
-  <transition outcome="unverified">
-    <action>Halt and obtain missing test runner, environment configuration, or diagnostic evidence.</action>
-  </transition>
-  <transition outcome="needs-decision">
-    <action>Halt execution; present structured inquiry with evaluated options to the user.</action>
-  </transition>
+  - **pass**: Advance to the subsequent phase on the agreed lifecycle route.
+  - **needs-change**: Return candidate to workflow-context-tdd or workflow-scientific-debug for correction.
+  - **unverified**: Halt and obtain missing test runner, environment configuration, or diagnostic evidence.
+  - **needs-decision**: Halt execution; present structured inquiry with evaluated options to the user.
 </workflow-transitions>
 
 ---

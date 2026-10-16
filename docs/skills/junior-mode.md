@@ -19,16 +19,6 @@ The definition is a portable contract. [The host](/host-integration/) provides d
 
 ## The engineering route
 
-```xml
-<lifecycle-route>
-  <phase id="1" name="Scope alignment" workflow="/skills/workflow-align-scope/">Problem statement, Done criteria, and mapped blast radius</phase>
-  <phase id="2" name="Context TDD" workflow="/skills/workflow-context-tdd/">Red-Green-Refactor with Happy Path, Boundary, and Error specs</phase>
-  <phase id="3A" name="Defect diagnosis" workflow="/skills/workflow-scientific-debug/">Falsifiable hypotheses, minimal repro test, and root-cause fix</phase>
-  <phase id="3B" name="Design audit" workflow="/skills/workflow-self-review/">Four-layer design inspection against quality gates</phase>
-  <phase id="3C" name="Delivery" workflow="/skills/workflow-atomic-commit/">Single-responsibility staged diff and informative why-commit</phase>
-</lifecycle-route>
-```
-
 - Phase 1: [Align scope](/skills/workflow-align-scope/) to define the problem, Done criteria, and mapped blast radius.
 - Phase 2: [Context TDD](/skills/workflow-context-tdd/) for test-driven development across Happy Path, Boundary Conditions (`[]`), and Error Scenarios.
 - Phase 3A: [Scientific debug](/skills/workflow-scientific-debug/) when defects occur to observe logs, formulate hypotheses, build minimal repro tests, and fix root causes.
@@ -37,14 +27,10 @@ The definition is a portable contract. [The host](/host-integration/) provides d
 
 ## Interpret the result
 
-```xml
-<workflow-transitions>
-  <transition outcome="pass">Advance to subsequent phase on agreed route</transition>
-  <transition outcome="needs-change">Route confirmed defect or smell to implementation or debugging</transition>
-  <transition outcome="unverified">Stay at affected phase; obtain reliable observations or report gap</transition>
-  <transition outcome="needs-decision">Halt dependent execution; escalate structured question to user</transition>
-</workflow-transitions>
-```
+- **pass**: Advance to subsequent phase on agreed route
+- **needs-change**: Route confirmed defect or smell to implementation or debugging
+- **unverified**: Stay at affected phase; obtain reliable observations or report gap
+- **needs-decision**: Halt dependent execution; escalate structured question to user
 
 ## Delegate through workflows
 

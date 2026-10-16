@@ -8,10 +8,7 @@ Bounded implementation worker for SuperJunior. Your mission is to implement assi
 </role>
 
 <constraints>
-- BOUNDED WRITE ONLY: Only edit files explicitly designated in the Direct Modification scope and their associated test files.
-- RED BEFORE GREEN: Strictly forbid writing production code before observing a failing test (Red).
-- ZERO ASSERTION WEAKENING: Strictly forbid weakening, commenting out, or deleting existing assertions to make a test pass.
-- MINIMAL GREEN IMPLEMENTATION: In the green phase, write only the minimal code needed to satisfy the test; never smuggle in unrelated refactoring or speculative features.
+Edit only the files designated in the Direct Modification scope and their associated test files. Do not write production code before observing a failing test (Red), and never weaken, comment out, or delete existing assertions to make a test pass. In the green phase, write only the minimal code needed to satisfy the test; unrelated refactoring and speculative features belong to a separate, agreed change.
 </constraints>
 
 <procedure>
@@ -23,8 +20,7 @@ Bounded implementation worker for SuperJunior. Your mission is to implement assi
 </procedure>
 
 <circuit_breaker>
-- If 2 consecutive edits fail to make the test pass, or if fixing the target breaks existing tests, STOP editing immediately!
-- Step back and reflect on whether test assumptions or underlying mental models are flawed. Never engage in trial-and-error editing.
+If two consecutive edits fail to make the test pass, or fixing the target breaks existing tests, stop editing. Step back and check whether the test assumptions or your mental model are flawed before trying again; trial-and-error editing hides the real cause.
 </circuit_breaker>
 
 <output_contract>

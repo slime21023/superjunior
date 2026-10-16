@@ -14,15 +14,7 @@ Atomic version control ensures that every commit in the repository history repre
 ## 3 Core Commit Invariants
 
 <commit-invariants>
-  <invariant id="1" name="Single Responsibility">
-    A single commit must do exactly one thing. Never combine cosmetic reformatting (Prettier/linter re-order) with functional logic modifications in the same commit.
-  </invariant>
-  <invariant id="2" name="Always Passing Builds">
-    Never commit broken intermediate states with the intent to fix it later. Every commit must leave the test suite 100% green and bisect-friendly.
-  </invariant>
-  <invariant id="3" name="Explain the Why">
-    The Git diff already shows What changed. The commit message must explain Why it was changed, including the root cause, business motivation, and trade-offs.
-  </invariant>
+  Each commit does exactly one thing; never combine cosmetic reformatting (Prettier/linter re-order) with functional logic changes. Each commit also leaves the test suite 100% green so history stays bisect-friendly, which rules out committing a broken intermediate state with the intent to fix it later. The diff already shows what changed, so the commit message explains why: the root cause, business motivation, and trade-offs.
 </commit-invariants>
 
 ---
@@ -30,18 +22,10 @@ Atomic version control ensures that every commit in the repository history repre
 ## Staging & Committing Procedure
 
 <staging-procedure>
-  <step id="1" name="Inspect Working Tree">
-    Run git status and git diff to inspect all touched files.
-  </step>
-  <step id="2" name="Targeted Staging">
-    Avoid blind staging like git add . when unrelated edits exist. Stage specific files explicitly.
-  </step>
-  <step id="3" name="Verify Staged Diff">
-    Run git diff --cached to confirm that only intentional lines are staged.
-  </step>
-  <step id="4" name="Author & Commit">
-    Author a Conventional Commit message following the schema below.
-  </step>
+  1. **Inspect Working Tree**: Run git status and git diff to inspect all touched files.
+  2. **Targeted Staging**: Avoid blind staging like git add . when unrelated edits exist. Stage specific files explicitly.
+  3. **Verify Staged Diff**: Run git diff --cached to confirm that only intentional lines are staged.
+  4. **Author & Commit**: Author a Conventional Commit message following the schema below.
 </staging-procedure>
 
 ---
@@ -62,12 +46,12 @@ Atomic version control ensures that every commit in the repository history repre
   ```
 
   <permitted-types>
-    <type name="feat">New feature or user-facing capability.</type>
-    <type name="fix">Bug fix restoring intended behavior.</type>
-    <type name="refactor">Code restructuring without changing observable behavior (SLAP, encapsulation).</type>
-    <type name="test">Adding or correcting tests with zero production code changes.</type>
-    <type name="chore">Maintenance, dependencies, build configurations.</type>
-    <type name="docs">Documentation updates only.</type>
+    - **feat**: New feature or user-facing capability.
+    - **fix**: Bug fix restoring intended behavior.
+    - **refactor**: Code restructuring without changing observable behavior (SLAP, encapsulation).
+    - **test**: Adding or correcting tests with zero production code changes.
+    - **chore**: Maintenance, dependencies, build configurations.
+    - **docs**: Documentation updates only.
   </permitted-types>
 </commit-message-schema>
 
@@ -76,6 +60,6 @@ Atomic version control ensures that every commit in the repository history repre
 ## Return Outcomes
 
 <workflow-outcomes>
-  <outcome code="pass">Staged change is atomic, tests pass, and commit message clearly communicates the change rationale.</outcome>
-  <outcome code="needs-change">Staged changes mix multiple responsibilities or commit message lacks the necessary Why explanation.</outcome>
+  - **pass**: Staged change is atomic, tests pass, and commit message clearly communicates the change rationale.
+  - **needs-change**: Staged changes mix multiple responsibilities or commit message lacks the necessary Why explanation.
 </workflow-outcomes>

@@ -28,16 +28,6 @@ The documentation site's TOML parser handles documentation pages only. If your h
 
 ## Assign responsibilities to the host
 
-```xml
-<host-responsibilities>
-  <responsibility capability="Discovery">Make intended skills and references accessible</responsibility>
-  <responsibility capability="Persistent mode">Retain activation and honor opt-out across follow-ups</responsibility>
-  <responsibility capability="Tools and permissions">Enforce readable/writable boundaries and capabilities</responsibility>
-  <responsibility capability="Delegation">Load role instructions, configure models, enforce budget</responsibility>
-  <responsibility capability="Execution">Run authorized actions and return real observations</responsibility>
-</host-responsibilities>
-```
-
 - **Discovery**: Make the intended skill and its references accessible.
 - **Persistent mode**: Retain activation and honor explicit opt-out across engineering follow-ups.
 - **Tools and permissions**: Enforce readable paths, writable paths, external actions, and available capabilities.

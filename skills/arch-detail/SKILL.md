@@ -14,7 +14,7 @@ Create a detailed structural and behavioral specification for a single target co
 
 **Strict Negative Constraints:**
 - **Zero Method Bodies:** Define type definitions, data structures, and interface signatures only. Never write business logic algorithms, function bodies, or framework plumbing.
-- **Strict Boundary Confinement:** Never design capabilities that violate the component's `<avoids>` list or overlap another component's `<owns>` in `_adr/base.xml`.
+- **Strict Boundary Confinement:** Never design capabilities that violate the component's **Avoids** field or overlap another component's **Owns** field in `_adr/base.xml`.
 - **No Speculative Assumptions:** If an interaction protocol, consistency model, or error policy is undecided, halt and prompt the user.
 
 ---
@@ -30,12 +30,12 @@ Create a detailed structural and behavioral specification for a single target co
 ## Workflow
 
 ### Step 1: Base Anchor & Context Ingestion
-1. Read `_adr/base.xml` and locate the target component by its unique `id`.
+1. Read `_adr/base.xml` and locate the `<component>` block whose **ID** field matches the target component.
 2. Extract the boundary constraints:
-   - `<scope>` and `<owns>`: Core capabilities requiring interface modeling.
-   - `<delegates>` and `<depends>`: Required outbound interactions and service provider dependencies.
-   - `<avoids>`: Out-of-bounds responsibilities to explicitly guard against.
-3. Review related layers and cross-cutting policies.
+   - **Scope** and **Owns**: Core capabilities requiring interface modeling.
+   - **Delegates** and **Depends**: Required outbound interactions and service provider dependencies.
+   - **Avoids**: Out-of-bounds responsibilities to explicitly guard against.
+3. Review the `<layers>` and `<cross-cutting>` blocks.
 
 ### Step 2: Scenario Exploration & User Decision Gate
 Identify operational ambiguities before drafting the specification:

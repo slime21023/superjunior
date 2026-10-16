@@ -10,7 +10,7 @@ readonly = true
 
 # Architecture Componentization & Structural Specification
 
-Synthesize finalized architectural decisions into a formal, machine-readable XML specification and persist it to `_adr/base.xml`. This skill captures system layers, component boundaries, and responsibility scopes.
+Synthesize finalized architectural decisions into a formal XML specification (tag-delimited blocks with Markdown fields) and persist it to `_adr/base.xml`. This skill captures system layers, component boundaries, and responsibility scopes.
 
 **Strict Negative Constraints:**
 - **No Implementation Code:** Never produce class implementations, function bodies, SQL queries, or configuration scripts.
@@ -43,15 +43,15 @@ Organize the architecture into hierarchical tiers:
 - **Component Definition:** For each component within a layer:
   - Assign a unique identifier and human-readable name.
   - State the core responsibility scope in one or two clear sentences.
-  - Define explicit boundaries: what this component strictly handles (`<owns>`) and what it deliberately delegates (`<delegates>`).
-  - Declare upstream consumers and downstream dependencies (`<depends>`).
-  - State deliberate non-responsibilities (`<avoids>`).
+  - Define explicit boundaries: what this component strictly handles (**Owns**) and what it deliberately delegates (**Delegates**).
+  - Declare upstream consumers and downstream dependencies (**Depends**).
+  - State deliberate non-responsibilities (**Avoids**).
 
 ### Step 3: XML Specification Synthesis
 Compile the structured findings into the canonical XML specification using `references/xml-component-prompt.md`.
 
 Validate against the following quality rules:
-- Root tag is `<architecture target="..." type="..." pattern="..." version="1.0">`.
+- The root tag is a bare `<architecture>`; no tag carries attributes, and nesting never exceeds `<architecture>` plus one child level.
 - All component IDs are unique and hyphen-cased (e.g., `token-normalizer`, `event-dispatcher`).
 - Every dependency references a declared component or external system ID.
 - No code snippets, method signatures, or data structure implementations appear inside any tag.
