@@ -7,7 +7,7 @@ order = 0
 permalink = "/principles/index.html"
 +++
 
-The Four-Layer Software Design Principles provide clear, structured guidelines to reduce cognitive load and prevent architectural decay. Workflows load the principles relevant to their phase; potato-mode enforces them throughout development, testing, and review.
+The Four-Layer Software Design Principles provide clear, structured guidelines to reduce cognitive load and prevent architectural decay. Workflows load the principles relevant to their phase; junior-mode enforces them throughout development, testing, and review.
 
 ## Layer hierarchy
 

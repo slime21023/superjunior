@@ -48,7 +48,7 @@ A role's `readonly` value is a declared policy. Actual enforcement comes from ho
 
 ## Integrate gradually
 
-Start with direct execution of one workflow. Check that the host can load referenced principles and produce an artifact-specific result. Then use [potato-mode](/skills/potato-mode/) to coordinate a complete route.
+Start with direct execution of one workflow. Check that the host can load referenced principles and produce an artifact-specific result. Then use [junior-mode](/skills/junior-mode/) to coordinate a complete route.
 
 Enable [subagents](/subagents/) when delegation is authorized and useful. Workers return bounded results; the owner integrates and reassesses evidence. Further delegation requires an explicit grant.
 

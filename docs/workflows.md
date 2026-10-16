@@ -42,7 +42,7 @@ The owner reconciles each returned result with the actual candidate. A passing p
 
 ## Run the cycle
 
-[Potato-mode](/skills/potato-mode/) coordinates the complete daily engineering cycle:
+[Junior-mode](/skills/junior-mode/) coordinates the complete daily engineering cycle:
 1. **Align Scope**: Define the problem and map direct, ripple, and untouched blast radius.
 2. **Context TDD**: Formulate tests across Happy Path, Boundary, and Error quadrants; run Red ➔ Green ➔ Refactor.
 3. **Scientific Debug** (when defects occur): Parse logs, build minimal repro, fix root cause at caller convergence.

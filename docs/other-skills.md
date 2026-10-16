@@ -37,7 +37,7 @@ Use how-works to explain what the current code does and where responsibilities l
 
 Start with craft-discussing when the problem, constraints, or stack need agreement. Use arch-componentize once component boundaries are confirmed. Use arch-detail for one declared component after its interaction and failure policies are decided.
 
-These design skills produce discussion or specifications. They preserve their implementation boundaries when called from [potato-mode](/skills/potato-mode/).
+These design skills produce discussion or specifications. They preserve their implementation boundaries when called from [junior-mode](/skills/junior-mode/).
 
 ## Implementation support
 

@@ -12,7 +12,7 @@ These prompts ask the agent to read repository instructions. Replace the illustr
 ## Complete a bug fix locally
 
 ```text
-Read skills/potato-mode/SKILL.md.
+Read skills/junior-mode/SKILL.md.
 Fix the shared parser: an empty input must return an empty collection.
 Preserve valid nonempty-input behavior and inspect all affected callers.
 Align scope, follow context-first TDD, perform four-layer self-review, and deliver via atomic commit.
@@ -59,7 +59,7 @@ Ensure single responsibility and format a Conventional Commit message explaining
 ## Resume after a handoff
 
 ```text
-Read skills/potato-mode/SKILL.md and the existing task record.
+Read skills/junior-mode/SKILL.md and the existing task record.
 Resume the agreed task using the current working-tree contents.
 Revalidate the recorded candidate and any destination state.
 Continue from the earliest required phase with missing or invalid evidence.

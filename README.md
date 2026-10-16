@@ -1,6 +1,6 @@
 # SuperJunior
 
-Engineering skills for scoped, verifiable work. Start with potato-mode, or use a workflow, design principle, or specialist skill directly.
+Engineering skills for scoped, verifiable work. Start with junior-mode, or use a workflow, design principle, or specialist skill directly.
 
 ## Read the handbook
 
@@ -25,7 +25,7 @@ The static site is written to `_site/`. Checks rebuild the site, verify skill co
 Give your coding agent access to the repository and ask it to read the appropriate skill:
 
 ```text
-Read skills/potato-mode/SKILL.md and use it to fix the reported bug.
+Read skills/junior-mode/SKILL.md and use it to fix the reported bug.
 Reproduce the failure, verify the corrected behavior, and deliver local files.
 ```
 

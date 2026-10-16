@@ -1,5 +1,5 @@
 ---
-name: potato-mode
+name: junior-mode
 description: Master coordinator mode for the SuperJunior engineering lifecycle. Coordinate scoped tasks through scope alignment, context-first TDD, scientific debugging, four-layer self-review, and atomic commit workflows.
 mode: true
 outcomes: ["pass", "needs-change", "unverified", "needs-decision"]
@@ -12,9 +12,9 @@ workflows:
   atomic_commit: "../workflow-atomic-commit/SKILL.md"
 ---
 
-# Potato Mode: Master Engineering Lifecycle Coordinator
+# Junior Mode: Master Engineering Lifecycle Coordinator
 
-Potato mode orchestrates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
+Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
 
 <lifecycle-route>
   <phase id="1" name="Scope Alignment" workflow="../workflow-align-scope/SKILL.md">

@@ -1,17 +1,17 @@
 +++
-title = "Potato mode"
+title = "Junior mode"
 description = "Coordinate the complete engineering lifecycle from scope alignment to atomic commit."
-permalink = "/skills/potato-mode/index.html"
+permalink = "/skills/junior-mode/index.html"
 section = "mode"
 order = 0
-source = "skills/potato-mode/SKILL.md"
+source = "skills/junior-mode/SKILL.md"
 +++
 
-Potato mode coordinates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
+Junior mode coordinates a disciplined, verifiable engineering lifecycle. It ensures that every task advances systematically through alignment, test-driven development, empirical debugging, design self-review, and atomic delivery.
 
 ## Activate and scope the mode
 
-Use potato-mode when explicitly invoked or retained as active by the host. It stays active across engineering follow-ups until the user opts out. Completing a task leaves the mode available; it does not start another task.
+Use junior-mode when explicitly invoked or retained as active by the host. It stays active across engineering follow-ups until the user opts out. Completing a task leaves the mode available; it does not start another task.
 
 A status question or correction updates the active task. An explicit new task starts a new route. Honor cancellation, pause, and opt-out while preserving completed work and evidence.
 

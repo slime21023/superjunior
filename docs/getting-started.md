@@ -15,13 +15,13 @@ The definitions use both YAML and TOML frontmatter. See [Host integration](/host
 ## Run your first task
 
 1. State the requested outcome, constraints, and observable success condition.
-2. Choose [potato-mode](/skills/potato-mode/) for the complete engineering route, or a [workflow](/workflows/) for a single phase.
+2. Choose [junior-mode](/skills/junior-mode/) for the complete engineering route, or a [workflow](/workflows/) for a single phase.
 3. Specify the delivery form, such as local files or an authorized PR.
 4. Let the owner inspect the affected flow and choose proportionate checks.
 5. Assess the returned artifact, actual evidence, limitations, and outcome.
 
 ```text
-Read skills/potato-mode/SKILL.md and use it for this bug fix.
+Read skills/junior-mode/SKILL.md and use it for this bug fix.
 A saved filter with no selected tags must show all items.
 Preserve the existing behavior for selected tags.
 Reproduce the failure, check sibling filter paths, and deliver local files.
@@ -42,4 +42,4 @@ A review-only report can complete your request while returning `needs-change`. T
 
 ## Continue or redirect
 
-A correction or status question updates the active task. State explicitly when starting a new task, pausing work, canceling the task, or opting out of potato-mode. On a later handoff, provide the candidate and existing record so the owner can revalidate evidence before continuing.
+A correction or status question updates the active task. State explicitly when starting a new task, pausing work, canceling the task, or opting out of junior-mode. On a later handoff, provide the candidate and existing record so the owner can revalidate evidence before continuing.

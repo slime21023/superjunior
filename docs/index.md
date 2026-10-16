@@ -7,7 +7,7 @@ order = 0
 permalink = "/index.html"
 +++
 
-SuperJunior is a collection of portable agent instructions. Its Four-Layer Design Principles govern software craft, its workflows enforce daily engineering discipline, and potato-mode coordinates an agreed task through the complete lifecycle.
+SuperJunior is a collection of portable agent instructions. Its Four-Layer Design Principles govern software craft, its workflows enforce daily engineering discipline, and junior-mode coordinates an agreed task through the complete lifecycle.
 
 <ol class="cycle" aria-label="Development cycle">
 <li><small>01</small><a href="/skills/workflow-align-scope/">Align Scope</a><p>Define the problem and map blast radius.</p></li>
@@ -22,7 +22,7 @@ A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-sci
 
 ```xml
 <entry-points>
-  <entry task="Complete a feature, fix, or refactor">Potato mode</entry>
+  <entry task="Complete a feature, fix, or refactor">Junior mode</entry>
   <entry task="Perform one engineering phase">Workflows</entry>
   <entry task="Explain a subsystem or investigate a historical choice">Other skills</entry>
   <entry task="Master software design craft">Four-layer design principles</entry>
@@ -30,7 +30,7 @@ A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-sci
 </entry-points>
 ```
 
-- [Potato mode](/skills/potato-mode/): Coordinate a scoped feature, fix, or refactor through the full lifecycle.
+- [Junior mode](/skills/junior-mode/): Coordinate a scoped feature, fix, or refactor through the full lifecycle.
 - [Workflows](/workflows/): Execute an individual daily workflow (Scope alignment, Context TDD, Self review, Atomic commit).
 - [Other skills](/other-skills/): Subsystem onboarding, historical rationale, and component architecture design.
 - [Four-layer design principles](/principles/): Standards across lexical, function, module, and architecture boundaries.
@@ -41,7 +41,7 @@ A confirmed defect or exception triggers [Scientific Debug](/skills/workflow-sci
 Give the agent access to this repository and specify the acceptance condition and delivery form:
 
 ```text
-Read skills/potato-mode/SKILL.md.
+Read skills/junior-mode/SKILL.md.
 Fix the parser so an empty input returns an empty result without throwing.
 Check the affected callers and deliver the changes as local files.
 ```
