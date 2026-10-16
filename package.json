@@ -9,7 +9,10 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "check": "npm run build && node --test docs/_lib/site.test.mjs docs/_lib/skills.test.mjs"
+    "check": "npm run build && node --test docs/_lib/site.test.mjs docs/_lib/skills.test.mjs",
+    "eval:discovery": "npx --yes promptfoo@0.124.1 eval -c evals/discovery.yaml -o evals/results/discovery.json",
+    "eval:routing": "npx --yes promptfoo@0.124.1 eval -c evals/routing.yaml -o evals/results/routing.json",
+    "eval:behavior": "npx --yes promptfoo@0.124.1 eval -c evals/behavior.yaml -o evals/results/behavior.json"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",

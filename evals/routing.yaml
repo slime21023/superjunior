@@ -1,0 +1,80 @@
+# Checks which skill each code agent loads first for a request, using the agent's native skill discovery.
+description: SuperJunior skill routing
+
+prompts:
+  - |-
+    Which one of your available skills would you load first for the request below? Answer from the skill names and descriptions you already have: do not open, read, or search any files, do not run commands, and do not perform the request. Reply with only the skill name.
+
+    Request: {{request}}
+
+providers:
+  - id: file://providers/agent-cli.mjs
+    label: claude-code
+    config: { tool: claude }
+  - id: file://providers/agent-cli.mjs
+    label: codex
+    config: { tool: codex }
+  - id: file://providers/agent-cli.mjs
+    label: agy
+    config: { tool: agy }
+
+evaluateOptions:
+  maxConcurrency: 3
+
+tests:
+  - description: Bug fix goes to junior-mode
+    vars: { request: "A saved filter with no selected tags hides every note; it must show all notes. Fix it." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [junior-mode] } }
+  - description: New feature goes to junior-mode
+    vars: { request: "Add an option to export notes as CSV." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [junior-mode, workflow-align-scope] } }
+  - description: README typo goes to junior-mode
+    vars: { request: "Fix the typo 'recieve' in README.md." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [junior-mode] } }
+  - description: Runtime explanation goes to senior-mode or how-works
+    vars: { request: "Explain how withRetry in src/retry.js handles a failing operation." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [senior-mode, how-works] } }
+  - description: Historical rationale goes to senior-mode or why
+    vars: { request: "Why does src/retry.js stop after exactly three attempts?" }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [senior-mode, why] } }
+  - description: Technology choice goes to senior-mode or craft-discussing
+    vars: { request: "Should this service store notes in SQLite or PostgreSQL? Compare the tradeoffs." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [senior-mode, craft-discussing] } }
+  - description: Recording confirmed boundaries goes to arch-componentize
+    vars: { request: "We agreed on the layers and component boundaries; record them in _adr/base.xml." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [senior-mode, arch-componentize] } }
+  - description: Component specification goes to arch-detail
+    vars: { request: "Write the detailed contract and failure handling spec for the tag-parser component declared in _adr/base.xml." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [senior-mode, arch-detail] } }
+  - description: Failing test goes to scientific debugging
+    vars: { request: "The retry test fails with 'TypeError: operation is not a function'. Find and fix the root cause." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-scientific-debug, junior-mode] } }
+  - description: Pre-PR review goes to self-review
+    vars: { request: "Review my diff against our design principles before I open a pull request." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-self-review, agent-code-reviewer] } }
+  - description: Commit splitting goes to atomic-commit
+    vars: { request: "Split my staged changes into clean commits with good messages." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-atomic-commit] } }
+  - description: Blast radius mapping goes to align-scope
+    vars: { request: "Before anyone edits code, list which files the CSV export change will touch and what stays untouched." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-align-scope, junior-mode] } }
+  - description: Test-first implementation goes to context TDD
+    vars: { request: "Implement a tag-length limit test-first, covering happy path, boundaries, and errors." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [workflow-context-tdd, junior-mode] } }
+  - description: Naming question goes to lexical principles
+    vars: { request: "Is MAX_ATTEMPTS a good name, or should it carry a unit or a clearer meaning?" }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [principles-lexical-expression, principles-four-layer-design] } }

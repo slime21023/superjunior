@@ -1,0 +1,25 @@
+# Checks that each code agent discovers every repository skill from its native skill directory.
+description: SuperJunior skill discovery
+
+prompts:
+  - |-
+    Without opening files or running commands, list the name of every skill available to you in this session, one per line, and nothing else.
+
+providers:
+  - id: file://providers/agent-cli.mjs
+    label: claude-code
+    config: { tool: claude }
+  - id: file://providers/agent-cli.mjs
+    label: codex
+    config: { tool: codex }
+  - id: file://providers/agent-cli.mjs
+    label: agy
+    config: { tool: agy }
+
+evaluateOptions:
+  maxConcurrency: 3
+
+tests:
+  - description: Every repository skill is discoverable
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:listsAllSkills" }

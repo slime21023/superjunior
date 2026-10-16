@@ -65,4 +65,12 @@ Inside tags, write prose by default; connected sentences keep the reasons, condi
 
 These checks do not judge prose accuracy or visual quality. Inspect changed guidance against its source and review desktop and mobile pages when layout or navigation changes. Check keyboard navigation, visible focus, and horizontal overflow.
 
+## Evaluate skill behavior
+
+`npm run eval:discovery`, `npm run eval:routing`, and `npm run eval:behavior` run promptfoo 0.124.1 against Claude Code, Codex CLI, and the Antigravity CLI (`agy`), so those tools must be installed and signed in. Every agent call gets a fresh workspace under the system temp directory, holding `evals/fixture/` and the skills copied into that tool's discovery directory; the workspace is deleted afterwards.
+
+Discovery asks each agent to list its skills and passes when every directory under `skills/` appears. Routing asks which skill the agent would load first for a request. Behavior asks the agent to load that skill and report its first decision as JSON: the skill, the route, the outcome, and the first action. The graders in `evals/assertions.cjs` are deterministic, and any file the agent creates or changes fails the case, because every prompt forbids edits.
+
+Runs use your own accounts and quotas, and also see any skills installed in your personal directories, which can win routing over SuperJunior skills. A provider's `args` config passes extra CLI flags, for example `args: ["--disable", "plugins"]` to run Codex without installed plugins. agy runs at medium effort, because at its default effort it keeps exploring past the time limit. It also runs with tool approval and `--sandbox`, because headless agy ends the turn without output when a tool needs a permission prompt. Agent replies vary between runs, so judge a case by its pass rate over repeated runs (`--repeat`) rather than a single failure. Results are written to `evals/results/`, which is ignored; `npx promptfoo@0.124.1 view` opens them in a browser.
+
 The current site uses origin-root URLs. Preview or host it at an origin root; a future subpath deployment needs coordinated URL handling and link verification.

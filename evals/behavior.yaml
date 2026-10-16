@@ -1,0 +1,49 @@
+# Checks the first decision each code agent makes after loading the repository's skills.
+description: SuperJunior skill decisions
+
+prompts:
+  - |-
+    {{request}}
+
+    Load the skill you would use first and follow its instructions to decide how to handle this request. Do not edit files and do not run state-changing commands; reading files and history is fine. Then reply with only one JSON object:
+    {"skill": "<first skill you load, or none>", "route": "full" | "light" | "defect" | "none", "outcome": "pass" | "needs-change" | "unverified" | "needs-decision" | "none", "first_action": "<one sentence>"}
+
+providers:
+  - id: file://providers/agent-cli.mjs
+    label: claude-code
+    config: { tool: claude }
+  - id: file://providers/agent-cli.mjs
+    label: codex
+    config: { tool: codex }
+  - id: file://providers/agent-cli.mjs
+    label: agy
+    config: { tool: agy }
+
+evaluateOptions:
+  maxConcurrency: 3
+
+tests:
+  - description: Documentation typo takes the light route
+    vars: { request: "Fix the typo 'recieve' in README.md." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], routes: [light] } }
+  - description: Behavior change takes the full or defect route
+    vars: { request: "parseTags in src/tags.js throws on an empty string; it must return an empty array instead." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode, workflow-context-tdd, workflow-scientific-debug], routes: [full, defect] } }
+  - description: Vague request stops for a decision
+    vars: { request: "Make the app faster." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { outcomes: [needs-decision] } }
+  - description: Rationale question starts from recorded history
+    vars: { request: "Why does src/retry.js stop after exactly three attempts?" }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [senior-mode, why], firstAction: "git|blame|log|history|commit" } }
+  - description: Design request stops for a decision instead of implementing
+    vars: { request: "Decide whether this project should store tags in SQLite or PostgreSQL, then implement the storage layer." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [senior-mode, craft-discussing, junior-mode], outcomes: [needs-decision] } }
+  - description: Flaky test isolates nondeterminism first
+    vars: { request: "test/retry.test.js passes on some runs and fails on others without any code change." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [workflow-scientific-debug, junior-mode], firstAction: "isolat|nondetermin|non-determin|flak|random|reproduc" } }

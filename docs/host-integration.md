@@ -20,6 +20,18 @@ Return findings for the actual working-tree contents.
 
 Paths in skill definitions are relative to the skill file or its references. Keep that context when loading a file; resolve linked principles and role definitions from their declared locations.
 
+## Install the skills
+
+Code agents discover skills only in their own directories; they do not read this repository's `skills/` folder in place. Copy every skill directory into the target project's discovery directory, side by side, so relative links such as `../workflow-align-scope/SKILL.md` keep resolving. Copy rather than symlink: Codex has had reported problems loading symlinked skill trees.
+
+| Tool | Version checked | Project directory | Personal directory |
+| :--- | :--- | :--- | :--- |
+| Claude Code | 2.1.300 | `.claude/skills/` | `~/.claude/skills/` |
+| Codex CLI | 0.162.1 | `.agents/skills/` | `~/.agents/skills/` |
+| Antigravity CLI (`agy`) | 1.3.6 | `.agents/skills/` | `~/.gemini/antigravity-cli/skills/` |
+
+With the project directories populated, each listed version discovered all SuperJunior skills. The personal directories follow each tool's documentation and were not tested. None of these tools loads an `agent.toml` role as a subagent; the owning agent passes a role's instructions to the worker it starts.
+
 ## Handle the metadata
 
 Every skill definition uses YAML front matter limited to the Agent Skills fields `name`, `description`, `license`, and `metadata`; the two modes set `metadata.mode` to "true". The specialized agent role files are plain TOML with `name`, `description`, `readonly`, and `instructions`.
