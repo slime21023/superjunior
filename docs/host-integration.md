@@ -8,12 +8,12 @@ permalink = "/host-integration/index.html"
 
 ## Load the instructions
 
-JanStack supplies instruction files and supporting references. A host may register them as skills, expose commands, or let an agent read them explicitly. The repository does not provide a host runtime or command registrar.
+SuperJunior supplies instruction files and supporting references. A host may register them as skills, expose commands, or let an agent read them explicitly. The repository does not provide a host runtime or command registrar.
 
 A portable starting request is:
 
 ```text
-Read skills/workflow-review/SKILL.md and its applicable principles.
+Read skills/workflow-self-review/SKILL.md and its applicable principles.
 Review the current diff against the original acceptance conditions.
 Return findings for the actual working-tree contents.
 ```
@@ -22,19 +22,27 @@ Paths in skill definitions are relative to the skill file or its references. Kee
 
 ## Handle the metadata
 
-New workflow and mode definitions use `+++` TOML frontmatter. Some existing skills use YAML. The four workflow role files are plain TOML with `name`, `description`, `readonly`, and `instructions`.
+New workflow and mode definitions use YAML frontmatter. The specialized agent role files are plain TOML with `name`, `description`, `readonly`, and `instructions`.
 
 The documentation site's TOML parser handles documentation pages only. If your host accepts a different skill format, use its supported registration or adapter mechanism. Reading a definition as instructions is a viable entry point when native discovery is unavailable.
 
 ## Assign responsibilities to the host
 
-| Capability | Host responsibility |
-| --- | --- |
-| Discovery | Make the intended skill and its references accessible. |
-| Persistent mode | Retain activation and honor explicit opt-out across engineering follow-ups. |
-| Tools and permissions | Enforce readable paths, writable paths, external actions, and available capabilities. |
-| Delegation | Load role instructions, select configured models, and enforce concurrency and budget. |
-| Execution | Run authorized actions and return real observations to the owning agent. |
+```xml
+<host-responsibilities>
+  <responsibility capability="Discovery">Make intended skills and references accessible</responsibility>
+  <responsibility capability="Persistent mode">Retain activation and honor opt-out across follow-ups</responsibility>
+  <responsibility capability="Tools and permissions">Enforce readable/writable boundaries and capabilities</responsibility>
+  <responsibility capability="Delegation">Load role instructions, configure models, enforce budget</responsibility>
+  <responsibility capability="Execution">Run authorized actions and return real observations</responsibility>
+</host-responsibilities>
+```
+
+- **Discovery**: Make the intended skill and its references accessible.
+- **Persistent mode**: Retain activation and honor explicit opt-out across engineering follow-ups.
+- **Tools and permissions**: Enforce readable paths, writable paths, external actions, and available capabilities.
+- **Delegation**: Load role instructions, select configured models, and enforce concurrency and budget.
+- **Execution**: Run authorized actions and return real observations to the owning agent.
 
 A role's `readonly` value is a declared policy. Actual enforcement comes from host permissions and the parent assignment. A writable role still needs an explicit write boundary.
 

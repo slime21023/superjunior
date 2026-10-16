@@ -1,6 +1,6 @@
-# JanStack
+# SuperJunior
 
-Engineering skills for scoped, verifiable work. Start with potato-mode, or use a workflow or specialist skill directly.
+Engineering skills for scoped, verifiable work. Start with potato-mode, or use a workflow, design principle, or specialist skill directly.
 
 ## Read the handbook
 
@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open the local address printed by Eleventy (normally http://localhost:8080). The English handbook covers all skills, the four workflow roles, examples, and host integration.
+Open the local address printed by Eleventy (normally http://localhost:8080). The handbook covers the Four-Layer Software Design Principles, daily engineering workflows, the five specialized agent roles, examples, and host integration.
 
 ```sh
 npm run build
@@ -33,4 +33,4 @@ Definitions are portable repository instructions. Your host must provide discove
 
 ## Maintain the handbook
 
-The pages in `docs/` are hand-authored Markdown with `+++` TOML frontmatter. Update the matching reference page when a skill changes, then run `npm run check`. Existing skill definitions keep their original YAML or TOML format.
+The pages in `docs/` are hand-authored Markdown with `+++` TOML frontmatter. Update the matching reference page when a skill changes, then run `npm run check`. Existing skill definitions keep their original YAML format.

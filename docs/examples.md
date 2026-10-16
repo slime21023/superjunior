@@ -15,44 +15,46 @@ These prompts ask the agent to read repository instructions. Replace the illustr
 Read skills/potato-mode/SKILL.md.
 Fix the shared parser: an empty input must return an empty collection.
 Preserve valid nonempty-input behavior and inspect all affected callers.
-Use proportionate review and verification, then deliver local files.
+Align scope, follow context-first TDD, perform four-layer self-review, and deliver via atomic commit.
 ```
 
-Expected route: develop → review → verify → deliver. A narrow regression may support development evidence. Review assesses the actual diff, verification establishes required behavior, and local handoff completes the requested delivery.
+Expected route: align scope → context TDD (scientific debug on failure) → self-review → atomic commit.
 
-## Review without applying fixes
+## Align scope before touching code
 
 ```text
-Read skills/workflow-review/SKILL.md.
-Review the supplied candidate against the original acceptance conditions.
-Inspect affected callers and the attached check results.
+Read skills/workflow-align-scope/SKILL.md.
+Analyze the requested payment retry timeout feature.
+State the problem, define 2-3 Done Criteria, map the blast radius (direct, ripple, untouched), and sequence steps.
+```
+
+## Review without modifying code
+
+```text
+Read skills/workflow-self-review/SKILL.md.
+Audit the candidate pull request against the Four-Layer Software Design Principles.
+Inspect naming, SLAP, CQS, deep module boundaries, and DIP/ADP compliance.
 Preserve product contents. Return actionable findings and review status.
 ```
 
-A confirmed bug returns `needs-change`, even when the findings report completes the review request. Missing required independent assessment returns `unverified`.
+A confirmed smell returns `needs-change`, even when the findings report completes the review request.
 
-## Verify an existing candidate
-
-```text
-Read skills/workflow-verify/SKILL.md.
-Verify the supplied build against these acceptance cases:
-empty input, valid input, and invalid input.
-Use the agreed local test environment and preserve product contents.
-Return actual procedures, observations, artifact identity, and gaps.
-```
-
-The verifier distinguishes product defects from a broken harness or unavailable environment. It states review status separately and does not silently correct the product.
-
-## Deliver an already checked result
+## Execute TDD with strict boundaries
 
 ```text
-Read skills/workflow-deliver/SKILL.md.
-Hand over the supplied artifact as a local package.
-Reconcile the attached review and verification evidence with its contents.
-Confirm that the package opens and that usage instructions are included.
+Read skills/workflow-context-tdd/SKILL.md.
+Implement the new batch token validator using Context-First TDD.
+Author test specs for Happy Path, Boundary Conditions (empty collections), and Error Scenarios.
+Run Red-Green-Refactor with zero assertion weakening.
 ```
 
-Valid evidence can be reused. Missing required checks are obtained within scope before delivery. If an operation may have partly succeeded, the executor inspects its destination before retrying.
+## Deliver via atomic commit
+
+```text
+Read skills/workflow-atomic-commit/SKILL.md.
+Inspect staged changes and verify that all automated tests pass.
+Ensure single responsibility and format a Conventional Commit message explaining the "Why".
+```
 
 ## Resume after a handoff
 
@@ -74,7 +76,3 @@ Agree on boundaries and technology tradeoffs, then return a design brief.
 ```
 
 Follow with arch-componentize to persist confirmed boundaries and arch-detail to specify a declared component. Keep the discussion and design scopes intact.
-
-## Request a status update or pause
-
-A status question continues the current task. An explicit pause suspends work and preserves the current phase, artifact, evidence, unresolved conditions, and next action. Opting out of potato-mode changes retained mode activation; a completed task does not invent another task.

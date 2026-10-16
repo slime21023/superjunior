@@ -29,4 +29,4 @@ Apply while writing, reviewing, or refactoring code. The goal is the smallest co
 
 A clear goal guides implementation decisions; it does not justify silently changing scope or assumptions. Avoid adding process for a trivial edit.
 
-Use [keep solutions simple](/skills/principle-keep-solutions-simple/) for reuse and native capabilities, [define done](/skills/principle-define-done/) for acceptance conditions, and [TDD](/skills/tdd/) when a cheap regression path exists.
+Use [four-layer design](/skills/principles-four-layer-design/) for clean abstraction and encapsulation, [align scope](/skills/workflow-align-scope/) for acceptance conditions, and [context TDD](/skills/workflow-context-tdd/) for regression verification.

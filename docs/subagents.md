@@ -1,66 +1,71 @@
 +++
-title = "Workflow subagents"
-navTitle = "The four roles"
-description = "Bounded workers return evidence to one owner. Their names have no workflow prefix."
+title = "Specialized Agent Roles"
+navTitle = "The five agent roles"
+description = "Bounded worker roles for scope alignment, TDD implementation, debugging, review, and commits."
 section = "roles"
 order = 0
 permalink = "/subagents/index.html"
 +++
 
-The four workflow roles are portable TOML definitions stored under workflow references. The host supplies execution and permission enforcement. Direct work remains the default; use a worker when a separable assignment materially helps and delegation is authorized.
+The five specialized agent roles are portable definitions stored under their respective skill directories. The host supplies execution and permission enforcement. Direct execution by the primary agent remains the default; delegate to a worker when an isolated, bounded assignment improves focus and separation of concerns.
 
 ## Role map
 
-| Role | Assignment | Write boundary |
-| --- | --- | --- |
-| explorer | Investigate a bounded code path, contract, or history | Read-only |
-| implementer | Complete an independently checkable development slice | Assigned product paths and test resources |
-| reviewer | Judge requirements, actual contents, contracts, and evidence | Read-only |
-| verifier | Observe required behavior or a delivered result | Agreed build outputs, temporary files, isolated test state, and test processes |
+```xml
+<agent-roles>
+  <agent name="agent-scope-aligner" readonly="true">Explore context, define Done criteria, map blast radius</agent>
+  <agent name="agent-tdd-implementer" readonly="false">Author red tests, minimal green code, safe refactorings</agent>
+  <agent name="agent-scientific-debugger" readonly="false">Formulate hypotheses, build minimal repro tests, fix root causes</agent>
+  <agent name="agent-code-reviewer" readonly="true">Audit code against the Four-Layer Software Design Principles</agent>
+  <agent name="agent-git-committer" readonly="false">Organize atomic staging and author intention-focused commit messages</agent>
+</agent-roles>
+```
+
+- [agent-scope-aligner](/skills/agent-scope-aligner/): Read-only investigator for exploring context, defining Done criteria, and mapping the 3-tier blast radius.
+- [agent-tdd-implementer](/skills/agent-tdd-implementer/): Bounded implementation worker executing the Red-Green-Refactor TDD cycle on assigned targets.
+- [agent-scientific-debugger](/skills/agent-scientific-debugger/): Diagnostic worker for parsing stack traces, building minimal repro tests, and resolving root causes at caller convergence.
+- [agent-code-reviewer](/skills/agent-code-reviewer/): Read-only independent auditor assessing diffs against the Four-Layer Software Design Principles.
+- [agent-git-committer](/skills/agent-git-committer/): Version control specialist for selective atomic staging and authoring intention-focused commit messages.
 
 `readonly = false` permits only the assignment's declared writes. It does not provide an unrestricted workspace.
 
-## Explorer
+## Scope Aligner (`agent-scope-aligner`)
 
-Supply the question, inspected version, investigation angle, readable scope, constraints, and return conditions. The explorer traces entrypoints, callers, state changes, and boundaries. It distinguishes observations, inferences, and unknowns.
+Supply the user request, ticket description, and codebase entrypoint. The scope aligner explores the code, traces callers, and formulates the plain-language problem, observable Done criteria, and the 3-tier Blast Radius matrix (Direct, Ripple, Untouched).
 
-It returns relevant files and symbols, flow or historical evidence, inspected scope and version, unresolved questions, and the next useful investigation. It preserves repository contents and shared resources.
+Definition: [agent.toml](/source/skills/agent-scope-aligner/agent.toml). Used by [workflow-align-scope](/skills/workflow-align-scope/).
 
-Definition: [explorer.toml](/source/skills/workflow-develop/references/explorer.toml). Used by [develop](/skills/workflow-develop/) and [how-works](/skills/how-works/).
+## TDD Implementer (`agent-tdd-implementer`)
 
-## Implementer
+Supply the aligned scope, contracts, and test targets. The implementer authors regression tests covering Happy Path, Boundary Conditions (empty collections `[]`), and Error Scenarios. It verifies the failure mode (Red), implements minimal code (Green), and refactors under green protection.
 
-Supply the outcome, acceptance conditions, starting artifact, stable contracts, writable paths, context, test resources, and return conditions. Without a write boundary, the worker investigates and returns the missing boundary before editing.
+Definition: [agent.toml](/source/skills/agent-tdd-implementer/agent.toml). Used by [workflow-context-tdd](/skills/workflow-context-tdd/).
 
-It traces the affected flow, preserves unrelated work, and changes only its assigned slice. It returns candidate identity, changed paths, rationale, exact self-checks and observed results, remaining issues, and next action.
+## Scientific Debugger (`agent-scientific-debugger`)
 
-Definition: [implementer.toml](/source/skills/workflow-develop/references/implementer.toml). Used by [develop](/skills/workflow-develop/).
+Supply the failing test or exception logs. The debugger parses stack traces, formulates 1~2 falsifiable hypotheses, builds an isolated minimal reproduction test, and resolves the defect at the shared caller convergence point.
 
-## Reviewer
+Definition: [agent.toml](/source/skills/agent-scientific-debugger/agent.toml). Used by [workflow-scientific-debug](/skills/workflow-scientific-debug/).
 
-Supply the original requirements, acceptance conditions, baseline and candidate, risks, evidence, readable scope, and return conditions. The reviewer assesses actual contents and affected callers, then reports concrete findings with locations and consequences.
+## Code Reviewer (`agent-code-reviewer`)
 
-It states whether the assessment is self-review or independent. A reviewer who implemented the candidate cannot satisfy a required independent review. Missing required evidence returns `unverified`.
+Supply the candidate diff, requirements, and test results. The reviewer performs an objective audit across all four design layers (Lexical, Function, Module Boundaries, and Architecture). It returns structured findings detailing location, consequence, and remediation.
 
-Definition: [reviewer.toml](/source/skills/workflow-review/references/reviewer.toml). Used by [review](/skills/workflow-review/).
+Definition: [agent.toml](/source/skills/agent-code-reviewer/agent.toml). Used by [workflow-self-review](/skills/workflow-self-review/).
 
-## Verifier
+## Git Committer (`agent-git-committer`)
 
-Supply the artifact, destination when relevant, acceptance conditions, assigned observations, existing evidence, test resources, and return conditions. The verifier preserves product source, acceptance conditions, and real user data.
+Supply the verified working tree and task rationale. The committer inspects `git status` and `diff`, stages targeted files with single responsibility, and authors a Conventional Commit message explaining the "Why" behind the change.
 
-It returns actual procedures, expected and observed results, environment, limitations, artifact identity, outcome, and next action. Missing write scope limits it to read-only observations. Product corrections go back to the owner.
-
-Definition: [verifier.toml](/source/skills/workflow-verify/references/verifier.toml). Used by [verify](/skills/workflow-verify/) and permitted delivered-result checks in [deliver](/skills/workflow-deliver/).
+Definition: [agent.toml](/source/skills/agent-git-committer/agent.toml). Used by [workflow-atomic-commit](/skills/workflow-atomic-commit/).
 
 ## Write a useful assignment
 
 ```text
-Role: explorer
-Question: Which callers depend on the shared parser's empty-input behavior?
-Candidate: current working-tree snapshot supplied with this assignment.
-Readable scope: parser module, its callers, and their tests.
-Preserve all files and shared resources. Do not delegate further.
-Return sourced caller contracts, unknowns, and the inspected candidate.
+Role: agent-scope-aligner
+Task: Investigate the token refresh flow and map the blast radius for adding a timeoutMs parameter.
+Candidate: current working tree snapshot.
+Readable scope: auth module, HTTP client, and associated tests.
+Preserve all files. Do not delegate further.
+Return problem statement, 2-3 Done Criteria, and Blast Radius matrix.
 ```
-
-The owner inspects every return, reconciles contradictions, integrates changes, and reruns affected checks. Keep one owner for shared contracts; isolate mutable resources or serialize work. Workers do not broaden the task, advance the pipeline, publish, or start further delegates without an explicit grant.

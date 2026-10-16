@@ -30,7 +30,7 @@ test("every checked-in skill has a hand-authored reference page", () => {
 test("all internal page, fragment, and asset links resolve", () => {
   for (const [path, page] of html) {
     const pathname = "/" + relative(output, path).split(sep).join("/");
-    const base = new URL(pathname, "https://janstack.invalid");
+    const base = new URL(pathname, "https://superjunior.invalid");
     for (const match of page.matchAll(/\b(?:href|src)=(["'])(.*?)\1/g)) {
       const value = match[2].replaceAll("&amp;", "&");
       const url = new URL(value, base);

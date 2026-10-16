@@ -9,15 +9,25 @@ permalink = "/other-skills/index.html"
 
 Choose the skill that matches the requested result. Discussion and investigation stay within their scope; implementation requires an implementation task.
 
-| Skill | Use it for | Result |
-| --- | --- | --- |
-| [How works](/skills/how-works/) | Runtime mechanics, code ownership, subsystem onboarding | A sourced mental model |
-| [Why](/skills/why/) | Historical motivation and engineering rationale | Facts, inferences, gaps, and change guidance |
-| [Karpathy guidelines](/skills/karpathy-guidelines/) | Clear assumptions, simple changes, and observable goals | Better implementation judgment |
-| [TDD](/skills/tdd/) | An explicit regression request or a cheap local bug reproduction | Validated red-to-green evidence or a reliable fallback |
-| [Craft discussing](/skills/craft-discussing/) | Architectural discovery, feasibility, and technology choices | An agreed architectural brief |
-| [Architecture componentization](/skills/arch-componentize/) | Persisting confirmed component boundaries and dependencies | `_adr/base.xml` |
-| [Architecture detail](/skills/arch-detail/) | Specifying one component's contracts and behavior | `_adr/components/{component-id}.md` |
+```xml
+<specialist-skills>
+  <skill name="How works">Runtime mechanics, code ownership, subsystem onboarding</skill>
+  <skill name="Why">Historical motivation and engineering rationale</skill>
+  <skill name="Karpathy guidelines">Clear assumptions, simple changes, observable goals</skill>
+  <skill name="TDD">Explicit regression request or cheap local bug reproduction</skill>
+  <skill name="Craft discussing">Architectural discovery, feasibility, technology choices</skill>
+  <skill name="Architecture componentization">Persisting confirmed boundaries and dependencies</skill>
+  <skill name="Architecture detail">Specifying one component contracts and behavior</skill>
+</specialist-skills>
+```
+
+- [How works](/skills/how-works/): Explains runtime mechanics, ownership, and subsystem structure.
+- [Why](/skills/why/): Explores historical motivation and engineering rationale.
+- [Karpathy guidelines](/skills/karpathy-guidelines/): Guidelines to keep changes simple, surface assumptions, and verify goals.
+- [TDD](/skills/tdd/): Regression fix with red-to-green evidence or reliable fallback.
+- [Craft discussing](/skills/craft-discussing/): Architectural discovery and technology choice comparison.
+- [Architecture componentization](/skills/arch-componentize/): Synthesizes architectural decisions into `_adr/base.xml`.
+- [Architecture detail](/skills/arch-detail/): Formulates detailed component contracts in `_adr/components/{id}.md`.
 
 ## Explanation and rationale
 
@@ -33,4 +43,4 @@ These design skills produce discussion or specifications. They preserve their im
 
 Karpathy guidelines apply throughout development. TDD is useful when the defect has a cheap, reliable local path; its fallback avoids building an expensive harness merely for ceremony.
 
-The [develop workflow](/skills/workflow-develop/) coordinates a scoped implementation and may use these skills where appropriate.
+The [context TDD workflow](/skills/workflow-context-tdd/) coordinates a scoped implementation and may use these skills where appropriate.

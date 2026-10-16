@@ -67,15 +67,15 @@ Consolidate the consensus into a concise, structured briefing using `references/
 
 The final output must follow this format:
 
-### 1. Architectural Verdict (核心方向與結論)
+### 1. Architectural Verdict
 State the selected architectural topology, core philosophy, and primary stack choices in 2 to 3 direct sentences.
 
-### 2. Goals & Constraints (目標邊界與非目標)
+### 2. Goals & Constraints
 - **Primary Goals:** Core capabilities the architecture guarantees.
 - **Hard Constraints:** Concrete limits (scale, latency, budget, environment).
 - **Explicit Non-Goals:** What will deliberately NOT be supported or designed for now.
 
-### 3. Technology Stack & Tradeoffs (技術選型與權衡決策)
+### 3. Technology Stack & Tradeoffs
 Use a markdown table comparing components across their role, chosen technology, and accepted tradeoffs:
 
 | Layer / Component | Selected Tech | Alternatives Considered | Accepted Tradeoff (Why this wins) |
@@ -84,9 +84,9 @@ Use a markdown table comparing components across their role, chosen technology, 
 | Core Runtime / API | ... | ... | ... |
 | Communication / RPC| ... | ... | ... |
 
-### 4. Prerequisite Knowledge & Key Factors (關鍵考量與必備認知)
+### 4. Prerequisite Knowledge & Key Factors
 - **Domain & Tech Concepts:** The specific knowledge areas the development team must master before starting.
 - **Operational & Feasibility Risks:** Key failure points, integration traps, and mitigation strategies.
 
-### 5. Next Steps for Implementation (下一步建議)
+### 5. Next Steps for Implementation
 Bullet-point list of the first three structural steps to execute when moving to development (e.g., contract schema design, prototype spike for risk verification, data model definition)—without writing the code here.

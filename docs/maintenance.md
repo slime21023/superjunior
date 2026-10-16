@@ -31,12 +31,12 @@ Content pages are hand-authored Markdown. The shared layout supplies the page ti
 
 ```toml
 +++
-title = "Define done"
-description = "Express completion as observable behavior."
-permalink = "/skills/principle-define-done/index.html"
+title = "Lexical & expression"
+description = "Precise naming, code/comment division, and unified domain vocabulary."
+permalink = "/skills/principles-lexical-expression/index.html"
 section = "principles"
 order = 1
-source = "skills/principle-define-done/SKILL.md"
+source = "skills/principles-lexical-expression/SKILL.md"
 +++
 ```
 

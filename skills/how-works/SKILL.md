@@ -3,7 +3,7 @@ name = "how-works"
 description = "Use for \"how does X work\", architectural walkthroughs, and code placement / ownership / layering questions (\"where should this live\", \"which package owns this\", \"is this the right layer\"). Explains subsystem architecture, runtime flow, and developer mental models. (Use 'why' for business rationale/motivation)."
 
 [subagents.explorer]
-file = "../workflow-develop/references/explorer.toml"
+file = "../agent-scope-aligner/agent.toml"
 readonly = true
 +++
 

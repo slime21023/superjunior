@@ -24,7 +24,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <a class="brand" href="/" aria-label="JanStack handbook home"><span class="brand-mark" aria-hidden="true">J</span>JanStack</a>
+    <a class="brand" href="/" aria-label="{{ site.name }} handbook home"><span class="brand-mark" aria-hidden="true">SJ</span>{{ site.name }}</a>
     <span class="header-note">Engineering handbook</span>
   </header>
   <div class="shell">
@@ -35,7 +35,7 @@
     </details>
     <main id="main" tabindex="-1"{% if source %} data-source="{{ source | escape }}"{% endif %}>
       <div class="page-heading">
-        <p class="eyebrow">JanStack / {{ section }}</p>
+        <p class="eyebrow">{{ site.name }} / {{ section }}</p>
         <h1>{{ title }}</h1>
         <p class="page-description">{{ description }}</p>
       </div>
