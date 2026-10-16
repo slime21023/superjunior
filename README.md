@@ -53,3 +53,7 @@ npm run check
 This builds the site and checks the skill pages, internal links, copied sources, and skill definitions.
 
 Optional behavior evals run against the real CLIs with `npm run eval:discovery`, `npm run eval:routing`, and `npm run eval:behavior`. They need Claude Code, Codex, and agy installed and signed in, they use your quota, and they write results to `evals/results/`. See the handbook's maintenance page for details.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
