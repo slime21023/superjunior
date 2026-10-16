@@ -9,10 +9,11 @@
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy",
-    "check": "npm run build && node --test docs/_lib/site.test.mjs"
+    "check": "npm run build && node --test docs/_lib/site.test.mjs docs/_lib/skills.test.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.6",
-    "@iarna/toml": "3.0.0"
+    "@iarna/toml": "3.0.0",
+    "js-yaml": "4.3.2"
   }
 }

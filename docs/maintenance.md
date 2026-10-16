@@ -61,6 +61,7 @@ Inside tags, write prose by default; connected sentences keep the reasons, condi
 - Every checked-in skill has exactly one reference page.
 - Internal page, fragment, source, and asset links resolve.
 - Copied skill definitions preserve the original bytes.
+- Skill definitions use Agent Skills front matter whose name matches the directory, agent role files parse, references inside skills resolve, and XML block tags stay bare and at most two levels deep.
 
 These checks do not judge prose accuracy or visual quality. Inspect changed guidance against its source and review desktop and mobile pages when layout or navigation changes. Check keyboard navigation, visible focus, and horizontal overflow.
 
