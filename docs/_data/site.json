@@ -19,10 +19,6 @@
       "label": "Principles"
     },
     {
-      "key": "workflows",
-      "label": "Workflows"
-    },
-    {
       "key": "roles",
       "label": "Subagents"
     },

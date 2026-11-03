@@ -3,7 +3,6 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
-import toml from "@iarna/toml";
 import yaml from "js-yaml";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
@@ -36,18 +35,6 @@ test("skill definitions use Agent Skills front matter", () => {
     for (const [key, value] of Object.entries(data.metadata ?? {})) {
       assert.equal(typeof value, "string", `${label(path)}: metadata.${key} must be a string`);
     }
-  }
-});
-
-test("agent role definitions parse with their required fields", () => {
-  for (const directory of skillDirs) {
-    const path = join(directory, "agent.toml");
-    if (!existsSync(path)) continue;
-    const data = toml.parse(read(path));
-    assert.equal(data.name, basename(directory), label(path));
-    assert.equal(typeof data.description, "string", label(path));
-    assert.equal(typeof data.readonly, "boolean", label(path));
-    assert.equal(typeof data.instructions, "string", label(path));
   }
 });
 
@@ -97,4 +84,21 @@ test("XML block tags stay bare and at most two levels deep", () => {
     if (stack.length) problems.push(`${label(path)} unclosed ${stack.join(" > ")}`);
   }
   assert.deepEqual(problems, []);
+});
+
+test("agent skills include their operating principles directly", () => {
+  for (const name of ["agent-scope-aligner", "agent-tdd-implementer", "agent-scientific-debugger", "agent-code-reviewer", "agent-git-committer"]) {
+    const text = read(join(skillsRoot, name, "SKILL.md"));
+    assert.match(text, /## Common operating principles/, name);
+    assert.doesNotMatch(text, /agent\.toml|agent-principles\/SKILL\.md/, name);
+  }
+});
+
+test("discussion skills require confirmed decisions and explicit documentation requests", () => {
+  for (const name of ["senior-mode", "architecture-discuss", "c4-context-container", "c4-component", "how-works", "why"]) {
+    const text = read(join(skillsRoot, name, "SKILL.md"));
+    assert.match(text, /confirms the relevant decisions and explicitly requests a record/, name);
+    assert.match(text, /preserve unrelated content/, name);
+  }
+  assert.match(read(join(skillsRoot, "c4-component", "SKILL.md")), /containing application or data store/);
 });

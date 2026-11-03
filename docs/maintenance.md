@@ -52,7 +52,7 @@ source = "skills/principles-lexical-expression/SKILL.md"
 
 `title`, `description`, and `permalink` describe the page. `section` and `order` place it in the navigation, and the optional `navTitle` gives a shorter label there. `source` appears only on a skill's reference page.
 
-Available sections are `start`, `mode`, `senior`, `principles`, `workflows`, `roles`, and `practice`.
+Available sections are `start`, `mode`, `senior`, `principles`, `roles`, and `practice`.
 
 ## Keep pages and skills aligned
 
@@ -79,7 +79,7 @@ The command builds the site and runs Node's test runner to confirm that:
 - every checked-in skill has exactly one reference page;
 - internal page, fragment, source, and asset links resolve;
 - copied skill definitions keep their original bytes;
-- skill definitions use Agent Skills front matter whose name matches the directory, agent role files parse, references inside skills resolve, and XML block tags stay bare and at most two levels deep.
+- skill definitions use Agent Skills front matter whose name matches the directory, references inside skills resolve, and XML block tags stay bare and at most two levels deep.
 
 The checks do not judge whether the prose is accurate or the pages look right. Compare changed guidance with its source, and when layout or navigation changes, review desktop and mobile pages, keyboard navigation, visible focus, and horizontal overflow.
 

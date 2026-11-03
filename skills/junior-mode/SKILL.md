@@ -39,29 +39,29 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 
 <lifecycle-route>
   <phase>
-    **Phase 1: Scope Alignment** — [workflow-align-scope](../workflow-align-scope/SKILL.md)
+    **Phase 1: Scope Alignment** — [agent-scope-aligner](../agent-scope-aligner/SKILL.md)
     - Establish the plain-language problem, 2~3 observable Done Criteria, and the 3-tier Blast Radius matrix.
     - Sequence the steps (Types ➔ Core ➔ Verification).
     - If ambiguous, halt and ask the user targeted questions before touching code.
   </phase>
   <phase>
-    **Phase 2: Context-First TDD** — [workflow-context-tdd](../workflow-context-tdd/SKILL.md)
+    **Phase 2: Context-First TDD** — [agent-tdd-implementer](../agent-tdd-implementer/SKILL.md)
     - Explore codebase context and conventions.
     - Inventory test specs (Happy Path, Boundary Conditions with empty collections `[]`, Error Scenarios).
-    - Execute the Red ➔ Green ➔ Refactor loop.
+    - Use the Red ➔ Green ➔ Refactor loop when practical; otherwise record a focused verification check and its limits.
     - **On failure**: If an unexpected exception, failing test, or regression occurs, route to Phase 3A.
   </phase>
   <phase>
-    **Phase 3A: Scientific Debug (On Defects)** — [workflow-scientific-debug](../workflow-scientific-debug/SKILL.md)
+    **Phase 3A: Scientific Debug (On Defects)** — [agent-scientific-debugger](../agent-scientific-debugger/SKILL.md)
     - Observe the stack trace, hypothesize, write a minimal reproduction test, and fix the root cause at the caller convergence point.
     - Entry phase for the defect route; an intermittent failure starts by isolating its nondeterministic input.
   </phase>
   <phase>
-    **Phase 3B: Four-Layer Self-Review** — [workflow-self-review](../workflow-self-review/SKILL.md)
-    - Audit against the Four-Layer Software Design Principles (Lexical, Function/SLAP/CQS, Deep Module/Information Hiding, Architecture/DIP/ADP).
+    **Phase 3B: Four-Layer Self-Review** — [agent-code-reviewer](../agent-code-reviewer/SKILL.md)
+    - Review the diff against the relevant Four-Layer Software Design Principles and report concrete risks or unmet requirements.
   </phase>
   <phase>
-    **Phase 3C: Atomic Commit** — [workflow-atomic-commit](../workflow-atomic-commit/SKILL.md)
+    **Phase 3C: Atomic Commit** — [agent-git-committer](../agent-git-committer/SKILL.md)
     - Prepare the final delivery so each commit has a single responsibility and a commit message that explains the "Why".
   </phase>
 </lifecycle-route>
@@ -72,7 +72,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 
 <workflow-transitions>
   - **pass**: Advance to the subsequent phase on the agreed lifecycle route.
-  - **needs-change**: Return candidate to workflow-context-tdd or workflow-scientific-debug for correction.
+  - **needs-change**: Return candidate to agent-tdd-implementer or agent-scientific-debugger for correction.
   - **unverified**: Halt and obtain missing test runner, environment configuration, or diagnostic evidence.
   - **needs-decision**: Halt execution; present structured inquiry with evaluated options to the user.
 </workflow-transitions>
@@ -82,15 +82,15 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 ## 5. Delegation
 
 <delegation>
-  Work directly by default. Delegate a phase only when the host authorizes delegation and an isolated assignment improves focus, and give the worker an explicit read or write boundary. The owning agent integrates every returned result and re-checks its evidence.
+  Apply the matching agent skill's operating principles directly by default. Delegate only when authorized and useful, with explicit boundaries. The owner integrates and checks results; delegated reviewers handle assigned aspects and the owner determines the overall review outcome.
 
   | Phase | Role |
   | :--- | :--- |
-  | 1 Scope Alignment | [agent-scope-aligner](../agent-scope-aligner/agent.toml) |
-  | 2 Context-First TDD | [agent-tdd-implementer](../agent-tdd-implementer/agent.toml) |
-  | 3A Scientific Debug | [agent-scientific-debugger](../agent-scientific-debugger/agent.toml) |
-  | 3B Four-Layer Self-Review | [agent-code-reviewer](../agent-code-reviewer/agent.toml) |
-  | 3C Atomic Commit | [agent-git-committer](../agent-git-committer/agent.toml) |
+  | 1 Scope Alignment | [agent-scope-aligner](../agent-scope-aligner/SKILL.md) |
+  | 2 Context-First TDD | [agent-tdd-implementer](../agent-tdd-implementer/SKILL.md) |
+  | 3A Scientific Debug | [agent-scientific-debugger](../agent-scientific-debugger/SKILL.md) |
+  | 3B Four-Layer Self-Review | [agent-code-reviewer](../agent-code-reviewer/SKILL.md) |
+  | 3C Atomic Commit | [agent-git-committer](../agent-git-committer/SKILL.md) |
 </delegation>
 
 ---
@@ -127,7 +127,7 @@ Junior mode orchestrates a disciplined, verifiable engineering lifecycle. It ens
 
 The coordinator actively enforces the [Four-Layer Software Design Principles](../principles-four-layer-design/SKILL.md) across all phases:
 - [Lexical & Expression](../principles-lexical-expression/SKILL.md): Self-explanatory names, Why-comments, unified vocabulary.
-- [Function & Control Flow](../principles-function-control-flow/SKILL.md): SLAP, CQS, error elimination by design.
-- [Module Boundaries](../principles-module-boundaries/SKILL.md): Deep modules, complexity pushed down, encapsulation.
-- [Architecture & Evolution](../principles-architecture-evolution/SKILL.md): DIP, ADP (DAG), domain-driven folders, Boy Scout rule.
+- [Function & Control Flow](../principles-function-control-flow/SKILL.md): Understandable flow, clear outcomes and side effects.
+- [Module Boundaries](../principles-module-boundaries/SKILL.md): Cohesive responsibilities, appropriate boundaries and encapsulation.
+- [Architecture & Evolution](../principles-architecture-evolution/SKILL.md): Dependencies and organization suited to the system and change.
 - [Karpathy guidelines](../karpathy-guidelines/SKILL.md): Visible assumptions, minimal code, surgical changes, verified goals.

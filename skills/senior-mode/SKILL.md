@@ -1,75 +1,44 @@
 ---
 name: senior-mode
-description: "Use when the request ends in understanding or design rather than product code: explaining how existing code works, uncovering why it was built that way, discussing architecture or technology choices, or recording architecture and component specifications. Coordinates how-works, why, craft-discussing, arch-componentize, and arch-detail, and hands implementation to junior-mode."
+description: "Coordinate understanding, architecture discussion, and confirmed documentation without editing product code."
 license: MIT
 metadata:
   mode: "true"
 ---
 
-# Senior Mode: Understanding & Architecture Coordinator
+# senior-mode
 
-Senior mode handles work whose deliverable is an explanation, a design decision, or a specification. It keeps that work apart from daily implementation: senior mode never edits product code, and its design results become the input that junior mode implements.
+## Operating principles
 
----
+- Use C4 terms at the level the question needs: system and external actors, containers (applications or data stores, not necessarily Docker), components within a named container, or code. Describe meaningful relationships.
+- Separate observed facts and evidence from inference, proposals, and decisions confirmed by the user. Surface material uncertainty and tradeoffs.
+- Describe actual operations first; claims about blocking, concurrency, or performance need evidence. Mark unsupported claims as uncertain.
+- Do not strengthen confirmed decisions with unconfirmed guarantees or technology. Put derived requirements under proposals or open questions.
+- Default to concise text; use simple balanced XML tags to mark scope when helpful. Consider visualizations, including Mermaid, only when the user explicitly requests visualization. In any visualization, label proposed or unverified elements and relationships directly.
+- Answer the immediate question first. Usually compare two relevant options and ask one to three decision-changing questions; expand when needed.
+- Work directly by default; delegate only when authorized and useful, with explicit boundaries. The owner checks and integrates evidence.
+- Discuss concisely and do not modify product code, tests, or build configuration. Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
+- When recording, follow the user's specified path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`. Read existing documents first, preserve unrelated content, and use existing `_adr/` material as evidence without automatically migrating or deleting it.
 
-## 1. Route by Intent
+Route explanations to how-works, historical rationale to why, option comparison to architecture-discuss, system context or containers to c4-context-container, and container internals to c4-component. Skip unnecessary steps. Return a concise handoff of confirmed decisions, open questions, and verification needs when implementation is requested.
 
-<routing>
-  Classify the request by the result the user needs, then run the matching skill. When a request mixes intents, answer the understanding questions first, because design decisions depend on how the current system actually behaves.
+## Before presenting
 
-  | The user needs | Skill |
-  | :--- | :--- |
-  | How existing code works, where a responsibility lives, or which layer owns it | [how-works](../how-works/SKILL.md) |
-  | Why existing code was written this way | [why](../why/SKILL.md) |
-  | Agreement on goals, feasibility, and technology tradeoffs | [craft-discussing](../craft-discussing/SKILL.md) |
-  | Confirmed layers and component boundaries recorded in `_adr/base.xml` | [arch-componentize](../arch-componentize/SKILL.md) |
-  | One declared component specified in `_adr/components/{component-id}.md` | [arch-detail](../arch-detail/SKILL.md) |
+1. Classify relevant elements, relationships, and protocols as observed, confirmed, or proposed. In text or XML, label unverified relationships and unknown protocols; when visualization is explicitly requested, label each proposed element and relationship directly in it.
+2. Compare every statement in the whole answer with the user's confirmed decisions. Put any stronger guarantee, technology, or inferred requirement under assumptions, proposals, or open questions, including in the goal, scope, evidence, and next steps.
+3. Answer the immediate question first. Use concise text or simple XML scope tags by default; avoid repeating the same content in the template.
 
-  Requests to implement, fix, refactor, or commit belong to [junior-mode](../junior-mode/SKILL.md). Hand them over with the brief in section 5 instead of starting implementation here.
-</routing>
+Example: If the user confirmed only "record the request before responding", report exactly that as confirmed. Whether the record must persist across restarts is an open question, not a confirmed decision.
+## Discussion and handoff format
 
----
+Use relevant fields; fill placeholders yourself and distinguish unconfirmed proposals from agreement.
 
-## 2. Design Loop
-
-<design-loop>
-  1. **Understand**: When the design touches existing code, run how-works or why first so decisions rest on observed behavior and recorded history.
-  2. **Discuss**: Run craft-discussing until goals, constraints, and technology choices are agreed.
-  3. **Record**: Run arch-componentize once layers, ownership, and dependency direction are confirmed.
-  4. **Specify**: Run arch-detail for each component that will be implemented next.
-  5. **Hand off**: Return the implementation handoff brief.
-
-  Return to an earlier step whenever a later one exposes a gap: an undecided boundary during Record goes back to Discuss, and a question about current behavior during Discuss goes back to Understand. Skip steps the user has already settled; a request for one explanation runs only Understand.
-</design-loop>
-
----
-
-## 3. Boundaries
-
-<boundaries>
-  Senior mode does not write or modify product code, tests, or build configuration. The only files it writes are the specifications that arch-componentize and arch-detail persist under `_adr/`, and only after the user confirms the decisions they record. Each skill keeps its own decision gate: when a boundary, ownership, or interaction policy is undecided, ask the user instead of assuming.
-</boundaries>
-
----
-
-## 4. Return Outcomes
-
-<workflow-outcomes>
-  - **pass**: The explanation, decision brief, or specification is delivered and grounded in inspected code, records, or confirmed decisions.
-  - **needs-decision**: A design fork or ownership question needs the user's choice before the loop can continue.
-  - **unverified**: Evidence needed for an explanation or rationale is missing; the answer separates verified facts from inferences and lists the gaps.
-</workflow-outcomes>
-
----
-
-## 5. Handoff to Junior Mode
-
-<handoff>
-  When the user wants the design implemented, end with this brief and let the user start junior-mode with it:
-
-  ### Implementation Handoff
-  - **Goal**: [The behavior to deliver, in 1-2 sentences]
-  - **Specifications**: [`_adr/base.xml` and the `_adr/components/{component-id}.md` files to follow]
-  - **Confirmed decisions**: [Choices junior-mode must not reopen]
-  - **Open questions**: [Anything still undecided, or None]
-</handoff>
+```text
+Goal: {{goal}}
+Scope and C4 view: {{boundary_and_level}}
+Evidence and assumptions: {{facts_and_uncertainties}}
+Options and tradeoffs: {{options}}
+Confirmed decisions: {{confirmed_or_none}}
+Open questions: {{questions_or_none}}
+Next step: {{next_step}}
+```

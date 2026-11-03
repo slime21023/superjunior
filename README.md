@@ -7,9 +7,9 @@ SuperJunior is a set of skills for code agents such as Claude Code, Codex, and A
 | Use | When you want | You get back |
 | :--- | :--- | :--- |
 | `junior-mode` | Code changed: a feature, a bug fix, or a refactor | Tested changes, a self-review, and atomic commits |
-| `senior-mode` | Understanding or design: how code works, why it was built that way, which architecture to choose | An explanation, a decision brief, or specifications under `_adr/`, plus a handoff brief for junior-mode |
+| `senior-mode` | Understanding or design: how code works, why it was built that way, which architecture to choose | An explanation, a decision brief, or confirmed architecture documentation when requested, plus an implementation handoff |
 
-Senior-mode never edits product code. When a design is ready to build, it hands a brief to junior-mode. You can also call a single workflow, design principle, or specialist skill directly when you need only one step.
+Senior-mode never edits product code. When a design is ready to build, it hands a brief to junior-mode. You can also call a single agent role, design principle, or specialist skill directly when you need only one step.
 
 ## Install the skills
 
@@ -44,7 +44,7 @@ Open the address Eleventy prints, normally http://localhost:8080/superjunior/.
 
 ## Contributing
 
-Skills live in `skills/<name>/SKILL.md`; agent roles also have an `agent.toml`. When you change a skill, update its page in `docs/skills/` too. Then run:
+Skills and their operating principles live in `skills/<name>/SKILL.md`. When you change a skill, update its page in `docs/skills/` too. Then run:
 
 ```sh
 npm run check

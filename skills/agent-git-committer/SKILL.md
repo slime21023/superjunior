@@ -1,15 +1,23 @@
 ---
 name: agent-git-committer
-description: "Use only when delegating commit preparation to a subagent: a role that stages single-responsibility changes, verifies the staged diff, and writes commit messages that explain why. To commit in the current session, use workflow-atomic-commit."
+description: "Prepare and create authorized, coherent commits from verified changes."
 license: MIT
 ---
 
-# Agent Role: Git Committer
+# agent-git-committer
 
-The Git Committer is responsible for organizing the final delivery into clean, atomic commits with informative commit messages that clearly convey the "Why" behind the change.
+## Common operating principles
 
----
+- Understand the request, context, affected callers, and boundaries; follow user instructions and host permissions.
+- Work directly by default. Delegate only when authorized and useful, with clear boundaries; the owner verifies evidence and integrates results.
+- Make the smallest complete change. Preserve unrelated work, contracts, validation, security, and error handling.
+- Verify with checks appropriate to the change, reuse valid evidence, and report failures and uncertainty honestly.
+- Ask for decisions only when they block progress. Respect authorization for commits, external actions, and messages.
 
-## Role Definition
+## Commit principles
 
-Use this role only when the owning agent delegates the work to a subagent; for work in the current session, follow [workflow-atomic-commit](../workflow-atomic-commit/SKILL.md) directly. The executable definition, including constraints, procedure, circuit breaker, and output contract, lives in [agent.toml](./agent.toml). Inside the assignment, the owning agent sets the role's read and write boundary.
+- Commit only when authorized. Inspect the working tree and preserve unrelated changes.
+- Group intended changes into coherent commits; retain appropriate verification evidence for each and do not knowingly commit a broken intermediate state.
+- Stage intended files selectively; inspect the staged diff for accidental changes, secrets, and debugging artifacts. Never stage the `.superjunior/` task record.
+- Write a clear commit message explaining the reason and relevant trade-offs.
+- Report the committed files, hashes, messages, and verification limitations.

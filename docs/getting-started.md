@@ -21,7 +21,7 @@ A request works best when it names four things:
 3. **Success check**: how you will know it works, such as a test, a command, or an observable result.
 4. **Delivery form**: local changes, local commits, or a pull request if you allow one.
 
-Then say which mode to use. Choose [junior mode](/skills/junior-mode/) for a code change, [senior mode](/skills/senior-mode/) for explanation and architecture work, or a single [workflow](/workflows/) for one step.
+Then say which mode to use. Choose [junior mode](/skills/junior-mode/) for a code change, [senior mode](/skills/senior-mode/) for explanation and architecture work, or a single [agent role](/subagents/) for one step.
 
 ```text
 Use junior-mode for this bug fix.

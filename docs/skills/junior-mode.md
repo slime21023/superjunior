@@ -9,7 +9,7 @@ source = "skills/junior-mode/SKILL.md"
 
 ## When to use it
 
-Use junior mode when you want code changed: a new feature, a bug fix, or a refactor. It picks a route for the request, runs the matching [workflows](/workflows/) in order, and reports what was done and how it was verified.
+Use junior mode when you want code changed: a new feature, a bug fix, or a refactor. It picks a route for the request, applies the matching [agent roles](/subagents/) in order, and reports what was done and how it was verified.
 
 Once started, junior mode stays active for follow-up engineering requests until you turn it off. A status question or a correction updates the current task, and a clearly new task starts a new route. Finishing a task leaves the mode on without starting anything new. Whether the mode stays active between messages depends on your tool; see [Host integration](/host-integration/).
 
@@ -24,11 +24,11 @@ Junior mode checks four routes in this order and takes the first one that fits:
 
 ## The phases of the full route
 
-1. [Align scope](/skills/workflow-align-scope/): agree on the problem, the Done Criteria, and which files are affected.
-2. [Context TDD](/skills/workflow-context-tdd/): learn the surrounding code, then build the change test-first.
-3. [Scientific debug](/skills/workflow-scientific-debug/), only when a defect appears: reproduce it, find the root cause, and fix it there.
-4. [Self review](/skills/workflow-self-review/): check the diff against the [four-layer design principles](/skills/principles-four-layer-design/) and basic hygiene.
-5. [Atomic commit](/skills/workflow-atomic-commit/): stage and commit the work in single-purpose commits.
+1. [Align scope](/skills/agent-scope-aligner/): agree on the problem, the Done Criteria, and which files are affected.
+2. [Context TDD](/skills/agent-tdd-implementer/): learn the surrounding code, then build the change test-first.
+3. [Scientific debug](/skills/agent-scientific-debugger/), only when a defect appears: reproduce it, find the root cause, and fix it there.
+4. [Self review](/skills/agent-code-reviewer/): check the diff against the [four-layer design principles](/skills/principles-four-layer-design/) and basic hygiene.
+5. [Atomic commit](/skills/agent-git-committer/): stage and commit the work in single-purpose commits.
 
 Each phase returns an outcome that decides the next step:
 

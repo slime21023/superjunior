@@ -38,5 +38,5 @@ after:  write a failing test for empty input, then make it pass
 ## Related
 
 - [Four-layer design](/skills/principles-four-layer-design/) for what well-designed code looks like.
-- [Align scope](/skills/workflow-align-scope/) for turning a request into Done Criteria.
-- [Context-first TDD](/skills/workflow-context-tdd/) for verifying behavior with tests.
+- [Align scope](/skills/agent-scope-aligner/) for turning a request into Done Criteria.
+- [Context-first TDD](/skills/agent-tdd-implementer/) for verifying behavior with tests.

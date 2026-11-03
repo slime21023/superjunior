@@ -38,6 +38,6 @@ None of the tested tools starts these roles automatically. The agent passes the 
 
 ## Adopt gradually
 
-Start with one workflow, such as [self-review](/skills/workflow-self-review/) on an existing diff, and check that the agent finds the linked principles and returns findings about your actual code. Next, run a small change through [junior mode](/skills/junior-mode/). Turn on delegation to [agent roles](/subagents/) only after the single-session route works.
+Start with one role, such as [self-review](/skills/agent-code-reviewer/) on an existing diff, and check that the agent finds the linked principles and returns findings about your actual code. Next, run a small change through [junior mode](/skills/junior-mode/). Turn on delegation to [agent roles](/subagents/) only after the single-session route works.
 
 Activating a mode never grants permission to push or publish. Say how you want work delivered: local changes, local commits, or a pull request you authorize.

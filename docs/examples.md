@@ -22,7 +22,7 @@ Junior mode aligns scope, reproduces the defect with a failing test, fixes the r
 ## Build a feature test-first
 
 ```text
-Use workflow-context-tdd to add a batch token validator.
+Use agent-tdd-implementer to add a batch token validator.
 Cover the normal case, an empty batch, and malformed tokens.
 Test through the public interface and mock only external services.
 ```
@@ -32,7 +32,7 @@ The agent reads the surrounding code, lists test cases across normal, boundary, 
 ## Review without changing code
 
 ```text
-Use workflow-self-review on the current diff.
+Use agent-code-reviewer on the current diff.
 Check it against the four design layers and the original acceptance criteria.
 Do not modify any files; return findings only.
 ```
@@ -42,7 +42,7 @@ Expect findings grouped by design layer. A confirmed problem returns `needs-chan
 ## Prepare commits
 
 ```text
-Use workflow-atomic-commit for the staged and unstaged changes.
+Use agent-git-committer for the staged and unstaged changes.
 Split them into single-purpose commits that each pass the tests, and explain why in each message.
 ```
 
@@ -80,4 +80,4 @@ Use senior-mode to design the notification system for our expected load and cons
 Compare viable architectures, agree on boundaries, record them, and specify the first component.
 ```
 
-Senior mode discusses options and tradeoffs with you, records the confirmed boundaries in `_adr/base.xml`, specifies the first component under `_adr/components/`, and ends with an implementation handoff brief. Start [junior mode](/skills/junior-mode/) with that brief to build it.
+Senior mode discusses options and tradeoffs and provides a concise handoff. It records confirmed architecture only when you explicitly request documentation. Start [junior mode](/skills/junior-mode/) with the handoff to build it.
