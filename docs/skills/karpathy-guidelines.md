@@ -1,41 +1,33 @@
 +++
 title = "Karpathy guidelines"
-description = "Make assumptions visible, write the minimum code, change only what the task needs, and verify the result."
-permalink = "/skills/karpathy-guidelines/index.html"
+description = "Keep assumptions visible, changes focused, and success observable."
 section = "principles"
-order = 6
+order = 7
+permalink = "/skills/karpathy-guidelines/index.html"
 +++
 
-These guidelines target the mistakes coding agents actually make. Based on [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876), those are rarely syntax errors. They are the errors of a hasty junior developer: silent assumptions, bloated code, and edits to things nobody asked to change. Agents are good at looping toward a clear goal, so the guidelines give them one.
+This handbook guide complements [engineering-principles](/skills/engineering-principles/). It develops four working habits used throughout SuperJunior; it is not a separate installable skill.
 
-## When to apply it
+## Think before changing code
 
-This guide supports the [engineering-principles skill](/skills/engineering-principles/). Use it whenever an agent writes, reviews, or refactors code. The rules favor caution over speed; on a trivial edit, use judgment instead of adding process.
+Establish the requested behavior and inspect the context that could change the solution. State material assumptions. Ask about ambiguity when the answer would affect correctness or scope; use reasonable assumptions for routine details.
 
-## The rules
+A [scope brief](/skills/agent-scope-aligner/) helps when the affected code and success criteria are not yet clear.
 
-**Think before coding.** State assumptions and ask when unsure, because a wrong guess costs more than a question. When a request can be read several ways, list the readings instead of picking one silently. Suggest a simpler approach when one exists.
+## Choose the smallest complete solution
 
-**Keep it simple.** Write the minimum code that solves the problem: no unrequested features, abstractions, or configuration, and no handling for cases that cannot happen. If 200 lines could be 50, rewrite it. A useful test is whether a senior engineer would call the result overcomplicated.
+Use existing code and conventions where they fit. Add only the behavior, configuration, or abstraction needed to satisfy the task. Simplicity still includes necessary validation, error handling, and affected callers.
 
-**Make surgical changes.** Every changed line should trace back to the request. Leave neighboring code, comments, and formatting alone, and match the existing style. Remove what your change made unused; mention other dead code without deleting it.
+If the requirement is an empty-input fix, solve and verify that behavior before considering a general parser redesign.
 
-**Work toward checkable goals.** Turn the task into something you can verify, then loop until the checks pass. For multi-step work, pair each step with its check.
+## Keep the diff focused
 
-```text
-before: fix the bug
-after:  write a failing test for empty input, then make it pass
-```
+Each change should have a reason connected to the task. Preserve unrelated edits and avoid opportunistic formatting or refactoring. Remove code made unused by the change; report other cleanup separately.
 
-## Review checklist
+A small diff is useful when it includes the whole fix. Leaving a caller or test broken to reduce line count is incomplete work.
 
-- Assumptions and alternative readings were stated, not chosen silently.
-- No unrequested features, abstractions, or impossible-case handling were added.
-- Every changed line relates to the task, and only newly unused code was removed.
-- Each goal has a check, and the checks pass.
+## Work toward evidence
 
-## Related
+Turn the goal into a result that can be checked, then select evidence appropriate to it. A behavioral fix may need a failing reproduction followed by passing checks. A documentation edit may need a build, link check, and inspection of what readers see.
 
-- [Four-layer design](/skills/principles-four-layer-design/) for what well-designed code looks like.
-- [Align scope](/skills/agent-scope-aligner/) for turning a request into Done Criteria.
-- [Context-first TDD](/skills/agent-tdd-implementer/) for verifying behavior with tests.
+Describe unavailable checks and unresolved uncertainty. [Junior mode](/skills/junior-mode/#read-the-workflow-outcome) uses that evidence to distinguish delivery from work that still needs changes, verification, or a decision.

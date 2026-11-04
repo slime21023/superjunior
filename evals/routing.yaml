@@ -1,4 +1,4 @@
-# Checks which skill each code agent loads first for a request, using the agent's native skill discovery.
+# Checks which single skill each code agent selects first, using native skill discovery.
 description: SuperJunior skill routing
 
 prompts:
@@ -58,7 +58,7 @@ tests:
     vars: { request: "The retry test fails with 'TypeError: operation is not a function'. Find and fix the root cause." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-scientific-debugger, junior-mode] } }
-  - description: Pre-PR review in the current session goes to self-review
+  - description: Pre-PR review goes to the code reviewer role
     vars: { request: "Review my diff against our design principles before I open a pull request." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-code-reviewer] } }
@@ -66,15 +66,15 @@ tests:
     vars: { request: "Start a separate subagent to review my diff independently and report findings back to you." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-code-reviewer] } }
-  - description: Commit splitting goes to atomic-commit
+  - description: Commit splitting goes to the committer role
     vars: { request: "Split my staged changes into clean commits with good messages." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-git-committer] } }
-  - description: Blast radius mapping goes to align-scope
+  - description: Blast radius mapping goes to scope alignment
     vars: { request: "Before anyone edits code, list which files the CSV export change will touch and what stays untouched." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-scope-aligner, junior-mode] } }
-  - description: Test-first implementation goes to context TDD
+  - description: Test-first implementation goes to the TDD implementer
     vars: { request: "Implement a tag-length limit test-first, covering happy path, boundaries, and errors." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-tdd-implementer, junior-mode] } }

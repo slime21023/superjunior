@@ -1,80 +1,80 @@
 +++
 title = "Junior mode"
-description = "Deliver everyday code changes, such as features, bug fixes, and refactors, with an agreed scope, tests, a review, and clean commits."
-permalink = "/skills/junior-mode/index.html"
+description = "Coordinate a code change from scope through verification and the delivery you requested."
 section = "mode"
 order = 0
+permalink = "/skills/junior-mode/index.html"
 source = "skills/junior-mode/SKILL.md"
 +++
 
-## When to use it
+Use `junior-mode` for a feature, defect, or refactor that should end in changed code. Give it the required behavior, constraints, acceptance checks, and delivery. For installation, start with [Getting started](/getting-started/).
 
-Use junior mode when you want code changed: a new feature, a bug fix, or a refactor. It picks a route for the request, applies the matching [agent roles](/subagents/) in order, and reports what was done and how it was verified.
-
-Once started, junior mode stays active for follow-up engineering requests until you turn it off. A status question or a correction updates the current task, and a clearly new task starts a new route. Finishing a task leaves the mode on without starting anything new. Whether the mode stays active between messages depends on your tool; see [Host integration](/host-integration/).
-
-## Choose the route
-
-Junior mode checks four routes in this order and takes the first one that fits:
-
-1. **Design decision pending.** The work needs a choice nobody has made yet, such as a storage engine, framework, component boundary, or public API shape. Junior mode does not make that choice, even when one option looks obvious. It returns `needs-decision`, lays out the options and their tradeoffs, and points you to [senior mode](/skills/senior-mode/). It resumes once you confirm a decision or bring back a senior-mode handoff brief.
-2. **Defect.** You report an exception, a failing test, or a test that passes on some runs and fails on others. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to implementation or verification, self-review, and authorized delivery. For an intermittent failure, the agent first pins down the source of nondeterminism, such as time, randomness, ordering, concurrency, shared state, or network.
-3. **Light.** The change cannot affect runtime behavior: documentation, comments, formatting, or a configuration value that no code path depends on. The agent writes a short problem statement and Done Criteria, makes the change, runs the narrowest check that shows it works (a build, render, or lint), runs self-review's hygiene checks (the four-layer audit does not apply because no runtime code changed), and commits it. If the effect on behavior is uncertain, it takes the full route instead.
-4. **Full.** Every other change.
-
-## The phases of the full route
-
-1. [Align scope](/skills/agent-scope-aligner/): agree on the problem, the Done Criteria, and which files are affected.
-2. [Context TDD](/skills/agent-tdd-implementer/): learn the surrounding code, then build the change test-first.
-3. [Scientific debug](/skills/agent-scientific-debugger/), only when a defect appears: reproduce it, find the root cause, and fix it there.
-4. [Self review](/skills/agent-code-reviewer/): check the diff against relevant [engineering principles](/skills/engineering-principles/) and basic hygiene.
-5. [Atomic commit](/skills/agent-git-committer/): stage and commit the work in single-purpose commits.
-
-Each role keeps its own output fields. Junior mode interprets the evidence and determines the workflow outcome:
-
-| Outcome | Next step |
-| :--- | :--- |
-| `pass` | Continue to the next phase on the chosen route. |
-| `needs-change` | Return to the affected phase and repeat the necessary verification and review. |
-| `unverified` | Stop and get the missing evidence, such as a working test runner or environment. |
-| `needs-decision` | Stop and ask you a specific question with the options laid out. |
-
-An implementer's `COMPLETED` needs supporting acceptance checks. A debugger's `IDENTIFIED` can hand off to implementation or verification; the fix task still needs a verified fix. A reviewer's `APPROVE` does not replace test results. For commit delivery, the committer must report actual SHAs and evidence for all requested commits; `PREPARED` is sufficient only when the assignment asked for preparation.
-
-Known defects or unfinished required work mean `needs-change`; missing verification evidence means `unverified`; a blocking user choice means `needs-decision`. A completed phase allows the next phase to begin without implying the whole task is complete.
-
-## Keep the task record
-
-Junior mode tracks the current task in `.superjunior/task.md` at the repository root. The record is created as soon as the route is chosen, whichever phase that route starts in. It holds the route, the current phase, the Done Criteria, the changed files, the evidence from each phase, and any open decisions. It is updated at every phase change so the work can survive a pause or a new session.
-
-The record is never staged or committed; it describes the work, not the product. If you pause, it stays. If you cancel, the agent stops, leaves completed work in your working tree, and deletes the record. It is also deleted once the task is delivered.
-
-To resume, the agent reads the record, compares it with the working tree, and re-runs any check whose files, dependencies, inputs, or environment have changed. It then continues from the earliest phase whose evidence is missing or no longer valid. If the record is gone, it rebuilds one from the working tree and your description.
-
-## Delegation to roles
-
-The agent works directly by default. When your tool allows subagents and a separate assignment would help, it can hand a phase to the matching [agent role](/subagents/) with an explicit read or write boundary:
-
-| Phase | Role |
-| :--- | :--- |
-| Align scope | [agent-scope-aligner](/skills/agent-scope-aligner/) |
-| Context TDD | [agent-tdd-implementer](/skills/agent-tdd-implementer/) |
-| Scientific debug | [agent-scientific-debugger](/skills/agent-scientific-debugger/) |
-| Self review | [agent-code-reviewer](/skills/agent-code-reviewer/) |
-| Atomic commit | [agent-git-committer](/skills/agent-git-committer/) |
-
-The main agent stays responsible: it integrates each result and re-checks the evidence before moving on.
-
-## What you get
-
-Every task ends with a report covering the result, whether it is complete, the current phase, the evidence that decided it, any limitations, and the next action. Final `pass` means the whole agreed route and authorized delivery are done, including commits when requested. If you asked only for a review or a verification, the report gives that phase's actual outcome.
-
-## Boundaries
-
-Junior mode changes code; it does not decide design. Questions about how code works, why it was written a certain way, or which architecture to choose belong to [senior mode](/skills/senior-mode/). Pause or finish the current task before switching.
-
-## Example request
+## Make a request
 
 ```text
-Use junior-mode to add a retry limit to the webhook sender so a failing endpoint is tried at most five times, then commit the change.
+Use junior-mode to fix the saved filter.
+An empty tag selection must return all items.
+Preserve filtering when tags are selected.
+Reproduce the failure, verify the affected callers, and review the diff.
+Create local commits for this change; do not push.
 ```
+
+If you want working-tree changes only, say that instead. The requested scope determines what completion means.
+
+<h2 id="choose-the-route">Choose the route</h2>
+
+The mode first separates discussion and unresolved design decisions from implementation. A question about current behavior or design rationale can go to [senior mode](/skills/senior-mode/) while the active code-change task is retained. A design choice that blocks implementation needs a confirmed decision before work continues.
+
+For code changes, it selects one route:
+
+| Route | When it applies | Sequence |
+| :--- | :--- | :--- |
+| Defect | Exceptions, failing tests, or intermittent behavior | Debug → Implement/Verify → Review → Commit when requested |
+| Light | Changes with no runtime impact | Brief Align → Change/Verify → Hygiene Review → Commit when requested |
+| Full | Other code changes, or uncertain behavioral impact | Align → Implement → Review → Commit when requested |
+
+Unexpected failures can send any route into debugging. The mode can omit inapplicable phases while retaining the evidence required by the task.
+
+<h2 id="check-the-handoff">Check the handoff</h2>
+
+The mode applies [agent roles](/subagents/) in dependency order and checks each result before advancing. Their output fields remain specific to their work.
+
+| Result received | What junior mode must establish |
+| :--- | :--- |
+| Scope summary | Done Criteria are observable, the affected boundary is known, and no blocking ambiguity remains. |
+| Implementer `COMPLETED` | The current changes satisfy acceptance criteria and have the required verification evidence. |
+| Debugger `IDENTIFIED` | The diagnosis supports the next implementation step; the overall fix still needs passing reproduction and regression checks. |
+| Reviewer verdict | Blocking findings are resolved. `APPROVE` does not prove that tests executed. |
+| Committer result | All requested commits exist, their contents are confirmed, and their checks apply to those contents. `PREPARED` is enough only for preparation-only work. |
+
+A change after verification can invalidate the evidence. The mode repeats the affected checks and review instead of carrying forward a stale result.
+
+<h2 id="read-the-workflow-outcome">Read the workflow outcome</h2>
+
+| Outcome | Meaning and next action |
+| :--- | :--- |
+| `pass` | All required phases and the authorized delivery are complete. |
+| `needs-change` | A known defect or required work remains; return to the affected phase. |
+| `unverified` | Required execution or verification evidence is missing; identify what is needed. |
+| `needs-decision` | A consequential user choice blocks progress; resolve that choice before implementation. |
+
+The final response leads with the actual result, then gives material changes, decisive evidence, commit information when applicable, and unresolved issues. A partial or review-only assignment is reported on its own terms.
+
+<h2 id="continue-an-existing-task">Continue an existing task</h2>
+
+Junior mode remains active across engineering follow-ups until you opt out. Corrections and status questions belong to the existing task; explicitly identify a new task when you want one.
+
+For an active code-change task, the mode maintains `.superjunior/task.md` at the repository root. It records the route, phase, Done Criteria, candidate files, evidence, and open decisions. The record is local working state and is never staged or committed.
+
+Pausing keeps the record. Cancellation stops work, preserves working-tree changes, and removes the record. Completion also removes it without deactivating the mode. On resumption, the mode reconciles the record with the repository and repeats checks invalidated by changed files, dependencies, inputs, or environment.
+
+```text
+Use junior-mode to resume the task in .superjunior/task.md.
+Check the current working tree before relying on earlier verification.
+```
+
+## Work directly or delegate
+
+Roles run directly by default. Authorized delegation is useful for an independent, bounded assignment; the owner still supplies context, checks evidence, and integrates the result. Host support determines whether separate agents can run.
+
+See [Host integration](/host-integration/) for permissions and persistence, or [Examples](/examples/) for narrower requests.

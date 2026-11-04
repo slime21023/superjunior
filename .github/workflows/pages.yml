@@ -24,7 +24,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Builds _site and runs the site and skill checks; a failing check blocks the deployment.
+      # Builds _site and runs local site, skill, and eval tests; a failing check blocks deployment.
       - run: npm run check
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5

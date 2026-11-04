@@ -1,6 +1,6 @@
 +++
-title = "Getting started"
-description = "Install the skills, write a request the agent can finish and prove, and read what comes back."
+title = "Complete your first task"
+description = "Install the skills, provide a bounded request, and check what the agent delivers."
 section = "start"
 order = 1
 permalink = "/getting-started/index.html"
@@ -8,45 +8,51 @@ permalink = "/getting-started/index.html"
 
 ## Install the skills
 
-Copy every directory under `skills/` into your project's skill directory: `.claude/skills/` for Claude Code, or `.agents/skills/` for Codex and Antigravity. Keep the directories side by side and copy them rather than symlinking, because the skills link to each other. [Host integration](/host-integration/) lists personal directories and what your tool needs to support.
+Choose a target project and copy every directory from this repository's `skills/` into that project's skill directory. Keep the skill folders side by side; several skills refer to their neighbors.
 
-If your tool does not discover skills, ask the agent to read one directly, for example `Read .claude/skills/junior-mode/SKILL.md`.
+Use the locations in [Host integration](/host-integration/#install-the-skills). You do not need to build the handbook to install the skills.
 
-## Write a good request
-
-A request works best when it names four things:
-
-1. **Outcome**: the behavior you want, in a sentence or two.
-2. **Constraints**: what must not change, and anything off limits.
-3. **Success check**: how you will know it works, such as a test, a command, or an observable result.
-4. **Delivery form**: local changes, local commits, or a pull request if you allow one.
-
-Then say which mode to use. Choose [junior mode](/skills/junior-mode/) for a code change, [senior mode](/skills/senior-mode/) for explanation and architecture work, or a single [agent role](/subagents/) for one step.
+Start a session in the target project and ask:
 
 ```text
-Use junior-mode for this bug fix.
-A saved filter with no selected tags must show all items.
-Keep the current behavior when tags are selected.
-Reproduce the failure, check the other filter paths, and deliver local commits.
+List the SuperJunior skills you can discover.
+Do not edit files or start a task.
 ```
 
-A small task can be a single sentence. Junior mode takes a light route for changes that cannot alter runtime behavior, such as documentation, comments, or formatting: a brief scope check, the change, a quick build or lint check, a hygiene check of the diff, and a commit.
+Confirm that the list includes `junior-mode`, `senior-mode`, and the roles you intend to use. If discovery fails, check the directory layout or explicitly ask the agent to read the installed `SKILL.md`; the host guide has [troubleshooting steps](/host-integration/#if-a-skill-is-not-found).
+
+## Give the agent a checkable request
+
+A useful request states the desired behavior, constraints, evidence needed, and delivery. A small task can express all four in a few sentences.
+
+```text
+Use junior-mode to fix the saved filter.
+With no selected tags, it must show all items.
+Keep the behavior for selected tags unchanged.
+Reproduce the failure and check the related filter paths.
+Leave the verified changes in my working tree without committing.
+```
+
+Choose [senior mode](/skills/senior-mode/) instead when you need an explanation or a design decision. Choose an [individual role](/subagents/) for a bounded task such as reviewing an existing diff.
+
+Working-tree changes and local commits are different deliveries. Name the one you want; ask separately for any remote action such as opening a pull request or publishing.
 
 ## Read the outcome
 
-Every task ends with a report: the result, the current phase, the evidence that decided it, any limits, and the next step. It carries one of these outcomes:
+For a code-change task, junior mode reports what changed, the evidence, remaining limitations, and whether the requested delivery is complete. Its [workflow outcomes](/skills/junior-mode/#read-the-workflow-outcome) distinguish completed work, work needing changes, missing verification, and decisions that require your input.
 
-| Outcome | Meaning |
-| :--- | :--- |
-| `pass` | The work is delivered and verified. |
-| `needs-change` | A real problem remains, such as a review finding. |
-| `unverified` | The agent could not get reliable evidence; the report says what is missing. |
-| `needs-decision` | A design choice is yours to make before work can continue. |
+Other skills have their own result fields. A direct review returns a verdict and findings. A diagnosis includes confidence and reproduction evidence. Senior mode separates facts, options, confirmed decisions, and open questions. Use the relevant skill page to interpret its result.
 
-Senior mode uses `pass`, `needs-decision`, and `unverified`. A review-only request can be fully answered and still return `needs-change`, because the outcome describes the code that was reviewed.
+Check the evidence behind a label. A completed review does not show that tests ran; a prepared commit message does not show that a commit exists. If a required check was unavailable, the response should identify that limitation.
 
 ## Continue, pause, or cancel
 
-Junior mode stays active across follow-ups until you turn it off. A correction or a status question updates the current task; say so when you start a new one.
+In junior mode, a correction or status question belongs to the active task. To introduce a different task or change the delivery, say so explicitly.
 
-Junior mode keeps a task record at `.superjunior/task.md` in your repository. It is never committed. If you pause, the agent stops at the current step and keeps the record, so you can resume later, even in a new session. On resume, the agent compares the record with your working tree, re-runs checks whose inputs changed, and continues from the earliest step that lacks valid evidence. If you cancel, the agent stops, leaves finished work in your working tree, and deletes the record.
+Junior mode keeps a local task record at `.superjunior/task.md`. Pausing keeps it for resumption; cancellation leaves completed working-tree changes and removes the record. The record is also removed after delivery and is never part of the commit.
+
+To resume, ask the agent to reconcile the record with the current working tree. It must repeat verification made stale by changed inputs. [Junior mode](/skills/junior-mode/#continue-an-existing-task) explains the lifecycle; persistence across sessions also depends on the host.
+
+## Try a second task
+
+Use [Examples](/examples/) for review, debugging, commit preparation, explanation, and architecture requests. Each example names the result to expect and links to the skill that defines it.

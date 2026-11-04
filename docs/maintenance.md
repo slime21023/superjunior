@@ -1,107 +1,115 @@
 +++
-title = "Maintain the handbook"
+title = "Maintain skills and the handbook"
 navTitle = "Maintenance"
-description = "For contributors: preview the site, keep pages in step with the skills, and run the checks and evals."
+description = "Keep instructions, explanations, checks, and host evaluations aligned."
 section = "practice"
-order = 1
+order = 0
 permalink = "/maintenance/index.html"
 +++
 
+This page is for contributors. To use the skills in another project, follow [Getting started](/getting-started/); building this website is not part of skill installation.
+
 ## Preview and build
 
-Use Node.js 22 or newer. From the repository root, install the locked dependencies and start a local preview, then open the address Eleventy prints, normally http://localhost:8080/superjunior/:
+Use Node.js 22 or newer and install the locked dependencies from the repository root:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-For a production build and its checks:
+Open the address Eleventy prints, normally `http://localhost:8080/superjunior/`. Run the complete local checks with:
 
 ```sh
-npm run build
 npm run check
 ```
 
-Eleventy reads `docs/` and writes `_site/`. The build copies the assets and every checked-in skill file as-is, without transforming their contents. The lockfile fixes dependency resolution.
+That command builds the site and runs the site, skill, eval-grader, and workspace-integrity tests without calling an agent. The workspace tests require Git on PATH. `npm run build` builds without running those tests. Eleventy reads `docs/`, writes `_site/`, and copies assets and skill definitions without transforming their contents.
 
-## Publish
+## Keep each kind of information in one place
 
-GitHub Pages serves the handbook at https://slime21023.github.io/superjunior/. Every push to `main` runs `.github/workflows/pages.yml`, which installs the locked dependencies, runs `npm run check`, and deploys `_site/` only when the checks pass. The workflow can also be started by hand from the Actions tab.
+| Content | Owner |
+| :--- | :--- |
+| Agent instructions and output contracts | `skills/<name>/SKILL.md` |
+| User-facing explanation of a skill | Its reference page in `docs/skills/` |
+| Installation, host capabilities, and recorded compatibility | [Host integration](/host-integration/) |
+| Request examples and expected results | [Examples](/examples/) |
+| Supporting design explanations | [Design guidance](/principles/) |
+| Build, eval, and publishing procedures | This page |
 
-Because the site lives under `/superjunior/`, the build prefixes every root link with that path. Write internal links as root paths, such as `/skills/junior-mode/`; the link check fails on any internal link that ends up outside the prefix. If the site moves to a custom domain, set `pathPrefix` in `eleventy.config.mjs` to `/`.
+Documentation explains the existing contract. When a behavior changes, update the relevant skill, callers or modes that interpret it, its reference page, and affected examples or evals. Avoid adding a capability to prose that the skill does not define.
 
-## How pages map to skills
+## Write useful skill pages
 
-Every skill under `skills/` has exactly one reference page in `docs/skills/`, and that page names the skill's definition in its `source` field. Guide and role overview pages do not set `source`; they link the definitions they discuss in their body. Pages are hand-written Markdown: navigation is built from page metadata, but no page content is generated from the skill definitions.
+A reference page should help someone decide when to use the skill, provide the needed context, interpret the result, and choose a next step. Headings and detail can vary with the role.
 
-## Front matter
+Skill definitions likewise need a recognizable purpose, operating guidance, and usable result. They do not need identical templates or shared status fields. Modes may add routing and orchestration. Explain how handoffs are interpreted where the coordinating mode owns that decision.
 
-Pages use TOML front matter between `+++` lines. The layout shows the title and description, so body headings start at level two.
+Keep front matter for metadata. XML tags in skill definitions mark blocks: no attributes, no self-closing tags, and at most two levels of nesting. Preserve meaningful tag names and case. Put literal angle-bracket templates in inline code or fenced `text` blocks.
+
+## Page metadata and links
+
+Handbook pages use TOML front matter:
 
 ```toml
 +++
 title = "Engineering principles"
-description = "Minimal changes, clear behavior, cohesive boundaries, and verified outcomes."
-permalink = "/skills/engineering-principles/index.html"
+description = "Shared guidance for scoped, verified changes."
 section = "principles"
 order = 1
+permalink = "/skills/engineering-principles/index.html"
 source = "skills/engineering-principles/SKILL.md"
 +++
 ```
 
-`title`, `description`, and `permalink` describe the page. `section` and `order` place it in the navigation, and the optional `navTitle` gives a shorter label there. `source` appears only on a skill's reference page.
+The layout displays `title` and `description`; begin body headings at level two. Optional `navTitle` shortens a navigation label. `section` selects a group from `docs/_data/site.json`, and `order` controls the order within that group.
 
-Available sections are `start`, `mode`, `senior`, `principles`, `roles`, and `practice`.
+Every skill has exactly one reference page with its `source`. Supporting guides and overview pages omit `source` and link to the relevant reference page. Page content is hand-written; navigation comes from metadata.
 
-## Keep pages and skills aligned
+Keep existing permalinks when rewriting a page. Write internal links as root paths such as `/skills/junior-mode/`; the build adds the configured `/superjunior/` prefix. For a link to a section, give its heading an explicit HTML ID, such as `<h2 id="verification">Verification</h2>`; this renderer does not generate heading IDs automatically. Update fragment links when headings change. The prefix is defined in `eleventy.config.mjs`.
 
-When a skill changes, update its reference page and any examples or workflow guidance it affects. Keep the actual rules, scope, artifacts, outcome meanings, and write boundaries accurate. If the repository contradicts itself, say so on the page instead of inventing a capability.
+## Check what changed
 
-## Write skill definitions
+`npm run check` verifies that each skill has one reference page, internal links resolve under the path prefix, copied definitions preserve their bytes, skill front matter and references are valid, XML blocks meet the structural rules, and eval expectations refer to existing skills.
 
-Keep a recognizable structure: purpose and scope, operating principles or workflow, and the result needed by the caller. Roles can use different headings, tags, and output fields. Modes may add routing and orchestration; judge the completeness of their handoffs rather than requiring identical templates.
+It also exercises the eval graders against valid and invalid replies, checks behavior-case expectations, and tests workspace comparison in disposable Git repositories. These regression tests cover committed changes, staged-only changes, ignored skill files, additions, deletions, and directory links.
 
-Skill definitions use XML tags only to mark blocks. Tags stay bare: no attributes, no self-closing tags, and at most two levels of nesting. A first-level tag marks a block the agent must find as a whole, such as constraints, a procedure, or an output contract; a second level is only for repeated items with several fields. Metadata belongs in the front matter.
+Those checks do not prove that prose describes the contract accurately. Read changed examples against the source: review verdicts, diagnosis confidence, implementation status, and workflow outcomes have different meanings. Check write boundaries and the evidence needed to claim completion.
 
-Preserve each skill's tag names and case. Put literal templates containing angle brackets in inline code or a fenced `text` block so they are not interpreted as XML.
+When navigation or rendered content changes, inspect desktop and mobile pages. Check keyboard access, visible focus, internal and source links, and unwanted horizontal overflow. Review tables and code samples at narrow widths.
 
-Inside a tag, write prose by default, because connected sentences keep the reasons, conditions, and exceptions that bullet fragments drop. Use other forms only where they fit:
+<h2 id="run-the-optional-cli-evals">Run the optional CLI evals</h2>
 
-- an ordered list for steps the agent runs in sequence;
-- a checklist for items it must verify one by one;
-- a table for items compared along the same dimensions;
-- named items only when the name is referenced elsewhere, such as outcome codes or template fields;
-- a template for output the agent must fill in.
+The evals call real installed and signed-in coding agents and use your account quotas. They require the named CLIs on PATH as well as the project's dependencies.
 
-State each rule directly and give its reason instead of relying on emphatic wording.
+```sh
+npm run eval:discovery
+npm run eval:routing
+npm run eval:behavior
+```
 
-## What `npm run check` verifies
+The scripts use promptfoo 0.124.1 and configurations under `evals/`:
 
-The command builds the site and runs Node's test runner to confirm that:
+| Suite | What it checks |
+| :--- | :--- |
+| Discovery | Whether a reply containing one skill name per line lists every repository skill; other installed skills are allowed |
+| Routing | Whether the entire reply is exactly one allowed skill name |
+| Behavior | Whether a complete JSON decision uses valid values and matches the case's route, outcome, next action, or native role result |
 
-- every checked-in skill has exactly one reference page;
-- internal page, fragment, source, and asset links resolve;
-- copied skill definitions keep their original bytes;
-- skill definitions use Agent Skills front matter whose name matches the directory, references inside skills resolve, and XML block tags stay bare and at most two levels deep.
-- routing and behavior eval expectations name skills that still exist.
+Behavior replies use fixed action categories, such as `inspect-history` and `reproduce`, instead of keyword matching in prose. Cases that assess a role result retain that role's fields and vocabulary: reviewer `Verdict`, debugger `Status` and verification `Result`, implementer and committer `Status`, or `why`'s `Confidence`. The common JSON object is an evaluation envelope, not a required format for normal skill use. A role result does not automatically become a workflow outcome; use `none` when no such outcome is being assessed.
 
-The checks do not judge whether the prose is accurate or the pages look right, and do not require particular headings or sentences. Review role boundaries against the source: how-works and why are read-only; architecture skills can write requested records of user-confirmed decisions while preserving unrelated content. Compare changed guidance with its source, and when layout or navigation changes, review desktop and mobile pages, keyboard navigation, visible focus, and horizontal overflow.
+The provider creates a temporary Git workspace from `evals/fixture/`, copies the skills to the host's discovery directory, and removes the workspace after the call. All three graders require integrity metadata and reject changes to final file contents or paths, Git HEAD, or the staged index. The snapshot includes ignored skill directories and records symbolic links without following them. A clean `git status` alone is insufficient because a commit can hide a changed worktree.
 
-## Run the evals
+This comparison does not detect a write that is fully reverted before the final snapshot, changes to other Git internals, or writes outside the workspace. It is an integrity check, not a sandbox or a tool-execution trace. Discovery and routing forbid file reads and commands, but these graders cannot prove those instructions were followed.
 
-`npm run eval:discovery`, `npm run eval:routing`, and `npm run eval:behavior` run promptfoo 0.124.1 against Claude Code, Codex CLI, and Antigravity CLI (`agy`). Those tools must be installed and signed in, and the runs use your own accounts and quotas.
+Read `evals/providers/agent-cli.mjs` before changing execution settings. Codex runs in read-only mode; agy uses plan mode, sandboxing, and automatic tool approval in the temporary workspace. These settings are specific to evaluation, not installation instructions.
 
-| Eval | What it asks the agent | Passes when |
-| :--- | :--- | :--- |
-| Discovery | List its skills | Every directory under `skills/` appears in the reply |
-| Routing | Which skill it would load first for a request | The first repository skill named is one the case allows |
-| Behavior | Load that skill and report its first decision as JSON: skill, route, outcome, and first action | Each field the case sets matches its allowed values or pattern |
+Personal skills or plugins can affect selection. Provider `args` can pass additional CLI flags, but support depends on the installed host. Record the versions and configuration used when comparing results.
 
-Every agent call gets a fresh workspace in the system temp directory containing `evals/fixture/` and the skills copied into that tool's discovery directory; the workspace is deleted afterwards. The graders in `evals/assertions.cjs` are deterministic. Every prompt forbids edits, so any file the agent creates or changes fails the case.
+Results are written to `evals/results/`, which Git ignores. Rerun affected cases without cached provider responses after changing the provider or its metadata contract, for example `npm run eval:behavior -- --no-cache`. Repeat cases when evaluating consistency; a single model response does not establish a reliable pass rate. These suites test discovery and stated decisions, not end-to-end editing, testing, committing, or publishing.
 
-Behavior cases also check handoffs: a diagnosis without a fix, a completion label without test evidence, a prepared message without commits, and an architecture proposal without a confirmed decision. These assess the agent's stated next decision; they do not prove actual implementation, commit execution, or document editing behavior.
+## Publish
 
-The agents also see skills installed in your personal directories, and those can win routing over SuperJunior's skills. A provider's `args` config passes extra CLI flags, for example `args: ["--disable", "plugins"]` to run Codex without installed plugins. agy runs at medium effort, because at its default effort it keeps exploring past the time limit. It also runs with tool approval and `--sandbox`, because headless agy ends the turn without output when a tool needs a permission prompt.
+The workflow in `.github/workflows/pages.yml` runs on pushes to `main` or manual dispatch. It installs dependencies, runs `npm run check`, and deploys `_site/` only after the checks pass.
 
-Replies vary between runs, so judge a case by its pass rate over repeated runs (`--repeat`), not by a single failure. Results go to `evals/results/`, which git ignores; `npx promptfoo@0.124.1 view` opens them in a browser.
+The handbook is served at [SuperJunior on GitHub Pages](https://slime21023.github.io/superjunior/). If its hosting path changes, update `pathPrefix`, affected links, and preview instructions together. Publishing is a separate action from editing or locally building documentation.

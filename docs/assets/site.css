@@ -41,6 +41,7 @@ h1 { font-size: clamp(2rem, 4vw, 3.15rem); line-height: 1.12; font-weight: 700; 
 article { line-height: 1.8; font-size: .97rem; }
 article > :first-child { margin-top: 0; }
 h2 { font-size: 1.4rem; line-height: 1.35; letter-spacing: -.025em; margin: 2.5rem 0 1rem; }
+h2[id] { scroll-margin-top: 6rem; }
 h3 { font-size: 1.08rem; margin-top: 1.8rem; }
 p, ul, ol { margin-top: 0; margin-bottom: 1.15rem; }
 li + li { margin-top: .35rem; }

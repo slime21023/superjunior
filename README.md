@@ -1,58 +1,46 @@
 # SuperJunior
 
-SuperJunior is a set of skills for code agents such as Claude Code, Codex, and Antigravity. With them, the agent scopes a change before it writes code, proves the change with tests, reviews its own diff, and commits in small steps. Each role reports its own result and evidence; junior-mode determines whether the workflow passed, needs changes, could not be verified, or is waiting on a decision from you.
+SuperJunior is a collection of skills for coding agents. Use it to carry a code change from scope to verification, or to understand a system before deciding what to build.
 
-## Pick a mode
+Choose the result you need:
 
-| Use | When you want | You get back |
-| :--- | :--- | :--- |
-| `junior-mode` | Code changed: a feature, a bug fix, or a refactor | Tested changes, a self-review, and atomic commits |
-| `senior-mode` | Understanding or design: how code works, why it was built that way, which architecture to choose | An explanation, a decision brief, or confirmed architecture documentation when requested, plus an implementation handoff |
+| Your task | Start with |
+| :--- | :--- |
+| Add a feature, fix a defect, or refactor | `junior-mode` |
+| Explain code, investigate a design decision, or compare architectures | `senior-mode` |
+| Scope, implement, debug, review, or commit one bounded piece of work | The matching [agent role](https://slime21023.github.io/superjunior/subagents/) |
 
-Senior-mode never edits product code. When a design is ready to build, it hands a brief to junior-mode. You can also call a single agent role, design principle, or specialist skill directly when you need only one step.
+Junior mode coordinates implementation and checks the evidence from each phase. Senior mode develops explanations and decisions without changing product code. Individual roles also work directly in the current session; using them does not automatically start subagents.
 
-## Install the skills
+## Install and try it
 
-Copy every directory from `skills/` into your project's skill directory. Keep them side by side, because the skills link to each other. Copy the directories instead of symlinking them.
+Copy the directories inside `skills/` into the target project's skill directory, keeping them side by side. The project's documented locations are `.claude/skills/` for Claude Code and `.agents/skills/` for Codex CLI and Antigravity CLI. Use ordinary directory copies so the links between skills remain intact.
 
-| Tool | Version checked | Project directory | Personal directory |
-| :--- | :--- | :--- | :--- |
-| Claude Code | 2.1.300 | `.claude/skills/` | `~/.claude/skills/` |
-| Codex CLI | 0.162.1 | `.agents/skills/` | `~/.agents/skills/` |
-| Antigravity CLI (`agy`) | 1.3.6 | `.agents/skills/` | `~/.gemini/antigravity-cli/skills/` |
+See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for the recorded discovery baseline, personal directories, and troubleshooting.
 
-The project directories were tested with each listed version. The personal directories come from each tool's documentation and were not tested. The tools do not start the agent roles as subagents on their own; see the handbook's host integration page.
-
-## Make a first request
+In your coding agent, try:
 
 ```text
-Use junior-mode to fix this bug: a saved filter with no selected tags shows nothing.
-It should show all items. Keep the current behavior when tags are selected.
-Reproduce the failure first, then deliver tested local commits.
+Use junior-mode to fix the saved filter.
+With no selected tags, it must show all items.
+Keep the behavior for selected tags unchanged.
+Reproduce the failure and verify the fix.
+Leave the changes in my working tree without committing.
 ```
 
-## Read the handbook
+State the delivery you want: working-tree changes, local commits, or another explicitly requested action. Installing a skill does not grant tools or permissions.
 
-The handbook explains every skill and includes example requests. Read it at https://slime21023.github.io/superjunior/, or preview it locally (Node.js 22 or newer):
+## Read the result
 
-```sh
-npm ci
-npm run dev
-```
+Each role reports evidence in a form suited to its task. A debugger's `IDENTIFIED` describes a diagnosis; a reviewer's `APPROVE` describes a review. Junior mode checks those results before declaring the requested work complete.
 
-Open the address Eleventy prints, normally http://localhost:8080/superjunior/.
+Start with the [handbook](https://slime21023.github.io/superjunior/), follow the [first-task walkthrough](https://slime21023.github.io/superjunior/getting-started/), or adapt an [example request](https://slime21023.github.io/superjunior/examples/).
 
-## Contributing
+## Contribute
 
-Skills and their operating principles live in `skills/<name>/SKILL.md`. When you change a skill, update its page in `docs/skills/` too. Then run:
+The execution instructions live in `skills/<name>/SKILL.md`; their user-facing explanations live in `docs/`. Keep both accurate when behavior changes.
 
-```sh
-npm run check
-```
-
-This builds the site and checks the skill pages, internal links, copied sources, and skill definitions.
-
-Optional behavior evals run against the real CLIs with `npm run eval:discovery`, `npm run eval:routing`, and `npm run eval:behavior`. They need Claude Code, Codex, and agy installed and signed in, they use your quota, and they write results to `evals/results/`. See the handbook's maintenance page for details.
+Run `npm ci` once, then `npm run check` to build the handbook and test its links, skill definitions, eval graders, and workspace checks. These local tests do not call an agent. [Maintenance](https://slime21023.github.io/superjunior/maintenance/) covers local preview, CLI evals, and publishing.
 
 ## License
 

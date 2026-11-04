@@ -1,21 +1,31 @@
 +++
-title = "Design principles"
-navTitle = "Principles overview"
-description = "Four questions that guide design, from names to architecture."
+title = "Apply design guidance where it matters"
+navTitle = "Guidance overview"
+description = "Choose a question at the scale of the change, then connect the answer to behavior and evidence."
 section = "principles"
 order = 0
 permalink = "/principles/index.html"
 +++
 
-The [engineering-principles skill](/skills/engineering-principles/) provides shared guidance. The four layers below help identify design risks at the scale relevant to a change. Use their questions as guidance, not as a requirement to apply every pattern.
+Use the [engineering-principles skill](/skills/engineering-principles/) for shared guidance on reasoning, expression, boundaries, and verification. The other pages in this section are supporting explanations, not additional skills to install.
 
-| Layer | Question | Page |
-| :--- | :--- | :--- |
-| 1. Expression | Are intent, units, and constraints clear? | [Lexical and expression](/skills/principles-lexical-expression/) |
-| 2. Functions | Are flow, results, and side effects understandable? | [Function and control flow](/skills/principles-function-control-flow/) |
-| 3. Modules | Are related responsibilities together and details appropriately hidden? | [Module boundaries](/skills/principles-module-boundaries/) |
-| 4. Architecture | Do dependencies and organization suit the system? | [Architecture and evolution](/skills/principles-architecture-evolution/) |
+## Start with the concrete risk
 
-The [four-layer design guide](/skills/principles-four-layer-design/) connects the layers; these pages are supporting guides rather than separate skills. [Junior mode](/skills/junior-mode/) considers relevant boundaries during planning, code clarity during implementation, and concrete risks during [self-review](/skills/agent-code-reviewer/).
+A naming question, an unclear result, and a dependency cycle need different kinds of attention. Choose the layer that helps explain the actual change:
 
-The [Karpathy guidelines](/skills/karpathy-guidelines/) complement these principles: make assumptions visible, keep changes small, and verify results.
+| Concern | Guide |
+| :--- | :--- |
+| A name hides intent, units, or side effects | [Lexical expression](/skills/principles-lexical-expression/) |
+| A caller cannot distinguish outcomes or follow control flow | [Functions and control flow](/skills/principles-function-control-flow/) |
+| Responsibilities or cleanup have no clear owner | [Module boundaries](/skills/principles-module-boundaries/) |
+| Dependencies make change or operation difficult | [Architecture and evolution](/skills/principles-architecture-evolution/) |
+
+The [four-layer guide](/skills/principles-four-layer-design/) explains how these questions connect. The [Karpathy guidelines](/skills/karpathy-guidelines/) focus on working habits that keep a change bounded and checkable.
+
+## Turn a principle into useful feedback
+
+Name the affected behavior or maintenance risk, point to evidence, and suggest the smallest correction. “This function has too many responsibilities” is less useful than explaining which independent reasons for change are entangled and what currently breaks because of that.
+
+Apply existing project conventions where they serve the task. A principle should help resolve a concrete problem, not generate unrelated cleanup or a requirement to apply every pattern.
+
+For a review verdict, use [agent-code-reviewer](/skills/agent-code-reviewer/). For a choice that changes the architecture, use [senior mode](/skills/senior-mode/).

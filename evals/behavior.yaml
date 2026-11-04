@@ -5,8 +5,21 @@ prompts:
   - |-
     {{request}}
 
-    Load the skill you would use first and follow its instructions to decide how to handle this request. Do not edit files and do not run state-changing commands; reading files and history is fine. Then reply with only one JSON object:
-    {"skill": "<first skill you load, or none>", "route": "full" | "light" | "defect" | "none", "outcome": "pass" | "needs-change" | "unverified" | "needs-decision" | "none", "first_action": "<one sentence>"}
+    Load the skill you would use first and follow its instructions to decide how to handle this request. Do not edit files and do not run state-changing commands; reading files and history is fine. Treat supplied handoff evidence as the scenario being assessed, not as work to perform in this workspace.
+
+    Reply with only one JSON object containing these four required fields:
+    - skill: the first repository skill you load, or "none".
+    - route: "full", "light", "defect", or "none" when no workflow route applies.
+    - outcome: "pass", "needs-change", "unverified", "needs-decision", or "none" when no workflow outcome is being assessed.
+    - first_action: exactly one of "inspect-code", "inspect-history", "reproduce", "request-decision", "implement", "verify", "review", "prepare-commit", "commit", "record-document", or "report". Select the next substantive action after loading the skill, not a sentence or a negated action. "reproduce" includes isolating nondeterminism; "record-document" means recording an already confirmed decision. State the action without performing state-changing work.
+
+    If the request asks for a role's result, also include role_result with only that role's categorical fields:
+    - agent-code-reviewer: {"Verdict": "APPROVE" | "REQUEST_CHANGES" | "COMMENT"}
+    - agent-scientific-debugger: {"Status": "IDENTIFIED" | "SUSPECTED" | "UNRESOLVED", "Result": "PASS" | "FAIL" | "NOT_RUN"}
+    - agent-tdd-implementer: {"Status": "COMPLETED" | "PARTIAL" | "BLOCKED"}
+    - agent-git-committer: {"Status": "CREATED" | "PREPARED" | "BLOCKED"}
+    - why: {"Confidence": "CONFIRMED" | "INFERRED" | "UNKNOWN"}
+    Omit role_result otherwise. Do not add other fields or Markdown fences. This JSON is an evaluation envelope; it does not replace any skill's normal output format or turn a role result into a workflow outcome.
 
 providers:
   - id: file://providers/agent-cli.mjs
@@ -31,14 +44,14 @@ tests:
     vars: { request: "parseTags in src/tags.js throws on an empty string; it must return an empty array instead." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode, agent-scope-aligner, agent-tdd-implementer, agent-scientific-debugger], routes: [full, defect] } }
-  - description: Vague request stops for a decision
-    vars: { request: "Make the app faster." }
+  - description: Unresolved acceptance trade-off needs a user decision
+    vars: { request: "Use junior-mode to assess a handoff: measurements show the proposed change improves latency but exceeds the agreed memory budget. The user must choose whether that trade-off is acceptable and has not decided. Report the workflow outcome and next action without implementing." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { outcomes: [needs-decision] } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-decision], actions: [request-decision] } }
   - description: Rationale question starts from recorded history
     vars: { request: "Why does src/retry.js stop after exactly three attempts?" }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [senior-mode, why], firstAction: "git|blame|log|history|commit" } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [senior-mode, why], actions: [inspect-history] } }
   - description: Design request stops for a decision instead of implementing
     vars: { request: "Decide whether this project should store tags in SQLite or PostgreSQL, then implement the storage layer." }
     assert:
@@ -46,11 +59,11 @@ tests:
   - description: Flaky test isolates nondeterminism first
     vars: { request: "test/retry.test.js passes on some runs and fails on others without any code change." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-scientific-debugger, junior-mode], firstAction: "isolat|nondetermin|non-determin|flak|random|reproduc" } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-scientific-debugger, junior-mode], actions: [reproduce] } }
   - description: Identified root cause does not complete a fix
     vars: { request: "Use junior-mode to assess this handoff for a bug-fix task: the debugger reports IDENTIFIED with a reproducible failing test, but no fix has been applied and the test still fails. Report the workflow outcome and next action; do not perform the remaining work." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change] } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change], actions: [implement] } }
   - description: Completion label cannot replace verification evidence
     vars: { request: "Use junior-mode to assess this handoff: the implementer reports COMPLETED, but the required tests could not run because the test environment is unavailable. No test result exists for the current patch. Report the workflow outcome and next action; do not perform the remaining work." }
     assert:
@@ -58,8 +71,36 @@ tests:
   - description: Prepared message does not complete commit delivery
     vars: { request: "Use junior-mode to assess this handoff: the requested delivery is two local commits. Both changes passed verification and review, but the committer reports PREPARED with message drafts and explicitly says neither commit was created. Report the workflow outcome and next action; do not perform the remaining work." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change] } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change], actions: [commit] } }
+  - description: Prepared messages complete a preparation-only delivery
+    vars: { request: "Use junior-mode to assess this handoff: the user requested only two commit-message drafts and explicitly excluded creating commits. Both drafts meet the agreed requirements, their review passed, and the committer reports PREPARED with no remaining issues. Report the workflow outcome and next action; do not create commits." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [pass], actions: [report] } }
   - description: Unconfirmed architecture proposal cannot become a decision record
     vars: { request: "Use architecture-discuss to assess a handoff asking for a confirmed architecture record. The author recommends PostgreSQL, but the user has not chosen it over SQLite. Report the workflow outcome and next action before recording a decision." }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [architecture-discuss], outcomes: [needs-decision] } }
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [architecture-discuss], outcomes: [needs-decision], actions: [request-decision] } }
+  - description: Confirmed architecture decision can be recorded when requested
+    vars: { request: "Use architecture-discuss to assess this handoff: the user explicitly chose PostgreSQL after reviewing the alternatives and requested that decision be recorded in the existing ADR. The existing document has been read, the target section is identified, and unrelated content must be preserved. No decision questions remain. State the next action only; do not edit the document during this assessment." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [architecture-discuss], actions: [record-document] } }
+  - description: Reviewer retains its verdict for a demonstrated regression
+    vars: { request: 'Use agent-code-reviewer to assess a proposed replacement using only this evidence: parseTags("") must return [], but the complete replacement is export function parseTags(input) { return input.split(","); }. This returns [""] for an empty input. Report the role result without applying or executing the patch.' }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-code-reviewer], routes: [none], outcomes: [none], roleResult: { Verdict: REQUEST_CHANGES } } }
+  - description: Debugger separates diagnosis from unrun fix verification
+    vars: { request: "Use agent-scientific-debugger to summarize supplied evidence, not to run an experiment: a controlled reproduction and trace conclusively identify the root cause. A fix has been proposed but not applied, and verification of that fix has not run. Report the role result with diagnosis status and fix-verification result." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-scientific-debugger], routes: [none], outcomes: [none], roleResult: { Status: IDENTIFIED, Result: NOT_RUN } } }
+  - description: Implementer reports incomplete acceptance coverage as partial
+    vars: { request: "Use agent-tdd-implementer to summarize this handoff without changing anything: one of two required acceptance cases is implemented and its tests pass. The second required behavior is still missing, and work can continue without any external blocker. Report the role result for the implementation as it stands." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-tdd-implementer], routes: [none], outcomes: [none], roleResult: { Status: PARTIAL } } }
+  - description: Committer reports prepared drafts without claiming created commits
+    vars: { request: "Use agent-git-committer to summarize this handoff: the only requested deliverable was commit-message drafts. The drafts are complete and reviewed, and no commits were requested or created. Report the role result without staging or committing anything." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-git-committer], routes: [none], outcomes: [none], roleResult: { Status: PREPARED } } }
+  - description: Missing historical evidence stays unknown
+    vars: { request: "Use why to summarize this completed investigation: current code, all available Git history, and decision documents have been examined. None records why three retry attempts were chosen, and there is no evidence favoring any explanation. Report the role result without inventing a rationale or editing documentation." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [why], routes: [none], outcomes: [none], roleResult: { Confidence: UNKNOWN } } }

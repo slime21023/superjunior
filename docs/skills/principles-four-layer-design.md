@@ -1,16 +1,27 @@
 +++
-title = "Four-layer software design"
-description = "Four questions connecting expression, functions, modules, and architecture."
-permalink = "/skills/principles-four-layer-design/index.html"
+title = "Four layers of design"
+navTitle = "Four-layer guide"
+description = "Choose the smallest scale that explains the problem, then check its effect on neighboring layers."
 section = "principles"
-order = 1
+order = 2
+permalink = "/skills/principles-four-layer-design/index.html"
 +++
 
-This guide expands on the [engineering-principles skill](/skills/engineering-principles/). When designing, refactoring, or reviewing a change, apply the layers relevant to the task:
+This guide supports [engineering-principles](/skills/engineering-principles/). It helps locate a design concern without requiring a full architecture review for every edit.
 
-1. [Expression](/skills/principles-lexical-expression/): Are intent, units, and constraints clear?
-2. [Functions](/skills/principles-function-control-flow/): Are flow, results, and side effects understandable?
-3. [Modules](/skills/principles-module-boundaries/): Are related responsibilities together and details appropriately hidden?
-4. [Architecture](/skills/principles-architecture-evolution/): Do dependencies and organization suit the system?
+## Locate the concern
 
-The individual guides provide review prompts. [Self-review](/skills/agent-code-reviewer/) reports concrete risks or unmet requirements, rather than treating every preference as a defect. The [Karpathy guidelines](/skills/karpathy-guidelines/) help keep changes small and verified.
+| Layer | Question to ask | Example |
+| :--- | :--- | :--- |
+| [Expression](/skills/principles-lexical-expression/) | Does the code communicate intent accurately? | A timeout name omits its unit. |
+| [Function](/skills/principles-function-control-flow/) | Can callers predict outcomes and side effects? | Failure and an empty result look identical. |
+| [Module](/skills/principles-module-boundaries/) | Is responsibility owned at a useful boundary? | Two modules each believe the other closes a resource. |
+| [Architecture](/skills/principles-architecture-evolution/) | Do dependencies fit how the system changes and operates? | A dependency cycle prevents independent testing. |
+
+Begin where the problem appears. Follow it into another layer only when the behavior or ownership requires it. Renaming a parameter may solve a local ambiguity; changing a public result contract requires checking consumers.
+
+## Keep the review proportional
+
+State the evidence and consequence before proposing a structural change. Follow repository conventions unless a concrete defect or constraint justifies departing from them.
+
+A review can identify concerns at several layers without reorganizing its output by those layers. The [reviewer](/skills/agent-code-reviewer/) reports actionable findings tied to locations and impact; the [architecture skills](/skills/senior-mode/#follow-the-relevant-analysis) support broader decisions.

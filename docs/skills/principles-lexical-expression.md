@@ -1,15 +1,28 @@
 +++
-title = "Lexical and expression"
-description = "Layer 1: make intent, units, and constraints clear."
-permalink = "/skills/principles-lexical-expression/index.html"
+title = "Names and expression"
+navTitle = "Names & expression"
+description = "Make intent, units, and important effects visible to the next reader."
 section = "principles"
-order = 2
+order = 3
+permalink = "/skills/principles-lexical-expression/index.html"
 +++
 
-This guide supports the [engineering-principles skill](/skills/engineering-principles/). Use this layer when naming code or reviewing comments. Choose names that communicate purpose and side effects, and include units when the type or context does not make them clear, as in `retryIntervalMs`.
+This supporting guide applies the expression principles in [engineering-principles](/skills/engineering-principles/) to names and comments.
 
-Follow the project's vocabulary instead of imposing a universal verb list. Use comments to explain non-obvious constraints, invariants, trade-offs, or limits that code cannot readily convey.
+## Make the name answer a question
 
-Review whether a name, unit, or side effect could mislead a reader and whether necessary comments provide useful context.
+Use the project's domain vocabulary. A reader should be able to tell what a value represents or what an operation does without reconstructing the implementation.
 
-See the [four-layer design](/skills/principles-four-layer-design/) for the full framework.
+For a numeric boundary, identify the quantity and unit when the type or surrounding context does not already make them clear. `retryDelayMs` communicates more than `delay`; `maxAttempts` communicates a count without inventing a time unit.
+
+A mutating operation should not look like a harmless lookup. Check callers before renaming a public symbol so the vocabulary remains consistent across its interface.
+
+## Put reasons in comments
+
+Comments are useful for constraints, invariants, tradeoffs, or compatibility behavior that the code cannot explain on its own. A comment that merely narrates the next statement adds another place to maintain the same information.
+
+If an awkward name reflects an unclear responsibility, follow that concern into the [function](/skills/principles-function-control-flow/) or [module](/skills/principles-module-boundaries/) boundary. Local renaming cannot resolve ambiguous ownership.
+
+## Review for consequences
+
+Ask how the wording could mislead a caller or maintainer. Prefer a concrete example of that confusion over a stylistic preference. Keep vocabulary changes within the task's affected scope.

@@ -1,9 +1,10 @@
 // Runs one prompt through a code agent CLI inside a staged workspace where the
 // repository's skills sit in each tool's native discovery directory.
 import { spawn } from "node:child_process";
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { cpSync, mkdtempSync, readFileSync, readdirSync, readlinkSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url));
@@ -60,21 +61,47 @@ function run(command, args, { cwd, stdin }) {
   });
 }
 
-async function stageWorkspace(toolName) {
-  const workspace = mkdtempSync(join(tmpdir(), `superjunior-eval-${toolName}-`));
+async function stageWorkspace(toolName, workspace) {
   cpSync(join(repoRoot, "evals", "fixture"), workspace, { recursive: true });
   cpSync(join(repoRoot, "skills"), join(workspace, tools[toolName].skillDir), { recursive: true });
   writeFileSync(join(workspace, ".gitignore"), ".claude/\n.agents/\n");
   await run("git", ["init", "-q"], { cwd: workspace });
   await run("git", ["add", "."], { cwd: workspace });
   await run("git", ["-c", "user.name=eval", "-c", "user.email=eval@example.invalid", "commit", "-q", "-m", "Initial import"], { cwd: workspace });
-  return workspace;
 }
 
-// Lists files the agent created, changed, or deleted; every prompt forbids edits.
-async function changedFiles(workspace) {
-  const status = await run("git", ["status", "--porcelain", "--untracked-files=all"], { cwd: workspace });
-  return status.split("\n").map((line) => line.slice(3).trim()).filter(Boolean);
+export async function captureWorkspace(workspace) {
+  const files = new Map();
+  function visit(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      const name = relative(workspace, path).split(sep).join("/");
+      if (name === ".git") continue;
+      if (entry.isSymbolicLink()) files.set(name, `link:${readlinkSync(path)}`);
+      else if (entry.isDirectory()) {
+        files.set(name, "directory");
+        visit(path);
+      } else if (entry.isFile()) files.set(name, createHash("sha256").update(readFileSync(path)).digest("hex"));
+      else throw new Error(`Unsupported workspace entry: ${name}`);
+    }
+  }
+  visit(workspace);
+  return {
+    files,
+    head: await run("git", ["rev-parse", "HEAD"], { cwd: workspace }),
+    index: await run("git", ["ls-files", "--stage", "-z"], { cwd: workspace }),
+  };
+}
+
+// shortcut: compares final state only; use tool traces to detect changes that were later reverted.
+export async function checkWorkspace(workspace, before) {
+  const after = await captureWorkspace(workspace);
+  return {
+    changedFiles: [...new Set([...before.files.keys(), ...after.files.keys()])]
+      .filter((name) => before.files.get(name) !== after.files.get(name)).sort(),
+    headChanged: before.head !== after.head,
+    indexChanged: before.index !== after.index,
+  };
 }
 
 export default class AgentCliProvider {
@@ -93,9 +120,11 @@ export default class AgentCliProvider {
   async callApi(prompt) {
     let workspace;
     try {
-      workspace = await stageWorkspace(this.toolName);
+      workspace = mkdtempSync(join(tmpdir(), `superjunior-eval-${this.toolName}-`));
+      await stageWorkspace(this.toolName, workspace);
+      const before = await captureWorkspace(workspace);
       const output = await tools[this.toolName].run(prompt, workspace, this.extraArgs);
-      return { output: output.trim(), metadata: { changedFiles: await changedFiles(workspace) } };
+      return { output: output.trim(), metadata: await checkWorkspace(workspace, before) };
     } catch (error) {
       return { error: error.message };
     } finally {

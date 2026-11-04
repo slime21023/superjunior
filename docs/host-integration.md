@@ -1,43 +1,72 @@
 +++
-title = "Host integration"
-description = "What your code agent needs to provide for the skills to work, and how to adopt them step by step."
+title = "Install and run with your coding agent"
+description = "Skill locations, host responsibilities, and checks to make when discovery or execution differs."
 section = "start"
 order = 2
 permalink = "/host-integration/index.html"
 +++
 
-SuperJunior provides instructions. Your code agent, the host, runs them. The skills do not add tools, permissions, or background processes; they rely on what the host already offers.
+SuperJunior's files contain instructions. The coding agent that loads them controls tools, filesystem access, command execution, and permission prompts.
 
-## What the host provides
+<h2 id="install-the-skills">Install the skills</h2>
 
-- **Discovery**: finds the skills and the files they link to, such as principles and agent roles.
-- **Persistent mode**: keeps junior or senior mode active across follow-ups until you turn it off.
-- **Permissions**: decides which files the agent may read and write, and which commands and external actions it may run.
-- **Delegation**: starts subagents, if you allow them, and limits how many run and what they cost.
-- **Execution**: runs commands and returns real output to the agent.
+Copy the contents of this repository's `skills/` into one of the locations below. Copy the skill directories themselves, so the result is a set of sibling folders such as `junior-mode/SKILL.md` and `agent-code-reviewer/SKILL.md`.
 
-When a host lacks one of these, the skills still work with less help. Without discovery, ask the agent to read a skill file directly. Without persistent mode, mention the mode again in follow-up requests.
+| Host | Project directory | Personal directory |
+| :--- | :--- | :--- |
+| Claude Code | `.claude/skills/` | `~/.claude/skills/` |
+| Codex CLI | `.agents/skills/` | `~/.agents/skills/` |
+| Antigravity CLI (`agy`) | `.agents/skills/` | `~/.gemini/antigravity-cli/skills/` |
 
-## Install the skills
+Use ordinary directory copies. The repository's discovery setup uses copies, and the relative links between skills depend on keeping the sibling layout.
 
-Copy every skill directory into the tool's skill directory, side by side, so links between skills keep working. Copy instead of symlinking; Codex has had reported problems loading symlinked skills.
+The previous handbook recorded successful project-directory discovery with Claude Code 2.1.300, Codex CLI 0.162.1, and agy 1.3.6. These are recorded test versions, not minimum versions or a guarantee about newer releases. Personal directories were documented but not tested in that baseline. Verify discovery in your installed host before relying on it.
 
-| Tool | Version checked | Project directory | Personal directory |
-| :--- | :--- | :--- | :--- |
-| Claude Code | 2.1.300 | `.claude/skills/` | `~/.claude/skills/` |
-| Codex CLI | 0.162.1 | `.agents/skills/` | `~/.agents/skills/` |
-| Antigravity CLI (`agy`) | 1.3.6 | `.agents/skills/` | `~/.gemini/antigravity-cli/skills/` |
+## Check discovery
 
-With the project directories filled, each listed version discovered every skill. The personal directories come from each tool's documentation and were not tested.
+Start a session in the target project and ask the host to list the SuperJunior skills it sees. Compare the list with the folders you copied.
 
-## How delegation works
+Naming a skill in a request makes your intent explicit:
 
-By default, the agent does every phase itself. When your host allows subagents and a focused, isolated assignment helps, the agent can hand one phase to an [agent role](/subagents/): scope alignment, test-first implementation, debugging, review, or committing. The agent gives the subagent the role's instructions and an explicit read or write boundary, then checks the evidence that comes back before moving on.
+```text
+Use agent-scope-aligner to identify the files and tests affected by adding CSV export.
+Do not change files.
+```
 
-None of the tested tools starts these roles automatically. The agent passes the role's instructions to the subagent it starts. A role marked read-only states an intent; the host's permissions are what actually enforce it.
+Automatic selection depends on the host and the other skills it has installed. A role's name does not create a separate agent process.
 
-## Adopt gradually
+<h2 id="if-a-skill-is-not-found">If a skill is not found</h2>
 
-Start with one role, such as [self-review](/skills/agent-code-reviewer/) on an existing diff, and check that the agent finds the linked principles and returns findings about your actual code. Next, run a small change through [junior mode](/skills/junior-mode/). Turn on delegation to [agent roles](/subagents/) only after the single-session route works.
+Check that `SKILL.md` is directly inside the named skill folder, that all required sibling skills were copied, and that the session is using the intended project. Follow your host's refresh or new-session behavior after changing installed skills.
 
-Activating a mode never grants permission to push or publish. Say how you want work delivered: local changes, local commits, or a pull request you authorize.
+If discovery is unavailable, ask the agent to read the file explicitly. For a Claude Code project installation, for example:
+
+```text
+Read .claude/skills/junior-mode/SKILL.md and use it for this task.
+```
+
+Substitute the actual installed path for your host. Reading the file supplies instructions; it does not add tools the host lacks.
+
+## What the host must supply
+
+| Capability | What it affects |
+| :--- | :--- |
+| File and history access | Whether the agent can inspect source, callers, and recorded decisions |
+| Command execution | Whether it can reproduce failures, run checks, and create authorized commits |
+| Permissions | Which edits and external actions it may perform |
+| Conversation persistence | Whether mode instructions remain available across follow-ups |
+| Delegation | Whether a bounded assignment can run in a separate subagent |
+
+If execution is unavailable, the agent must identify missing evidence. A static assessment cannot substitute for an executed check. If a new session has lost mode context, name the mode again and provide the relevant task record or handoff.
+
+<h2 id="direct-work-and-delegation">Direct work and delegation</h2>
+
+The normal path is to apply each role in the current session. When delegation is authorized and useful, the owner supplies the task, relevant context, read or write boundaries, and expected evidence. The owner then checks and integrates the result.
+
+The skills do not start subagents automatically. Read-only wording describes a role's intended behavior; host permissions enforce access. See [Agent roles](/subagents/) for choosing a bounded assignment.
+
+## Delivery and external actions
+
+Say whether the task should end in local edits, message drafts, local commits, or an authorized remote action. Permission to use a mode does not itself authorize a push, publication, or unrelated changes.
+
+The [first-task guide](/getting-started/) shows how to state delivery in a request. Contributors testing host behavior can use the [CLI evals](/maintenance/#run-the-optional-cli-evals).

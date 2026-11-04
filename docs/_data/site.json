@@ -1,6 +1,6 @@
 {
   "name": "SuperJunior",
-  "description": "A handbook for deliberate, verifiable engineering.",
+  "description": "A handbook for choosing, using, and interpreting engineering skills.",
   "groups": [
     {
       "key": "start",
@@ -8,23 +8,23 @@
     },
     {
       "key": "mode",
-      "label": "Junior mode"
-    },
-    {
-      "key": "senior",
-      "label": "Senior mode"
-    },
-    {
-      "key": "principles",
-      "label": "Principles"
+      "label": "Work modes"
     },
     {
       "key": "roles",
-      "label": "Subagents"
+      "label": "Agent roles"
+    },
+    {
+      "key": "senior",
+      "label": "Code & architecture"
+    },
+    {
+      "key": "principles",
+      "label": "Design guidance"
     },
     {
       "key": "practice",
-      "label": "In practice"
+      "label": "Maintenance"
     }
   ]
 }

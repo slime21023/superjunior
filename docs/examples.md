@@ -1,83 +1,124 @@
 +++
-title = "Example requests"
-navTitle = "Examples"
-description = "Requests for common situations, and what to expect from each."
-section = "practice"
-order = 0
+title = "Requests you can adapt"
+navTitle = "Example requests"
+description = "State the behavior, boundaries, and delivery, then read the result according to the selected skill."
+section = "start"
+order = 3
 permalink = "/examples/index.html"
 +++
 
-Replace the behavior and file names with your own. If your tool does not discover skills, start each request with `Read <skill directory>/SKILL.md` instead of naming the skill.
+Replace the names and paths below with your project's details. If the host cannot discover a named skill, provide its installed `SKILL.md` path as described in [Host integration](/host-integration/).
 
 ## Fix a bug end to end
 
 ```text
-Use junior-mode to fix the shared parser: an empty input must return an empty list instead of throwing.
-Keep the current behavior for nonempty input and check every caller.
-Deliver local commits.
+Use junior-mode to fix the shared parser.
+An empty input must return an empty list instead of throwing.
+Preserve nonempty-input behavior and check affected callers.
+Reproduce the failure, verify the fix, review it, and create local commits.
+Do not push.
 ```
 
-Junior mode aligns scope, reproduces the defect with a failing test, fixes the root cause, reviews the diff, and commits. Expect a report listing the failing and passing test output and the outcome.
+Expect the defect route, verification evidence, review, and confirmed commits. [Junior mode](/skills/junior-mode/) reports completion only for the delivery actually achieved.
 
-## Build a feature test-first
+## Implement a known behavior test-first
 
 ```text
-Use agent-tdd-implementer to add a batch token validator.
-Cover the normal case, an empty batch, and malformed tokens.
-Test through the public interface and mock only external services.
+Use agent-tdd-implementer to enforce a maximum tag length of 40 characters.
+Test lengths 0, 40, and 41 through the public interface.
+Preserve the result shape and leave changes uncommitted.
 ```
 
-The agent reads the surrounding code, lists test cases across normal, boundary, and error cases, and goes red, green, then refactor. When an in-suite test is impractical, it uses a narrow reproduction check and says why.
+Expect Red/Green/Refactor evidence, relevant regression checks, and a `COMPLETED`, `PARTIAL`, or `BLOCKED` report. If a required check cannot run, the [implementer](/skills/agent-tdd-implementer/) must identify the missing verification.
 
-## Review without changing code
+## Diagnose without applying a fix
+
+```text
+Use agent-scientific-debugger to investigate the intermittent retry-test failure.
+Find a reproducible case and test the likely causes.
+Return the diagnosis and a proposed fix without changing files.
+```
+
+The request limits this assignment to investigation. Read the [debugger's](/skills/agent-scientific-debugger/) diagnosis status and evidence separately from its verification result. `IDENTIFIED` does not mean a fix was applied.
+
+## Review an existing diff
 
 ```text
 Use agent-code-reviewer on the current diff.
-Check it against the four design layers and the original acceptance criteria.
-Do not modify any files; return findings only.
+The requirement is that an empty tag selection returns all items.
+Check affected callers, failure paths, and the acceptance criteria.
+Return findings without modifying files or executing code.
 ```
 
-Expect findings grouped by design layer. A confirmed problem returns `needs-change` even though the review itself is complete.
+Expect a verdict and findings tied to source locations, severity, impact, and corrections. The [reviewer](/skills/agent-code-reviewer/) does not replace executed test evidence. Its direct output uses `APPROVE`, `REQUEST_CHANGES`, or `COMMENT`.
 
-## Prepare commits
+## Draft a message or create commits
+
+For a draft:
 
 ```text
-Use agent-git-committer for the staged and unstaged changes.
-Split them into single-purpose commits that each pass the tests, and explain why in each message.
+Use agent-git-committer to draft a message for the parser diff.
+Explain why the behavior changed.
+Do not stage changes or create commits.
 ```
 
-The agent groups the changes, runs the tests for each commit, and writes messages that explain the reason for the change. It never commits the `.superjunior/` task record.
+Expect `PREPARED` and no commit SHA. When you want actual delivery:
+
+```text
+Use agent-git-committer to create local commits for the verified parser fix.
+Include its regression tests and preserve unrelated staged and unstaged work.
+Report each commit SHA, its checks, and anything left uncommitted.
+Do not push.
+```
+
+The [committer](/skills/agent-git-committer/) must confirm created commits and report failures or unfinished work. A message draft alone cannot satisfy this second request.
 
 ## Resume a paused task
 
 ```text
-Use junior-mode and resume the task in .superjunior/task.md.
+Use junior-mode to resume the task in .superjunior/task.md.
+Reconcile the record with the working tree before continuing.
+Keep the original delivery scope.
 ```
 
-The agent compares the record with your working tree, re-runs checks whose files or inputs changed, and continues from the earliest phase without valid evidence. An old passing test does not count once the code under it has changed.
+The mode checks which evidence is still valid and resumes from the affected phase. See the [task lifecycle](/skills/junior-mode/#continue-an-existing-task).
 
-## Explain how code works
+## Understand current execution
 
 ```text
-Use senior-mode: how does a request flow from the HTTP handler to the database in the orders service?
-Which layer owns validation?
+Use senior-mode to explain how an order request reaches the database.
+Identify where validation occurs and what happens on failure.
+Use code references and do not change files.
 ```
 
-Senior mode runs [how works](/skills/how-works/). Expect a conceptual walkthrough of how the parts collaborate, based on the code it inspected, not a line-by-line dump. No files change.
+Expect an evidence-based walkthrough using [how-works](/skills/how-works/), with assumptions and unknown behavior identified.
 
-## Ask why code is the way it is
+## Investigate a historical choice
 
 ```text
-Use senior-mode: why does the cache layer write through instead of invalidating on update?
+Use why to investigate the retry helper's three-attempt limit.
+Find the introducing change and any recorded rationale.
+Separate confirmed history from inference; do not redesign the helper.
 ```
 
-Senior mode runs [why](/skills/why/), which searches Git history, pull requests, and the code. The answer leads with the main reason, separates verified facts from inferences, and asks you when the evidence runs out.
+Expect historical evidence and `CONFIRMED`, `INFERRED`, or `UNKNOWN` confidence. Missing history is a legitimate limit, not an invitation to invent an explanation.
 
-## Decide an architecture, then build it
+## Discuss, record, then implement
+
+Begin with the decision:
 
 ```text
-Use senior-mode to design the notification system for our expected load and constraints.
-Compare viable architectures, agree on boundaries, record them, and specify the first component.
+Use senior-mode to compare synchronous and queued notification delivery.
+Inspect current behavior, constraints, and failure handling.
+Give a recommendation and open questions without writing files.
 ```
 
-Senior mode discusses options and tradeoffs and provides a concise handoff. It records confirmed architecture only when you explicitly request documentation. Start [junior mode](/skills/junior-mode/) with the handoff to build it.
+After confirming a choice, request the record:
+
+```text
+We choose queued delivery with at-least-once processing.
+Record the confirmed boundaries and remaining idempotency question
+in docs/architecture.md. Preserve unrelated content.
+```
+
+[Senior mode](/skills/senior-mode/) records the confirmed scope and prepares a handoff. Start junior mode with that handoff and your delivery request once implementation-blocking questions are resolved.
