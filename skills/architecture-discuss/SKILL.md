@@ -27,6 +27,7 @@ license: MIT
     - Keep explanations concise and use diagrams only when requested.
     - Do not modify implementation code, tests, or configuration.
     - Record confirmed decisions only when explicitly requested, following existing documentation conventions.
+    - Read existing documentation before editing and preserve unrelated content.
 </Architecture-Principles>
 
 <Output-Formation>

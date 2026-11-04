@@ -18,3 +18,5 @@ Each role can be used directly in the current session or delegated when authoriz
 | [Git committer](/skills/agent-git-committer/) | Prepare authorized, verified commits. |
 
 Instructions are contained in each agent skill. Host permissions control access. The owner integrates delegated review aspects and determines the overall outcome.
+
+Roles keep their own result fields and formats. The owner checks whether each result supplies the evidence needed by the next phase; [junior mode](/skills/junior-mode/) defines those handoff decisions.

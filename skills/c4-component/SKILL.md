@@ -27,6 +27,7 @@ license: MIT
     - Use diagrams only when requested; label proposed elements explicitly.
     - Do not modify implementation code, tests, or configuration.
     - Record confirmed designs only when explicitly requested, following existing documentation conventions.
+    - Read existing documentation before editing and preserve unrelated content.
 </Component-Principles>
 
 <Output-Formation>

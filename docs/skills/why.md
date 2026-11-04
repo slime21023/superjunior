@@ -8,4 +8,4 @@ source = "skills/why/SKILL.md"
 
 Investigate historical rationale using documented evidence, distinguishing facts from inferences and gaps.
 
-Use the skill directly or through [senior mode](/skills/senior-mode/). It uses concise text or simple XML scope tags by default and considers visualization only when requested; it does not write product code. Architecture documents are created or updated only when the user confirms the decisions and explicitly requests a record.
+Use the skill directly or through [senior mode](/skills/senior-mode/). It distinguishes documented rationale from hypotheses and missing history without modifying code, tests, configuration, or documentation. Requests to record confirmed architecture decisions belong to senior mode or an architecture skill.

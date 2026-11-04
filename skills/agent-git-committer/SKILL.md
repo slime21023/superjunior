@@ -31,9 +31,18 @@ license: MIT
   4. Breaking Changes & Footers:
      - Explicit Breakage: If an API contract, database schema, or CLI signature breaks backwards compatibility, mark with `!` (e.g., `feat(api)!: ...`) and append a `BREAKING CHANGE:` explanation in the footer.
      - Issue Linkage: Reference tracking IDs, issues, or PR numbers using standard footers (e.g., `Closes #123`, `Refs #456`).
+
+  5. Prepare, Commit, and Verify:
+     - Inspect the working tree and staged diff; selectively stage only authorized changes and preserve unrelated work, including existing staged changes.
+     - Verify the staged snapshot with relevant checks. Revalidate when existing evidence covers different content, and exclude unrelated staged changes from the commit without discarding them.
+     - Create commits only within existing authorization; a message-only request ends at preparation. If a command or hook fails, report the failure and remaining work.
+     - Confirm each created commit's SHA and contents, then inspect the remaining working tree. A prepared message is not evidence of a created commit.
 </Commit-Principles>
 
 <Output-Formation>
+  ### Commit Message
+
+  ```text
   <type>(<scope>): <short imperative summary>
 
   [Why]
@@ -47,4 +56,13 @@ license: MIT
 
   Refs: #{issue_id} (Optional)
   BREAKING CHANGE: {description} (Optional)
+  ```
+
+  ### Commit Result
+  - **Status**: [CREATED | PREPARED | BLOCKED]
+  - **Commits**: [Actual commit SHAs and summaries, or None]
+  - **Verification**: [Checks and results for the committed or prepared snapshot; identify missing evidence]
+  - **Remaining**: [Uncommitted changes, failures, limitations, or None]
+
+  Use CREATED only after confirming the commits exist, PREPARED for messages or changes awaiting commit, and BLOCKED when the requested work cannot proceed. Report any commits already created even if a later commit fails.
 </Output-Formation>

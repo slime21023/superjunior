@@ -47,3 +47,19 @@ tests:
     vars: { request: "test/retry.test.js passes on some runs and fails on others without any code change." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [agent-scientific-debugger, junior-mode], firstAction: "isolat|nondetermin|non-determin|flak|random|reproduc" } }
+  - description: Identified root cause does not complete a fix
+    vars: { request: "Use junior-mode to assess this handoff for a bug-fix task: the debugger reports IDENTIFIED with a reproducible failing test, but no fix has been applied and the test still fails. Report the workflow outcome and next action; do not perform the remaining work." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change] } }
+  - description: Completion label cannot replace verification evidence
+    vars: { request: "Use junior-mode to assess this handoff: the implementer reports COMPLETED, but the required tests could not run because the test environment is unavailable. No test result exists for the current patch. Report the workflow outcome and next action; do not perform the remaining work." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [unverified] } }
+  - description: Prepared message does not complete commit delivery
+    vars: { request: "Use junior-mode to assess this handoff: the requested delivery is two local commits. Both changes passed verification and review, but the committer reports PREPARED with message drafts and explicitly says neither commit was created. Report the workflow outcome and next action; do not perform the remaining work." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [junior-mode], outcomes: [needs-change] } }
+  - description: Unconfirmed architecture proposal cannot become a decision record
+    vars: { request: "Use architecture-discuss to assess a handoff asking for a confirmed architecture record. The author recommends PostgreSQL, but the user has not chosen it over SQLite. Report the workflow outcome and next action before recording a decision." }
+    assert:
+      - { type: javascript, value: "file://assertions.cjs:decides", config: { skills: [architecture-discuss], outcomes: [needs-decision] } }

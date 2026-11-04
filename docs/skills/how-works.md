@@ -8,4 +8,4 @@ source = "skills/how-works/SKILL.md"
 
 Explain current behavior using inspected code and evidence, choosing the relevant C4 view when useful.
 
-Use the skill directly or through [senior mode](/skills/senior-mode/). It uses concise text or simple XML scope tags by default and considers visualization only when requested; it does not write product code. Architecture documents are created or updated only when the user confirms the decisions and explicitly requests a record.
+Use the skill directly or through [senior mode](/skills/senior-mode/). It explains current behavior and evidence gaps without modifying code, tests, configuration, or documentation. Diagrams are used only when requested. Requests to record confirmed architecture decisions belong to senior mode or an architecture skill.

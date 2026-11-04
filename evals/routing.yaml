@@ -78,10 +78,10 @@ tests:
     vars: { request: "Implement a tag-length limit test-first, covering happy path, boundaries, and errors." }
     assert:
       - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [agent-tdd-implementer, junior-mode] } }
-  - description: Naming question goes to lexical principles
+  - description: Naming question goes to engineering principles
     vars: { request: "Is MAX_ATTEMPTS a good name, or should it carry a unit or a clearer meaning?" }
     assert:
-      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [principles-lexical-expression, principles-four-layer-design] } }
+      - { type: javascript, value: "file://assertions.cjs:routesTo", config: { allowed: [engineering-principles] } }
 
   - description: System context discussion uses the C4 context skill
     vars: { request: "Discuss the system context and major containers for this service; do not write a document." }

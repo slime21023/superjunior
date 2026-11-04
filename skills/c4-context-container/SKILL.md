@@ -27,6 +27,7 @@ license: MIT
     - Use diagrams only when requested; label proposed elements and relationships.
     - Do not modify implementation code, tests, or configuration.
     - Record confirmed architecture only when explicitly requested, following existing documentation conventions.
+    - Read existing documentation before editing and preserve unrelated content.
 </Architecture-Principles>
 
 <Output-Formation>

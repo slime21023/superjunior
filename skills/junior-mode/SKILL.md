@@ -58,9 +58,18 @@ Coordinate engineering changes through specialized agent skills, verified execut
 
 <verification>
   - Advance only when the current phase satisfies its Done Criteria and required evidence.
-  - Treat reviewer `REQUEST_CHANGES` as needs-change; evaluate `COMMENT` findings individually.
-  - Treat debugger `IDENTIFIED` as a diagnosis, not proof of a completed fix.
-  - On **needs-change**, return to implementation or debugging and repeat affected verification and review.
+  - Interpret each role's own result fields; roles do not need a shared output template or status vocabulary.
+
+  | Role result | Evidence required to advance |
+  | :--- | :--- |
+  | Scope summary | Observable Done Criteria, affected boundaries, a verification plan, and no blocking scope ambiguity. |
+  | Implementer `COMPLETED` | Acceptance criteria and required checks verified for the current changes. `PARTIAL` or `BLOCKED` requires follow-up based on the stated reason. |
+  | Debugger `IDENTIFIED` | A supported diagnosis can hand off to Implement/Verify. The fix task remains incomplete until the fix passes the reproduction and relevant regression checks. |
+  | Reviewer verdict | `REQUEST_CHANGES` means needs-change; assess `COMMENT` findings individually. `APPROVE` completes review only when blocking findings are resolved; it does not replace execution evidence. |
+  | Committer result | For commit delivery, require actual SHAs, confirmed contents, verification evidence, and completion of all requested commits. `PREPARED` completes a preparation-only assignment; it does not complete commit delivery. |
+
+  - A known defect or unfinished required work means **needs-change**; missing execution or verification evidence means **unverified**; a blocking user choice means **needs-decision**. Interpret a blocked role by its cause rather than its label alone.
+  - On **needs-change**, return to the affected phase and repeat affected verification and review.
   - On **unverified**, stop and identify missing evidence, tools, or environment requirements.
   - On **needs-decision**, stop and obtain a confirmed decision before implementation.
   - Never infer successful execution from static review or treat unresolved findings as passed.

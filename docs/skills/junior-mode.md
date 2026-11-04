@@ -18,7 +18,7 @@ Once started, junior mode stays active for follow-up engineering requests until 
 Junior mode checks four routes in this order and takes the first one that fits:
 
 1. **Design decision pending.** The work needs a choice nobody has made yet, such as a storage engine, framework, component boundary, or public API shape. Junior mode does not make that choice, even when one option looks obvious. It returns `needs-decision`, lays out the options and their tradeoffs, and points you to [senior mode](/skills/senior-mode/). It resumes once you confirm a decision or bring back a senior-mode handoff brief.
-2. **Defect.** You report an exception, a failing test, or a test that passes on some runs and fails on others. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to self-review and commit. For an intermittent failure, the agent first pins down the source of nondeterminism, such as time, randomness, ordering, concurrency, shared state, or network.
+2. **Defect.** You report an exception, a failing test, or a test that passes on some runs and fails on others. After a one-line problem statement and Done Criteria, work starts at scientific debugging, then continues to implementation or verification, self-review, and authorized delivery. For an intermittent failure, the agent first pins down the source of nondeterminism, such as time, randomness, ordering, concurrency, shared state, or network.
 3. **Light.** The change cannot affect runtime behavior: documentation, comments, formatting, or a configuration value that no code path depends on. The agent writes a short problem statement and Done Criteria, makes the change, runs the narrowest check that shows it works (a build, render, or lint), runs self-review's hygiene checks (the four-layer audit does not apply because no runtime code changed), and commits it. If the effect on behavior is uncertain, it takes the full route instead.
 4. **Full.** Every other change.
 
@@ -27,17 +27,21 @@ Junior mode checks four routes in this order and takes the first one that fits:
 1. [Align scope](/skills/agent-scope-aligner/): agree on the problem, the Done Criteria, and which files are affected.
 2. [Context TDD](/skills/agent-tdd-implementer/): learn the surrounding code, then build the change test-first.
 3. [Scientific debug](/skills/agent-scientific-debugger/), only when a defect appears: reproduce it, find the root cause, and fix it there.
-4. [Self review](/skills/agent-code-reviewer/): check the diff against the [four-layer design principles](/skills/principles-four-layer-design/) and basic hygiene.
+4. [Self review](/skills/agent-code-reviewer/): check the diff against relevant [engineering principles](/skills/engineering-principles/) and basic hygiene.
 5. [Atomic commit](/skills/agent-git-committer/): stage and commit the work in single-purpose commits.
 
-Each phase returns an outcome that decides the next step:
+Each role keeps its own output fields. Junior mode interprets the evidence and determines the workflow outcome:
 
 | Outcome | Next step |
 | :--- | :--- |
 | `pass` | Continue to the next phase on the chosen route. |
-| `needs-change` | Go back to TDD or debugging to fix the problem. |
+| `needs-change` | Return to the affected phase and repeat the necessary verification and review. |
 | `unverified` | Stop and get the missing evidence, such as a working test runner or environment. |
 | `needs-decision` | Stop and ask you a specific question with the options laid out. |
+
+An implementer's `COMPLETED` needs supporting acceptance checks. A debugger's `IDENTIFIED` can hand off to implementation or verification; the fix task still needs a verified fix. A reviewer's `APPROVE` does not replace test results. For commit delivery, the committer must report actual SHAs and evidence for all requested commits; `PREPARED` is sufficient only when the assignment asked for preparation.
+
+Known defects or unfinished required work mean `needs-change`; missing verification evidence means `unverified`; a blocking user choice means `needs-decision`. A completed phase allows the next phase to begin without implying the whole task is complete.
 
 ## Keep the task record
 
@@ -63,7 +67,7 @@ The main agent stays responsible: it integrates each result and re-checks the ev
 
 ## What you get
 
-Every task ends with a report covering the result, whether it is complete, the current phase, the evidence that decided it, any limitations, and the next action. `pass` means the whole agreed route, including the commit, is done. If you asked only for a review or a verification, the report gives that phase's actual outcome.
+Every task ends with a report covering the result, whether it is complete, the current phase, the evidence that decided it, any limitations, and the next action. Final `pass` means the whole agreed route and authorized delivery are done, including commits when requested. If you asked only for a review or a verification, the report gives that phase's actual outcome.
 
 ## Boundaries
 

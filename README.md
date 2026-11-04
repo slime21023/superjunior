@@ -1,6 +1,6 @@
 # SuperJunior
 
-SuperJunior is a set of skills for code agents such as Claude Code, Codex, and Antigravity. With them, the agent scopes a change before it writes code, proves the change with tests, reviews its own diff, and commits in small steps. Every result ends with a clear status: whether the work passed, needs changes, could not be verified, or is waiting on a decision from you.
+SuperJunior is a set of skills for code agents such as Claude Code, Codex, and Antigravity. With them, the agent scopes a change before it writes code, proves the change with tests, reviews its own diff, and commits in small steps. Each role reports its own result and evidence; junior-mode determines whether the workflow passed, needs changes, could not be verified, or is waiting on a decision from you.
 
 ## Pick a mode
 

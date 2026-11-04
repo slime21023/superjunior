@@ -4,14 +4,13 @@ description = "Make assumptions visible, write the minimum code, change only wha
 permalink = "/skills/karpathy-guidelines/index.html"
 section = "principles"
 order = 6
-source = "skills/karpathy-guidelines/SKILL.md"
 +++
 
 These guidelines target the mistakes coding agents actually make. Based on [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876), those are rarely syntax errors. They are the errors of a hasty junior developer: silent assumptions, bloated code, and edits to things nobody asked to change. Agents are good at looping toward a clear goal, so the guidelines give them one.
 
 ## When to apply it
 
-Use it whenever an agent writes, reviews, or refactors code. The rules favor caution over speed; on a trivial edit, use judgment instead of adding process.
+This guide supports the [engineering-principles skill](/skills/engineering-principles/). Use it whenever an agent writes, reviews, or refactors code. The rules favor caution over speed; on a trivial edit, use judgment instead of adding process.
 
 ## The rules
 

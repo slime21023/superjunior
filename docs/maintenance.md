@@ -41,12 +41,12 @@ Pages use TOML front matter between `+++` lines. The layout shows the title and 
 
 ```toml
 +++
-title = "Lexical & expression"
-description = "Precise naming, code/comment division, and unified domain vocabulary."
-permalink = "/skills/principles-lexical-expression/index.html"
+title = "Engineering principles"
+description = "Minimal changes, clear behavior, cohesive boundaries, and verified outcomes."
+permalink = "/skills/engineering-principles/index.html"
 section = "principles"
 order = 1
-source = "skills/principles-lexical-expression/SKILL.md"
+source = "skills/engineering-principles/SKILL.md"
 +++
 ```
 
@@ -60,7 +60,11 @@ When a skill changes, update its reference page and any examples or workflow gui
 
 ## Write skill definitions
 
+Keep a recognizable structure: purpose and scope, operating principles or workflow, and the result needed by the caller. Roles can use different headings, tags, and output fields. Modes may add routing and orchestration; judge the completeness of their handoffs rather than requiring identical templates.
+
 Skill definitions use XML tags only to mark blocks. Tags stay bare: no attributes, no self-closing tags, and at most two levels of nesting. A first-level tag marks a block the agent must find as a whole, such as constraints, a procedure, or an output contract; a second level is only for repeated items with several fields. Metadata belongs in the front matter.
+
+Preserve each skill's tag names and case. Put literal templates containing angle brackets in inline code or a fenced `text` block so they are not interpreted as XML.
 
 Inside a tag, write prose by default, because connected sentences keep the reasons, conditions, and exceptions that bullet fragments drop. Use other forms only where they fit:
 
@@ -80,8 +84,9 @@ The command builds the site and runs Node's test runner to confirm that:
 - internal page, fragment, source, and asset links resolve;
 - copied skill definitions keep their original bytes;
 - skill definitions use Agent Skills front matter whose name matches the directory, references inside skills resolve, and XML block tags stay bare and at most two levels deep.
+- routing and behavior eval expectations name skills that still exist.
 
-The checks do not judge whether the prose is accurate or the pages look right. Compare changed guidance with its source, and when layout or navigation changes, review desktop and mobile pages, keyboard navigation, visible focus, and horizontal overflow.
+The checks do not judge whether the prose is accurate or the pages look right, and do not require particular headings or sentences. Review role boundaries against the source: how-works and why are read-only; architecture skills can write requested records of user-confirmed decisions while preserving unrelated content. Compare changed guidance with its source, and when layout or navigation changes, review desktop and mobile pages, keyboard navigation, visible focus, and horizontal overflow.
 
 ## Run the evals
 
@@ -94,6 +99,8 @@ The checks do not judge whether the prose is accurate or the pages look right. C
 | Behavior | Load that skill and report its first decision as JSON: skill, route, outcome, and first action | Each field the case sets matches its allowed values or pattern |
 
 Every agent call gets a fresh workspace in the system temp directory containing `evals/fixture/` and the skills copied into that tool's discovery directory; the workspace is deleted afterwards. The graders in `evals/assertions.cjs` are deterministic. Every prompt forbids edits, so any file the agent creates or changes fails the case.
+
+Behavior cases also check handoffs: a diagnosis without a fix, a completion label without test evidence, a prepared message without commits, and an architecture proposal without a confirmed decision. These assess the agent's stated next decision; they do not prove actual implementation, commit execution, or document editing behavior.
 
 The agents also see skills installed in your personal directories, and those can win routing over SuperJunior's skills. A provider's `args` config passes extra CLI flags, for example `args: ["--disable", "plugins"]` to run Codex without installed plugins. agy runs at medium effort, because at its default effort it keeps exploring past the time limit. It also runs with tool approval and `--sandbox`, because headless agy ends the turn without output when a tool needs a permission prompt.
 

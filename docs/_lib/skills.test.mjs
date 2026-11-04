@@ -58,47 +58,62 @@ test("references inside skill definitions resolve", () => {
   }
 });
 
-test("XML block tags stay bare and at most two levels deep", () => {
+function xmlProblems(source) {
   const problems = [];
+  let fence = null;
+  const stack = [];
+  source.split("\n").forEach((line, index) => {
+    const where = `line ${index + 1}`;
+    const opener = line.trim().match(/^```(\w*)/);
+    if (opener) { fence = fence === null ? opener[1] : null; return; }
+    if (fence !== null && fence !== "xml") return;
+    const text = line.replace(/`[^`]*`/g, "");
+    if (/<[a-z][\w-]*\s[^>]*>/i.test(text) || /<[a-z][\w-]*\/>/i.test(text)) problems.push(`${where} attribute or self-closing tag`);
+    if (text.includes("<!--")) problems.push(`${where} XML comment`);
+    for (const tag of text.matchAll(/<(\/?)([a-z][\w-]*)>/gi)) {
+      if (tag[1]) {
+        if (stack.at(-1) === tag[2]) stack.pop();
+        else problems.push(`${where} unbalanced </${tag[2]}>`);
+      } else {
+        stack.push(tag[2]);
+        if (stack.length > 2) problems.push(`${where} nesting depth ${stack.length}`);
+      }
+    }
+  });
+  if (stack.length) problems.push(`unclosed ${stack.join(" > ")}`);
+  return problems;
+}
+
+test("XML checks recognize role tags and ignore literal templates", () => {
+  assert.deepEqual(xmlProblems('<Review-Principles>\n<item>Check evidence</item>\n</Review-Principles>'), []);
+  assert.deepEqual(xmlProblems('<Output-Formation>\n```text\n<type>(<scope>): <summary>\n```\n`<placeholder>`\n</Output-Formation>'), []);
+  for (const source of [
+    '<Review-Principles>',
+    '<Review-Principles></review-principles>',
+    '<Review-Principles mode="strict"></Review-Principles>',
+    '<Review-Principles/>',
+    '<A><B><C></C></B></A>',
+    '<!-- comment -->',
+    '```xml\n<Output>\n```',
+  ]) assert.ok(xmlProblems(source).length > 0, source);
+});
+
+test("XML block tags stay bare and at most two levels deep", () => {
   for (const path of definitionFiles) {
-    let fence = null;
-    const stack = [];
-    read(path).split("\n").forEach((line, index) => {
-      const where = `${label(path)}:${index + 1}`;
-      const opener = line.trim().match(/^```(\w*)/);
-      if (opener) { fence = fence === null ? opener[1] : null; return; }
-      if (fence !== null && fence !== "xml") return;
-      const text = line.replace(/`[^`]*`/g, "");
-      if (/<[a-z][\w-]*\s[^>]*>/.test(text) || /<[a-z][\w-]*\/>/.test(text)) problems.push(`${where} attribute or self-closing tag`);
-      if (text.includes("<!--")) problems.push(`${where} XML comment`);
-      for (const tag of text.matchAll(/<(\/?)([a-z][\w-]*)>/g)) {
-        if (tag[1]) {
-          if (stack.at(-1) === tag[2]) stack.pop();
-          else problems.push(`${where} unbalanced </${tag[2]}>`);
-        } else {
-          stack.push(tag[2]);
-          if (stack.length > 2) problems.push(`${where} nesting depth ${stack.length}`);
+    assert.deepEqual(xmlProblems(read(path)), [], label(path));
+  }
+});
+
+test("eval expectations reference available skills", () => {
+  const names = new Set(skillDirs.map((directory) => basename(directory)));
+  for (const suite of ["routing", "behavior"]) {
+    const config = yaml.load(read(join(root, "evals", `${suite}.yaml`)));
+    for (const example of config.tests) {
+      for (const expectation of example.assert) {
+        for (const name of [...(expectation.config?.allowed ?? []), ...(expectation.config?.skills ?? [])]) {
+          assert.ok(names.has(name), `${suite}: ${example.description} references missing skill ${name}`);
         }
       }
-    });
-    if (stack.length) problems.push(`${label(path)} unclosed ${stack.join(" > ")}`);
+    }
   }
-  assert.deepEqual(problems, []);
-});
-
-test("agent skills include their operating principles directly", () => {
-  for (const name of ["agent-scope-aligner", "agent-tdd-implementer", "agent-scientific-debugger", "agent-code-reviewer", "agent-git-committer"]) {
-    const text = read(join(skillsRoot, name, "SKILL.md"));
-    assert.match(text, /## Common operating principles/, name);
-    assert.doesNotMatch(text, /agent\.toml|agent-principles\/SKILL\.md/, name);
-  }
-});
-
-test("discussion skills require confirmed decisions and explicit documentation requests", () => {
-  for (const name of ["senior-mode", "architecture-discuss", "c4-context-container", "c4-component", "how-works", "why"]) {
-    const text = read(join(skillsRoot, name, "SKILL.md"));
-    assert.match(text, /confirms the relevant decisions and explicitly requests a record/, name);
-    assert.match(text, /preserve unrelated content/, name);
-  }
-  assert.match(read(join(skillsRoot, "c4-component", "SKILL.md")), /containing application or data store/);
 });

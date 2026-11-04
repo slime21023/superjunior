@@ -7,7 +7,7 @@ order = 0
 permalink = "/principles/index.html"
 +++
 
-The four layers help identify design risks at the scale relevant to a change. Use their questions as guidance, not as a requirement to apply every pattern.
+The [engineering-principles skill](/skills/engineering-principles/) provides shared guidance. The four layers below help identify design risks at the scale relevant to a change. Use their questions as guidance, not as a requirement to apply every pattern.
 
 | Layer | Question | Page |
 | :--- | :--- | :--- |
@@ -16,6 +16,6 @@ The four layers help identify design risks at the scale relevant to a change. Us
 | 3. Modules | Are related responsibilities together and details appropriately hidden? | [Module boundaries](/skills/principles-module-boundaries/) |
 | 4. Architecture | Do dependencies and organization suit the system? | [Architecture and evolution](/skills/principles-architecture-evolution/) |
 
-The [four-layer design](/skills/principles-four-layer-design/) skill connects the layers; each layer can also be used independently. [Junior mode](/skills/junior-mode/) considers relevant boundaries during planning, code clarity during implementation, and concrete risks during [self-review](/skills/agent-code-reviewer/).
+The [four-layer design guide](/skills/principles-four-layer-design/) connects the layers; these pages are supporting guides rather than separate skills. [Junior mode](/skills/junior-mode/) considers relevant boundaries during planning, code clarity during implementation, and concrete risks during [self-review](/skills/agent-code-reviewer/).
 
 The [Karpathy guidelines](/skills/karpathy-guidelines/) complement these principles: make assumptions visible, keep changes small, and verify results.
