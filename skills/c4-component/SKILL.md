@@ -1,42 +1,51 @@
 ---
 name: c4-component
-description: "Discuss components within a C4 container; record confirmed details only when requested."
+description: "Analyze component responsibilities, contracts, and interactions within a C4 container."
 license: MIT
 ---
 
 # c4-component
 
-## Operating principles
+<Component-Principles>
+  1. Establish Container Context:
+    - Identify the containing application or data store and its boundaries.
+    - Inspect existing components, dependencies, and external interactions.
+    - Focus on C4 Component level; reference other levels only when necessary.
 
-- Use C4 terms at the level the question needs: system and external actors, containers (applications or data stores, not necessarily Docker), components within a named container, or code. Describe meaningful relationships.
-- Separate observed facts and evidence from inference, proposals, and decisions confirmed by the user. Surface material uncertainty and tradeoffs.
-- Describe actual operations first; claims about blocking, concurrency, or performance need evidence. Mark unsupported claims as uncertain.
-- Do not strengthen confirmed decisions with unconfirmed guarantees or technology. Put derived requirements under proposals or open questions.
-- Default to concise text; use simple balanced XML tags to mark scope when helpful. Consider visualizations, including Mermaid, only when the user explicitly requests visualization. In any visualization, label proposed or unverified elements and relationships directly.
-- Answer the immediate question first. Usually compare two relevant options and ask one to three decision-changing questions; expand when needed.
-- Work directly by default; delegate only when authorized and useful, with explicit boundaries. The owner checks and integrates evidence.
-- Discuss concisely and do not modify product code, tests, or build configuration. Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
-- When recording, follow the user's specified path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`. Read existing documents first, preserve unrelated content, and use existing `_adr/` material as evidence without automatically migrating or deleting it.
+  2. Define Component Responsibilities:
+    - Identify each component's purpose, ownership, and dependencies.
+    - Clarify interfaces, data flow, state ownership, and failure handling.
+    - Avoid overlapping responsibilities and unnecessary coupling.
 
-Identify the containing application or data store before describing its components, responsibilities and interactions. Clarify relevant contracts, state and failure handling without assuming unresolved decisions. Existing architecture records may inform discussion but are not prerequisites.
+  3. Evaluate Component Design:
+    - Compare practical alternatives and their trade-offs when relevant.
+    - Ground behavioral, concurrency, and performance claims in evidence.
+    - Distinguish observed facts, assumptions, proposals, and confirmed decisions.
 
-## Before presenting
+  4. Preserve Architectural Boundaries:
+    - Answer the immediate question and highlight unresolved decisions.
+    - Use diagrams only when requested; label proposed elements explicitly.
+    - Do not modify implementation code, tests, or configuration.
+    - Record confirmed designs only when explicitly requested, following existing documentation conventions.
+</Component-Principles>
 
-1. Classify relevant elements, relationships, and protocols as observed, confirmed, or proposed. In text or XML, label unverified relationships and unknown protocols; when visualization is explicitly requested, label each proposed element and relationship directly in it.
-2. Compare every statement in the whole answer with the user's confirmed decisions. Put any stronger guarantee, technology, or inferred requirement under assumptions, proposals, or open questions, including in the goal, scope, evidence, and next steps.
-3. Answer the immediate question first. Use concise text or simple XML scope tags by default; avoid repeating the same content in the template.
+<Output-Formation>
+  ### Component Summary
+  - **Container**: [Containing application or data store]
+  - **Goal**: [Component-level objective and boundaries]
 
-Example: If the user confirmed only "record the request before responding", report exactly that as confirmed. Whether the record must persist across restarts is an open question, not a confirmed decision.
-## Discussion and handoff format
+  ### Component Analysis
+  - **Components**: [Responsibilities and ownership]
+  - **Interactions**: [Interfaces, dependencies, and data flow]
+  - **State & Failures**: [State ownership and failure handling]
+  - **Evidence**: [Observed facts and unverified assumptions]
 
-Use relevant fields; fill placeholders yourself and distinguish unconfirmed proposals from agreement.
+  ### Design & Trade-offs
+  - **Options**: [Relevant alternatives and trade-offs]
+  - **Recommendation**: [Preferred design and rationale, if justified]
 
-```text
-Goal: {{goal}}
-Scope and C4 view: {{boundary_and_level}}
-Evidence and assumptions: {{facts_and_uncertainties}}
-Options and tradeoffs: {{options}}
-Confirmed decisions: {{confirmed_or_none}}
-Open questions: {{questions_or_none}}
-Next step: {{next_step}}
-```
+  ### Decisions & Next Steps
+  - **Confirmed**: [Explicitly approved decisions]
+  - **Open Questions**: [Unresolved design decisions]
+  - **Next Step**: [Recommended action]
+</Output-Formation>

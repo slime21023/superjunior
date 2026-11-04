@@ -1,18 +1,51 @@
 ---
 name: why
-description: "Investigate historical design rationale using code, history, and documented evidence."
+description: "Investigate historical design rationale through code, Git history, and documented decisions."
 license: MIT
 ---
 
 # why
 
-## Operating principles
+<Investigation-Principles>
+  1. Establish Historical Context:
+    - Identify the relevant behavior, design decision, and affected code.
+    - Inspect current implementation, Git history, and available documentation.
+    - Trace when and how the design was introduced or modified.
 
-- Use C4 terms at the level the question needs: system and external actors, containers (applications or data stores, not necessarily Docker), components within a named container, or code. Describe meaningful relationships.
-- Separate observed facts and evidence from inference, proposals, and decisions confirmed by the user. Surface material uncertainty and tradeoffs.
-- Default to concise text; use simple balanced XML tags to mark scope when helpful. Consider visualizations, including Mermaid, only when the user explicitly requests visualization. In any visualization, label proposed or unverified elements and relationships directly.
-- Work directly by default; delegate only when authorized and useful, with explicit boundaries. The owner checks and integrates evidence.
-- Discuss concisely and do not modify product code, tests, or build configuration. Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
-- When recording, follow the user's specified path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`. Read existing documents first, preserve unrelated content, and use existing `_adr/` material as evidence without automatically migrating or deleting it.
+  2. Examine Decision Evidence:
+    - Review relevant commits, diffs, ADRs, and recorded discussions.
+    - Distinguish documented rationale from circumstantial evidence.
+    - Do not infer original intent from current implementation alone.
 
-Inspect code and relevant Git history, and available documented decisions or discussions. Separate documented facts, plausible inferences and missing evidence. If intent is unknown, say so instead of inventing a verdict. Explain preserved constraints only when supported.
+  3. Reconstruct Rationale:
+    - Explain motivations, constraints, and trade-offs supported by evidence.
+    - Separate original decisions from subsequent changes.
+    - Identify plausible explanations explicitly as hypotheses.
+
+  4. Preserve Investigation Boundaries:
+    - Answer the historical question directly and cite relevant evidence.
+    - State when rationale cannot be established reliably.
+    - Do not propose redesigns unless requested.
+    - Do not modify code, tests, configuration, or documentation.
+</Investigation-Principles>
+
+<Output-Formation>
+  ### Rationale Summary
+  - **Question**: [Design decision or behavior being investigated]
+  - **Finding**: [Documented rationale or best-supported explanation]
+  - **Confidence**: [CONFIRMED | INFERRED | UNKNOWN]
+
+  ### Historical Evidence
+  - **Origin**: [Relevant commit, date, or documented decision]
+  - **Evolution**: [Significant subsequent changes, if relevant]
+  - **Evidence**: [Commit references, ADRs, discussions, or source locations]
+
+  ### Rationale & Trade-offs
+  - **Motivation**: [Supported problem or original objective]
+  - **Constraints**: [Documented technical or business constraints]
+  - **Trade-offs**: [Known compromises and alternatives, if evidenced]
+
+  ### Uncertainty & Limitations
+  - **Assumptions**: [Plausible but unverified explanations]
+  - **Evidence Gaps**: [Missing history or undocumented decisions]
+</Output-Formation>

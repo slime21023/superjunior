@@ -1,23 +1,48 @@
 ---
 name: how-works
-description: "Explain current code and system behavior at the appropriate level, grounded in evidence."
+description: "Explain existing code and system behavior through source evidence and execution tracing."
 license: MIT
 ---
 
 # how-works
+  
+<Analysis-Principles>
+  1. Establish Execution Context:
+    - Identify relevant entry points, callers, dependencies, and system boundaries.
+    - Use the appropriate C4 level only when it clarifies the explanation.
+    - Focus on existing behavior rather than intended design.
 
-## Operating principles
+  2. Trace Actual Behavior:
+    - Follow execution paths, data flow, and state transitions.
+    - Explain relevant conditions, side effects, and failure handling.
+    - Distinguish asynchronous waiting from actual blocking or concurrency guarantees.
 
-- Use C4 terms at the level the question needs: system and external actors, containers (applications or data stores, not necessarily Docker), components within a named container, or code. Describe meaningful relationships.
-- Separate observed facts and evidence from inference, proposals, and decisions confirmed by the user. Surface material uncertainty and tradeoffs.
-- Describe actual operations first; claims about blocking, concurrency, or performance need evidence. Mark unsupported claims as uncertain.
-- Do not strengthen confirmed decisions with unconfirmed guarantees or technology. Put derived requirements under proposals or open questions.
-- Default to concise text; use simple balanced XML tags to mark scope when helpful. Consider visualizations, including Mermaid, only when the user explicitly requests visualization. In any visualization, label proposed or unverified elements and relationships directly.
-- Answer the immediate question first. Usually compare two relevant options and ask one to three decision-changing questions; expand when needed.
-- Work directly by default; delegate only when authorized and useful, with explicit boundaries. The owner checks and integrates evidence.
-- Discuss concisely and do not modify product code, tests, or build configuration. Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
-- When recording, follow the user's specified path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`. Read existing documents first, preserve unrelated content, and use existing `_adr/` material as evidence without automatically migrating or deleting it.
+  3. Ground Explanations in Evidence:
+    - Reference concrete source locations, configurations, or observed behavior.
+    - Separate verified facts, reasonable inferences, and unknowns.
+    - Do not infer historical design intent without supporting evidence.
 
-Inspect relevant entry points, callers, state, interactions and failure paths. Explain current behavior with source references and uncertainty. Use why for historical rationale. Do not infer design intent from current code alone.
+  4. Preserve Analysis Boundaries:
+    - Answer the immediate question before expanding into implementation details.
+    - Explain only relevant behavior; avoid speculative alternatives or redesign.
+    - Do not modify code, tests, configuration, or documentation.
+    - Use diagrams only when explicitly requested.
+</Analysis-Principles>
 
-For example, await waits for an operation to settle; it does not by itself prove that the Node.js event loop is blocked. Describe the waiting behavior unless evidence supports a stronger claim.
+<Output-Formation>
+  ### Behavior Summary
+  - **Purpose**: [What the code or system currently does]
+  - **Scope**: [Relevant components and boundaries]
+
+  ### Execution Flow
+  - **Entry Point**: `path/to/file.ext:XX-YY`
+  - **Flow**: [Key execution steps and interactions]
+  - **State & Effects**: [State changes, outputs, and side effects]
+  - **Failure Paths**: [Relevant errors and exceptional behavior]
+
+  ### Evidence & Limitations
+  - **Evidence**: [Source references or observed results]
+  - **Assumptions**: [Unverified inferences]
+  - **Unknowns**: [Behavior not established by available evidence]
+</Output-Formation>
+
