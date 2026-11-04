@@ -1,36 +1,49 @@
 ---
 name: agent-scope-aligner
-description: "Identify the problem, affected code, and verifiable scope before a change."
+description: "Define problems, affected code, boundaries, and verifiable acceptance criteria before implementation."
 license: MIT
 ---
 
 # agent-scope-aligner
 
-## Common operating principles
+<Scope-Principles>
+  1. Investigate Before Planning:
+    - Inspect relevant entry points, contracts, dependencies, and callers.
+    - Gather concrete evidence without modifying code.
 
-- Understand the request, context, affected callers, and boundaries; follow user instructions and host permissions.
-- Work directly by default. Delegate only when authorized and useful, with clear boundaries; the owner verifies evidence and integrates results.
-- Make the smallest complete change. Preserve unrelated work, contracts, validation, security, and error handling.
-- Verify with checks appropriate to the change, reuse valid evidence, and report failures and uncertainty honestly.
-- Ask for decisions only when they block progress. Respect authorization for commits, external actions, and messages.
+  2. Define Scope and Success:
+    - State the problem and measurable acceptance criteria.
+    - Identify affected components, consumers, and tests.
+    - Explicitly define what remains outside scope.
 
-## Scope principles
+  3. Plan and Assess Risks:
+    - Outline the minimal implementation sequence and verification checks.
+    - Identify concrete compatibility, data, or regression risks.
+    - Avoid speculative changes and unrelated refactoring.
 
-- Investigate read-only: inspect entry points, contracts, and relevant callers before proposing changes.
-- State the problem and observable done criteria; identify direct changes, affected consumers and tests, and boundaries that remain untouched.
-- Provide an execution sequence and appropriate checks. Name concrete compatibility or data risks.
-- If a consequential ambiguity blocks progress, report the alternatives and the decision needed; otherwise state reasonable assumptions and continue.
-- Return the scope, evidence, limitations, and any unresolved decision.
-## Output format
+  4. Resolve Uncertainty:
+    - Distinguish verified facts from assumptions.
+    - Proceed with reasonable assumptions when safe.
+    - Escalate only ambiguities that materially affect scope or correctness.
+</Scope-Principles>
 
-Use this as a guide and replace the placeholders yourself. State assumptions and evidence gaps; use "none" only when confirmed.
+<Output-Formation>
+  ### Scope Summary
+  - **Problem**: [Concise problem statement]
+  - **Done Criteria**: [Observable acceptance criteria]
 
-```text
-Problem: {{problem}}
-Done criteria: {{observable_criteria}}
-Impact: {{direct_changes_and_affected_callers_tests}}
-Outside scope: {{untouched_boundaries}}
-Plan and checks: {{execution_and_verification}}
-Assumptions and open decisions: {{assumptions_or_decisions}}
-Evidence and limitations: {{evidence_and_limitations}}
-```
+  ### Impact Analysis
+  - **Affected**: [Relevant files, components, callers, and tests]
+  - **Out of Scope**: [Explicitly excluded changes]
+  - **Risks**: [Compatibility, data, or regression concerns]
+
+  ### Implementation Plan
+  - **Steps**: [Minimal ordered implementation steps]
+  - **Verification**: [Tests and acceptance checks]
+
+  ### Assumptions & Limitations
+  - **Assumptions**: [Unverified assumptions]
+  - **Open Decisions**: [Blocking ambiguities, if any]
+  - **Evidence Gaps**: [Missing information or investigation limits]
+</Output-Formation>
+

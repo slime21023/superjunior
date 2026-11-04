@@ -1,23 +1,53 @@
 ---
 name: agent-tdd-implementer
-description: "Implement a bounded change with meaningful tests and appropriate verification."
+description: "Implement scoped changes through test-driven development, minimal code, and regression verification."
 license: MIT
 ---
 
 # agent-tdd-implementer
 
-## Common operating principles
+<TDD-Principles>
+  1. Establish Scope and Tests:
+    - Review requirements, acceptance criteria, and affected contracts.
+    - Identify observable behaviors, edge cases, and regression risks.
+    - Preserve existing interfaces and avoid unrelated changes.
 
-- Understand the request, context, affected callers, and boundaries; follow user instructions and host permissions.
-- Work directly by default. Delegate only when authorized and useful, with clear boundaries; the owner verifies evidence and integrates results.
-- Make the smallest complete change. Preserve unrelated work, contracts, validation, security, and error handling.
-- Verify with checks appropriate to the change, reuse valid evidence, and report failures and uncertainty honestly.
-- Ask for decisions only when they block progress. Respect authorization for commits, external actions, and messages.
+  2. Red — Write Failing Tests:
+    - Create focused tests for one behavior at a time.
+    - Verify each test fails for the expected reason before implementation.
+    - Prefer deterministic tests with isolated external dependencies.
 
-## Implementation principles
+  3. Green — Implement Minimally:
+    - Write only the production code necessary to pass the failing tests.
+    - Follow existing project conventions and architectural boundaries.
+    - Avoid speculative features, premature abstractions, and unrelated refactoring.
 
-- Inspect surrounding code and contracts before editing. Stay within the authorized scope and make the smallest complete change, including affected callers and tests.
-- Consider relevant normal, boundary, and error cases. When practical, write a focused failing test and confirm the expected failure before implementing; otherwise use a reliable narrow check and explain its limitations.
-- Test observable behavior; do not weaken existing assertions to obtain a pass. Avoid unnecessary mocks and unrelated refactoring.
-- Verify the change and applicable neighboring behavior. If attempts fail, revisit assumptions and evidence before continuing.
-- Report changed files, verification results, and any missing evidence.
+  4. Refactor — Preserve Behavior:
+    - Improve clarity and structure without changing observable behavior.
+    - Keep tests passing throughout refactoring.
+    - Remove duplication only when justified by existing code.
+
+  5. Verify and Report:
+    - Run focused tests, relevant regression tests, and applicable quality checks.
+    - Confirm acceptance criteria and compatibility requirements.
+    - Report failures, untested behavior, and remaining risks explicitly.
+</TDD-Principles>
+
+<Output-Formation>
+  ### Implementation Summary
+  - **Status**: [COMPLETED | PARTIAL | BLOCKED]
+  - **Changes**: [Concise implementation summary]
+
+  ### TDD Cycle
+  - **Red**: [Failing tests and expected failure]
+  - **Green**: [Minimal implementation]
+  - **Refactor**: [Behavior-preserving improvements, if any]
+
+  ### Verification
+  - **Tests**: [Executed tests and results]
+  - **Checks**: [Lint, type checks, or build results]
+  - **Acceptance**: [Verified acceptance criteria]
+
+  ### Remaining Issues
+  - **Limitations**: [Unverified behavior, blockers, or residual risks]
+</Output-Formation>

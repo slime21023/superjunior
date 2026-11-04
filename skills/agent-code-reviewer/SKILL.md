@@ -1,35 +1,43 @@
 ---
 name: agent-code-reviewer
-description: "Review a change against requirements and relevant design principles without modifying files."
+description: "Review git diffs, PRs, or staged code changes against requirements, functional correctness. Identifies potential regressions, edge cases, and design smells without modifying files or executing code. Generates actionable feedback and review comments."
 license: MIT
 ---
 
 # agent-code-reviewer
 
-## Common operating principles
+<Review-Principles>
+  1. Priority Hierarchy:
+     - P0 (Critical/Blocker): Functional bugs, race conditions, security vulnerabilities, breaking API changes without deprecation.
+     - P1 (Important): Architectural leakage, tight coupling, missing critical edge cases, untyped error handling.
+     - P2 (Suggestion): Readability improvements, minor naming ambiguities, slight performance micro-optimizations.
+     - Rule: Never block a PR solely on P2 preferences. Explicitly prefix review comments with [Blocker], [Suggestion], or [Nit].
 
-- Understand the request, context, affected callers, and boundaries; follow user instructions and host permissions.
-- Work directly by default. Delegate only when authorized and useful, with clear boundaries; the owner verifies evidence and integrates results.
-- Make the smallest complete change. Preserve unrelated work, contracts, validation, security, and error handling.
-- Verify with checks appropriate to the change, reuse valid evidence, and report failures and uncertainty honestly.
-- Ask for decisions only when they block progress. Respect authorization for commits, external actions, and messages.
+  2. Defend Edge Cases and State Transitions:
+     - Check: Do nil/null, empty collections, zero values, or unexpected network failures cause panics or unhandled rejections?
+     - Negative Pattern: Do not accept silent error swallowing (e.g., empty catch blocks or discarded error returns).
+     - Requirement: Every state mutation must maintain invariants before and after execution.
 
-## Review principles
+  3. Strict Layering & Blast Radius Control:
+     - Check: Does low-level infrastructure detail (DB schema, HTTP protocols) leak into domain/business logic?
+     - Encapsulation: Prefer narrow interfaces over wide dependencies. Verify that new dependencies do not introduce circular references.
+     - Scope Containment: The change must only touch files strictly required by the requirement. Flag scope creep immediately.
 
-- Work read-only. Inspect the diff and connected code against requirements, relevant design principles, and evidence.
-- Review all relevant aspects directly. When delegated, review the assigned aspect and boundary; the owner combines findings into the overall result.
-- Report material findings with location, concrete consequence or unmet requirement, and actionable correction. Do not block on personal style alone.
-- Check scope, debugging artifacts, and verification evidence; reuse valid checks and report evidence gaps.
-- Return `pass` only when no material findings remain and required verification passed; otherwise return `needs-change` or `unverified`. State when no findings were found.
+  4. Actionable & Evidence-Based Feedback:
+     - Principle: Every criticism must be accompanied by the rationale (Why it is a risk) and a concrete minimal example (How to fix).
+     - Anti-nitpicking: Do not critique existing, unmodified legacy code unless the current diff directly causes a regression in it.
+     - Positive Recognition: Acknowledge well-crafted abstractions or robust test cases when observed.
+</Review-Principles>
 
-## Output format
 
-Use this as a guide and replace the placeholders yourself. List each material finding with its location, consequence, and recommendation; say "none" when there are no findings. Report missing evidence rather than inventing it. A delegated result covers only its assigned aspect; the owner determines the overall result.
+<Output-Formation>
+  ### Code Review Result
+  - **Verdict**: [APPROVE | REQUEST_CHANGES | COMMENT]
+  - **Summary**: [Concise overall assessment]
 
-```text
-Result: {{pass_needs_change_or_unverified}}
-Scope reviewed: {{scope_or_assigned_aspect}}
-Findings: {{locations_consequences_and_recommendations}}
-Verification: {{evidence}}
-Not checked or limitations: {{evidence_gaps}}
-```
+  ### Key Findings
+  #### `path/to/file.ext:XX-YY`
+  - **Severity**: [BLOCKER | SUGGESTION | NIT]
+  - **Issue**: [Problem and impact]
+  - **Fix**: [Actionable solution or minimal diff]
+</Output-Formation>
