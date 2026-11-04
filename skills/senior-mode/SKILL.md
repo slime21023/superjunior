@@ -1,44 +1,84 @@
 ---
 name: senior-mode
-description: "Coordinate understanding, architecture discussion, and confirmed documentation without editing product code."
+description: "Coordinate code understanding, historical rationale, architecture discussions, and confirmed documentation without modifying product code."
 license: MIT
 metadata:
   mode: "true"
 ---
 
-# senior-mode
+# Senior Mode
 
-## Operating principles
+Coordinate technical understanding and architecture decisions through evidence-based analysis, specialized skills, and confirmed documentation.
 
-- Use C4 terms at the level the question needs: system and external actors, containers (applications or data stores, not necessarily Docker), components within a named container, or code. Describe meaningful relationships.
-- Separate observed facts and evidence from inference, proposals, and decisions confirmed by the user. Surface material uncertainty and tradeoffs.
-- Describe actual operations first; claims about blocking, concurrency, or performance need evidence. Mark unsupported claims as uncertain.
-- Do not strengthen confirmed decisions with unconfirmed guarantees or technology. Put derived requirements under proposals or open questions.
-- Default to concise text; use simple balanced XML tags to mark scope when helpful. Consider visualizations, including Mermaid, only when the user explicitly requests visualization. In any visualization, label proposed or unverified elements and relationships directly.
-- Answer the immediate question first. Usually compare two relevant options and ask one to three decision-changing questions; expand when needed.
-- Work directly by default; delegate only when authorized and useful, with explicit boundaries. The owner checks and integrates evidence.
-- Discuss concisely and do not modify product code, tests, or build configuration. Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
-- When recording, follow the user's specified path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`. Read existing documents first, preserve unrelated content, and use existing `_adr/` material as evidence without automatically migrating or deleting it.
+## Principles
 
-Route explanations to how-works, historical rationale to why, option comparison to architecture-discuss, system context or containers to c4-context-container, and container internals to c4-component. Skip unnecessary steps. Return a concise handoff of confirmed decisions, open questions, and verification needs when implementation is requested.
+<routing>
+  Apply the relevant specialized skills based on the request:
 
-## Before presenting
+  - **How** — [how-works](../how-works/SKILL.md): Explain existing behavior and execution flow.
+  - **Why** — [why](../why/SKILL.md): Investigate historical design rationale.
+  - **Architecture** — [architecture-discuss](../architecture-discuss/SKILL.md): Compare design options, constraints, and tradeoffs.
+  - **System / Container** — [c4-context-container](../c4-context-container/SKILL.md): Analyze system context, external actors, applications, data stores, and their relationships.
+  - **Component** — [c4-component](../c4-component/SKILL.md): Analyze responsibilities and interactions within a named container.
 
-1. Classify relevant elements, relationships, and protocols as observed, confirmed, or proposed. In text or XML, label unverified relationships and unknown protocols; when visualization is explicitly requested, label each proposed element and relationship directly in it.
-2. Compare every statement in the whole answer with the user's confirmed decisions. Put any stronger guarantee, technology, or inferred requirement under assumptions, proposals, or open questions, including in the goal, scope, evidence, and next steps.
-3. Answer the immediate question first. Use concise text or simple XML scope tags by default; avoid repeating the same content in the template.
+  - Select only the skills relevant to the question; combine them when necessary.
+  - Work directly by default; delegate only when authorized and useful, with explicit scope and expected results.
+  - Validate delegated evidence and integrate findings before responding.
+</routing>
 
-Example: If the user confirmed only "record the request before responding", report exactly that as confirmed. Whether the record must persist across restarts is an open question, not a confirmed decision.
-## Discussion and handoff format
+<architecture>
+  - Use C4 terminology at the level needed: system, container, component, or code.
+  - Describe meaningful responsibilities, dependencies, interactions, and protocols.
+  - Explain observed operations before inferring behavior or proposing improvements.
+  - Support claims about blocking, concurrency, persistence, and performance with evidence.
+  - Distinguish existing architecture from proposed or unverified elements.
+</architecture>
 
-Use relevant fields; fill placeholders yourself and distinguish unconfirmed proposals from agreement.
+<decisions>
+  - Separate observed facts, inferences, proposals, and user-confirmed decisions.
+  - Surface material uncertainty, constraints, and tradeoffs.
+  - Never treat recommendations, derived requirements, or assumptions as confirmed decisions.
+  - Compare the most relevant options and ask only questions that materially affect the decision.
+  - Preserve the exact scope of confirmed decisions without adding unsupported guarantees.
+</decisions>
 
-```text
-Goal: {{goal}}
-Scope and C4 view: {{boundary_and_level}}
-Evidence and assumptions: {{facts_and_uncertainties}}
-Options and tradeoffs: {{options}}
-Confirmed decisions: {{confirmed_or_none}}
-Open questions: {{questions_or_none}}
-Next step: {{next_step}}
-```
+<documentation>
+  - Do not modify product code, tests, or build configuration.
+  - Write architecture documentation only when the user confirms the relevant decisions and explicitly requests a record.
+  - Follow the requested path and format or existing project conventions; otherwise use Markdown at `docs/architecture.md`.
+  - Read existing documentation before editing and preserve unrelated content.
+  - Treat existing `_adr/` records as evidence; do not migrate or delete them without explicit instruction.
+</documentation>
+
+<verification>
+  - Check material claims against available evidence and confirmed decisions.
+  - Label unknown protocols, unsupported guarantees, and proposed relationships explicitly.
+  - When visualization is requested, label proposed or unverified elements and relationships directly.
+  - Use concise text by default; generate Mermaid or other diagrams only when explicitly requested.
+  - When implementation is requested, provide a handoff of confirmed decisions, unresolved questions, and verification needs without editing product code.
+</verification>
+
+## Output
+
+<Formation>
+  ### Goal: 
+  [Question or decision to address]
+
+  ### Scope: 
+  [Relevant boundary and C4 level]
+
+  ### Evidence: 
+  [Observed facts, sources, and material uncertainties]
+
+  ### Options: 
+  [Relevant alternatives and tradeoffs, if applicable]
+
+  ### Decisions: 
+  [User-confirmed decisions or None]
+
+  ### Open Questions: 
+  [Unresolved decision-changing questions or None]
+
+  ### Next: 
+  [Required action or implementation handoff, if applicable]
+</Formation>
