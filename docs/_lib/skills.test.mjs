@@ -104,16 +104,11 @@ test("XML block tags stay bare and at most two levels deep", () => {
   }
 });
 
-test("eval expectations reference available skills", () => {
-  const names = new Set(skillDirs.map((directory) => basename(directory)));
-  for (const suite of ["routing", "behavior"]) {
-    const config = yaml.load(read(join(root, "evals", `${suite}.yaml`)));
-    for (const example of config.tests) {
-      for (const expectation of example.assert) {
-        for (const name of [...(expectation.config?.allowed ?? []), ...(expectation.config?.skills ?? [])]) {
-          assert.ok(names.has(name), `${suite}: ${example.description} references missing skill ${name}`);
-        }
-      }
-    }
-  }
+test("AGENTS.md lists the installable skills", () => {
+  const index = read(join(root, "AGENTS.md"));
+  const list = index.match(/^## Skill List\s*\n([\s\S]*?)(?=^## |(?![\s\S]))/m);
+  assert.ok(list, "Missing Skill List");
+  const names = [...list[1].matchAll(/^- \*\*([a-z0-9-]+)\*\*:/gm)]
+    .map((entry) => entry[1]).sort();
+  assert.deepEqual(names, skillDirs.map((directory) => basename(directory)).sort());
 });

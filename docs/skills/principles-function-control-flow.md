@@ -27,4 +27,4 @@ When responsibility spans several functions, inspect the [module boundary](/skil
 
 Tests should exercise observable results and meaningful failure paths. If a refactor changes the result shape, error behavior, or state transition, check the affected consumers as well as the function itself.
 
-Use [TDD implementation](/skills/agent-tdd-implementer/) for a new behavior or [scientific debugging](/skills/agent-scientific-debugger/) for an observed failure.
+Use [test-it](/skills/test-it/) and [implement-it](/skills/implement-it/) for test-first changes, or [debug](/skills/debug/) for an observed failure.

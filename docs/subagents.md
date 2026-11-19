@@ -1,47 +1,40 @@
 +++
-title = "Choose an agent role"
-navTitle = "Agent roles"
-description = "Run one engineering step directly, or delegate a bounded assignment when your host supports it."
+title = "Skill workflows"
+navTitle = "Skill workflows"
+description = "Choose and combine skills for an engineering task."
 section = "roles"
 order = 0
 permalink = "/subagents/index.html"
 +++
 
-Use an agent role when you already know which step you need. Use [junior mode](/skills/junior-mode/) when you want the implementation workflow coordinated for you.
+## Combine skills around the requested result
 
-## Match the role to the task
+- **Feature.** Use `specify` for acceptance criteria and `plan-working` to sequence dependent work. Pass those results to `implement-it` and the changes to `test-it`. Use `review` for requested findings and `deliver` for the authorized delivery outcome.
+- **Defect.** Give `debug` the symptom and expected behavior. Pass its reproduction and supported cause to `implement-it`, then give the change and reproduction to `test-it` for regression verification.
+- **Understanding and design.** Use `explore` to gather evidence and compare trade-offs. Use `design-component` to turn a chosen direction into a component contract and `document` to record the confirmed result.
 
-| Task | Role | Useful result |
-| :--- | :--- | :--- |
-| Understand the change before editing | [Scope aligner](/skills/agent-scope-aligner/) | Done Criteria, affected code, risks, and a plan |
-| Implement an agreed behavior test-first | [TDD implementer](/skills/agent-tdd-implementer/) | Changes, Red/Green evidence, and remaining issues |
-| Explain and fix a failure | [Scientific debugger](/skills/agent-scientific-debugger/) | Diagnosis, reproduction, fix, and verification |
-| Assess an existing change | [Code reviewer](/skills/agent-code-reviewer/) | Verdict and actionable findings |
-| Prepare messages or create local commits | [Git committer](/skills/agent-git-committer/) | Message drafts or confirmed commits with evidence |
+For each handoff, pass the accepted scope, current artifact, verification evidence, and open decisions. Start at the step that matches the request. Delegation depends on [host support and authorization](/host-integration/#direct-work-and-delegation).
 
-For explanations of existing code or architecture choices, use [senior mode](/skills/senior-mode/) and its analysis skills.
+## Save records and documents
 
-## Give a bounded assignment
+Save newly generated records and documents under `_artifacts/<skill>/` at the project root when the task calls for a file. Specifications and specification drafts go under the root `_spec/`. Revise existing project documents in place. Use normal project locations for code, tests, and build outputs. Link to saved records in the final reply.
 
-Provide the relevant behavior or question, the files or diff to inspect, constraints, and the result you expect. State whether the role should make changes.
+## Migrate from older skill names
 
-```text
-Use agent-code-reviewer on the current diff.
-The requirement is that an empty tag selection returns every item.
-Check the callers and tests affected by that behavior.
-Return findings without modifying files.
-```
+Remove old SuperJunior folders from your host's skill directory before copying the new set. Preserve unrelated installed skills.
 
-Scope alignment and code review are read-only roles. Implementation, debugging, and committing can change the repository within the assignment and host permissions.
-
-## Read a role's result in context
-
-Roles use different fields because they answer different questions. `IDENTIFIED` is a diagnosis; `APPROVE` is a review verdict; `CREATED` reports a commit result. Look at supporting evidence and limitations before deciding the next action.
-
-[Junior mode's handoff rules](/skills/junior-mode/#check-the-handoff) explain how these results contribute to a complete code-change task. A directly invoked role can finish its assignment while the wider project still has work to do.
-
-## Delegate when it helps
-
-A separate subagent is optional. It needs host support and authorization, plus enough context to do the assigned work independently. Give it a clear boundary and avoid overlapping edits.
-
-The owner remains responsible for checking evidence, resolving conflicts, and integrating the result. See [Host integration](/host-integration/#direct-work-and-delegation) for what the host controls.
+| Older skill | Where to start now |
+| --- | --- |
+| `agent-code-reviewer` | [review](/skills/review/) |
+| `agent-git-committer` | [deliver](/skills/deliver/) |
+| `agent-scientific-debugger` | [debug](/skills/debug/), [implement-it](/skills/implement-it/), [test-it](/skills/test-it/) |
+| `agent-scope-aligner` | [explore](/skills/explore/), [specify](/skills/specify/), [plan-working](/skills/plan-working/) |
+| `agent-tdd-implementer` | [implement-it](/skills/implement-it/), [test-it](/skills/test-it/) |
+| `architecture-discuss` | [explore](/skills/explore/), [design-component](/skills/design-component/) |
+| `c4-component` | [design-component](/skills/design-component/), [document](/skills/document/) |
+| `c4-context-container` | [explore](/skills/explore/), [document](/skills/document/) |
+| `how-works` | [explore](/skills/explore/) |
+| `why` | [explore](/skills/explore/) |
+| `junior-mode` | [specify](/skills/specify/), [implement-it](/skills/implement-it/), [test-it](/skills/test-it/) |
+| `senior-mode` | [explore](/skills/explore/), [design-component](/skills/design-component/), [document](/skills/document/) |
+| `engineering-principles` | [Design guidance](/principles/) |

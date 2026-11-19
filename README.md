@@ -1,46 +1,35 @@
 # SuperJunior
 
-SuperJunior is a collection of skills for coding agents. Use it to carry a code change from scope to verification, or to understand a system before deciding what to build.
+SuperJunior provides ten skills that coding agents can use throughout software development. Start with the result you need.
 
-Choose the result you need:
-
-| Your task | Start with |
-| :--- | :--- |
-| Add a feature, fix a defect, or refactor | `junior-mode` |
-| Explain code, investigate a design decision, or compare architectures | `senior-mode` |
-| Scope, implement, debug, review, or commit one bounded piece of work | The matching [agent role](https://slime21023.github.io/superjunior/subagents/) |
-
-Junior mode coordinates implementation and checks the evidence from each phase. Senior mode develops explanations and decisions without changing product code. Individual roles also work directly in the current session; using them does not automatically start subagents.
+| Task | Skill |
+| --- | --- |
+| Investigate existing behavior, project context, historical rationale, or technical trade-offs. | `explore` |
+| Define requirements when a goal, scope, or expected behavior needs clarification. | `specify` |
+| Sequence work when a change needs coordinated steps, dependencies, or completion criteria. | `plan-working` |
+| Design component responsibilities, interfaces, behavior, or interactions before implementation. | `design-component` |
+| Create or modify code or engineering artifacts to implement specified behavior. | `implement-it` |
+| Design, write, or run tests to verify behavior against requirements and contracts. | `test-it` |
+| Review an existing specification, design, change, or document for defects and risks. | `review` |
+| Diagnose an observed failure, intermittent behavior, or unexpected result. | `debug` |
+| Create or update documentation for system behavior, decisions, or operating procedures. | `document` |
+| Verify delivery readiness or perform authorized commits, packaging, releases, or deployments. | `deliver` |
 
 ## Install and try it
 
-Copy the directories inside `skills/` into the target project's skill directory, keeping them side by side. The project's documented locations are `.claude/skills/` for Claude Code and `.agents/skills/` for Codex CLI and Antigravity CLI. Use ordinary directory copies so the links between skills remain intact.
-
-See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for the recorded discovery baseline, personal directories, and troubleshooting.
-
-In your coding agent, try:
+Copy the ten directories in `skills/` into your host's project skill directory. See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for paths and troubleshooting. If upgrading, remove the old SuperJunior folders listed in [Skill workflows](https://slime21023.github.io/superjunior/subagents/) first.
 
 ```text
-Use junior-mode to fix the saved filter.
-With no selected tags, it must show all items.
-Keep the behavior for selected tags unchanged.
-Reproduce the failure and verify the fix.
-Leave the changes in my working tree without committing.
+Use debug to find why an empty tag filter hides every item.
+Then fix the cause and verify that empty and selected tags work.
+Leave the edits in my working tree.
 ```
 
-State the delivery you want: working-tree changes, local commits, or another explicitly requested action. Installing a skill does not grant tools or permissions.
-
-## Read the result
-
-Each role reports evidence in a form suited to its task. A debugger's `IDENTIFIED` describes a diagnosis; a reviewer's `APPROVE` describes a review. Junior mode checks those results before declaring the requested work complete.
-
-Start with the [handbook](https://slime21023.github.io/superjunior/), follow the [first-task walkthrough](https://slime21023.github.io/superjunior/getting-started/), or adapt an [example request](https://slime21023.github.io/superjunior/examples/).
+The [handbook](https://slime21023.github.io/superjunior/) describes each skill and how to combine them.
 
 ## Contribute
 
-The execution instructions live in `skills/<name>/SKILL.md`; their user-facing explanations live in `docs/`. Keep both accurate when behavior changes.
-
-Run `npm ci` once, then `npm run check` to build the handbook and test its links, skill definitions, eval graders, and workspace checks. These local tests do not call an agent. [Maintenance](https://slime21023.github.io/superjunior/maintenance/) covers local preview, CLI evals, and publishing.
+Run `npm ci` and `npm run check` to build the handbook and validate the skill definitions and links. See [Maintenance](https://slime21023.github.io/superjunior/maintenance/) for details.
 
 ## License
 

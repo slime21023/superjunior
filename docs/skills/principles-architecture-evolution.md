@@ -25,4 +25,4 @@ Compare alternatives against the current constraints. Separate an observed limit
 
 Remove dead code introduced by the current change and report unrelated cleanup separately. Preserve compatibility or make the required migration explicit when changing a public contract.
 
-Use [architecture discussion](/skills/architecture-discuss/) for unresolved choices, [context and containers](/skills/c4-context-container/) for system boundaries, and [component analysis](/skills/c4-component/) for responsibilities inside one container.
+Use [explore](/skills/explore/) to investigate options and system boundaries, and [design-component](/skills/design-component/) to define responsibilities and interfaces.

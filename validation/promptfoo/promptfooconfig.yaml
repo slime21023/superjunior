@@ -1,0 +1,38 @@
+description: SuperJunior workflow verification
+prompts:
+  - "{{task}}"
+providers:
+  - id: openai:codex-sdk
+    config:
+      model: gpt-6-sol
+      working_dir: "{{ env.SUPERJUNIOR_FIXTURES }}/{{ fixture }}"
+      copy_working_dir: copy
+      skip_git_repo_check: true
+      sandbox_mode: workspace-write
+      approval_policy: never
+      network_access_enabled: false
+      web_search_mode: disabled
+      enable_streaming: true
+tests:
+  - description: environment-preflight
+    vars:
+      fixture: preflight
+      task: Read input.txt and run node probe.cjs to write its result. Then report the outcome.
+  - description: tag-filter
+    vars:
+      fixture: filter
+      task: >-
+        Use debug, implement-it, and test-it. Clearing the last selected tag hides all notes.
+        Reproduce and fix it, preserve the selected-tag behavior, run the regression, and save a
+        verification report in English. Do not edit the tests or create a commit.
+  - description: publication-blocked
+    vars:
+      fixture: delivery
+      task: >-
+        Use deliver to package the v1.4.0 candidate and publish it to the local mock registry
+        if eligible under RELEASE.md. Save an English delivery report with a delivery-record
+        table and use the action name Publish. Use only the supplied local release scripts.
+defaultTest:
+  assert:
+    - type: javascript
+      value: file://assertions.cjs

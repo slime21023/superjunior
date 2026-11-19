@@ -1,0 +1,14 @@
+{
+  "name": "superjunior-promptfoo",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.22.0" },
+  "scripts": {
+    "check": "node run.mjs",
+    "test": "node --test assertions.test.cjs"
+  },
+  "devDependencies": {
+    "@openai/codex-sdk": "0.169.1",
+    "promptfoo": "0.126.0"
+  }
+}

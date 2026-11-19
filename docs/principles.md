@@ -7,7 +7,7 @@ order = 0
 permalink = "/principles/index.html"
 +++
 
-Use the [engineering-principles skill](/skills/engineering-principles/) for shared guidance on reasoning, expression, boundaries, and verification. The other pages in this section are supporting explanations, not additional skills to install.
+Use the [engineering principles guide](/skills/engineering-principles/) for shared guidance on reasoning, expression, boundaries, and verification. The other pages provide supporting explanations.
 
 ## Start with the concrete risk
 
@@ -28,4 +28,4 @@ Name the affected behavior or maintenance risk, point to evidence, and suggest t
 
 Apply existing project conventions where they serve the task. A principle should help resolve a concrete problem, not generate unrelated cleanup or a requirement to apply every pattern.
 
-For a review verdict, use [agent-code-reviewer](/skills/agent-code-reviewer/). For a choice that changes the architecture, use [senior mode](/skills/senior-mode/).
+For a review verdict, use [review](/skills/review/). For a choice that changes the architecture, use [explore](/skills/explore/).

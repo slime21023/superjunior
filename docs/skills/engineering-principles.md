@@ -4,7 +4,6 @@ description = "Apply shared reasoning, expression, boundary, and verification gu
 section = "principles"
 order = 1
 permalink = "/skills/engineering-principles/index.html"
-source = "skills/engineering-principles/SKILL.md"
 +++
 
 Use `engineering-principles` while analyzing, implementing, debugging, refactoring, or reviewing code. It favors existing conventions and concrete evidence, with the smallest change that satisfies the requirement.
@@ -32,4 +31,4 @@ The [supporting guides](/principles/) explore these concerns at lexical, functio
 
 The skill's output covers the finding, change, or decision; supporting evidence; material risks or assumptions; and any next action. A useful finding explains what can go wrong and why the proposed correction is proportionate.
 
-For a formal assessment of a diff, use [code review](/skills/agent-code-reviewer/). For an implementation workflow, use [junior mode](/skills/junior-mode/).
+For a formal assessment of a diff, use [review](/skills/review/). For an implementation workflow, see [Skill workflows](/subagents/).

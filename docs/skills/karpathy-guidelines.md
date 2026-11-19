@@ -12,7 +12,7 @@ This handbook guide complements [engineering-principles](/skills/engineering-pri
 
 Establish the requested behavior and inspect the context that could change the solution. State material assumptions. Ask about ambiguity when the answer would affect correctness or scope; use reasonable assumptions for routine details.
 
-A [scope brief](/skills/agent-scope-aligner/) helps when the affected code and success criteria are not yet clear.
+[Explore](/skills/explore/) can identify the affected code, and [specify](/skills/specify/) can define the success criteria.
 
 ## Choose the smallest complete solution
 
@@ -30,4 +30,4 @@ A small diff is useful when it includes the whole fix. Leaving a caller or test 
 
 Turn the goal into a result that can be checked, then select evidence appropriate to it. A behavioral fix may need a failing reproduction followed by passing checks. A documentation edit may need a build, link check, and inspection of what readers see.
 
-Describe unavailable checks and unresolved uncertainty. [Junior mode](/skills/junior-mode/#read-the-workflow-outcome) uses that evidence to distinguish delivery from work that still needs changes, verification, or a decision.
+Describe unavailable checks and unresolved uncertainty. Give that evidence to [deliver](/skills/deliver/) to assess readiness.

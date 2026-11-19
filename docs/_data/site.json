@@ -7,16 +7,12 @@
       "label": "Start here"
     },
     {
-      "key": "mode",
-      "label": "Work modes"
+      "key": "skills",
+      "label": "Skills"
     },
     {
       "key": "roles",
-      "label": "Agent roles"
-    },
-    {
-      "key": "senior",
-      "label": "Code & architecture"
+      "label": "Workflows"
     },
     {
       "key": "principles",

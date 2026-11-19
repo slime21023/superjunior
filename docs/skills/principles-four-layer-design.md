@@ -24,4 +24,4 @@ Begin where the problem appears. Follow it into another layer only when the beha
 
 State the evidence and consequence before proposing a structural change. Follow repository conventions unless a concrete defect or constraint justifies departing from them.
 
-A review can identify concerns at several layers without reorganizing its output by those layers. The [reviewer](/skills/agent-code-reviewer/) reports actionable findings tied to locations and impact; the [architecture skills](/skills/senior-mode/#follow-the-relevant-analysis) support broader decisions.
+A review can identify concerns at several layers. Use [review](/skills/review/) for actionable findings tied to locations and impact, and [explore](/skills/explore/) to gather evidence for broader decisions.
