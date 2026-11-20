@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -54,9 +54,9 @@ function run() {
     runInfo.stages.push({ stage, status, error: result.error?.message });
     return status;
   }
-  function evaluate(stage, pattern, repeat) {
+  function evaluate(stage, pattern) {
     return invoke(stage, [
-      'eval', '-c', config, '--filter-pattern', pattern, '--repeat', String(repeat),
+      'eval', '-c', config, '--filter-pattern', pattern,
       '--max-concurrency', '1', '--no-cache', '--no-share', '-o', path.join(results, stage + '.json'),
     ]);
   }
@@ -65,6 +65,13 @@ function run() {
   try {
     mkdirSync(evidence);
     cpSync(path.join(here, 'fixtures'), workspace, { recursive: true });
+    cpSync(path.join(workspace, 'planning'), path.join(workspace, 'handoff'), { recursive: true });
+    cpSync(path.join(workspace, 'delivery'), path.join(workspace, 'ready'), { recursive: true });
+    const readyRules = path.join(workspace, 'ready', 'RELEASE.md');
+    writeFileSync(readyRules, readFileSync(readyRules, 'utf8').replace(
+      'The last check was blocked because the test database was offline. No passing result exists.',
+      'The end-to-end CSV download acceptance check passed for this candidate.',
+    ));
     for (const name of readdirSync(workspace)) {
       cpSync(skills, path.join(workspace, name, '.agents', 'skills'), { recursive: true });
     }
@@ -73,13 +80,19 @@ function run() {
 
     const validation = invoke('config', ['validate', 'config', '-c', config]);
     if (validation) return validation;
-    const preflight = evaluate('preflight', '^environment-preflight$', 1);
+    const preflight = evaluate('preflight', '^environment-preflight$');
     if (preflight) {
       console.error('Environment blocked: the preflight did not verify workspace reads, command execution, and writes.');
       return preflight;
     }
-    const cases = '^(tag-filter|publication-blocked)$';
-    return evaluate('initial', cases, 1) || evaluate('repeat', cases, 2);
+    const named = evaluate('named', '^(tag-filter|publication-(blocked|ready)|feature-planning|pr-review)$');
+    const natural = evaluate('natural', '^route-');
+    if (!existsSync(path.join(workspace, 'handoff', '_spec'))) {
+      runInfo.stages.push({ stage: 'handoff', status: 'blocked', reason: 'No verified planning output' });
+      return named || natural || 1;
+    }
+    const handoff = evaluate('handoff', '^feature-handoff$');
+    return named || natural || handoff;
   } finally {
     writeFileSync(path.join(results, 'run.json'), JSON.stringify(runInfo, null, 2));
     rmSync(workspace, { recursive: true, force: true });

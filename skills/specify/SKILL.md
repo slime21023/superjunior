@@ -6,6 +6,14 @@ license: MIT
 
 # specify
 
+## Overview
+
+Turn the user's intent into requirements that someone else can implement and verify.
+
+- Define expected behavior in observable terms.
+- Distinguish confirmed requirements from assumptions and open decisions.
+- Trace acceptance criteria to the behavior they verify.
+
 ## Input
 
 The requested outcome and available constraints or context.

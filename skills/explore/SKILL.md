@@ -6,6 +6,14 @@ license: MIT
 
 # explore
 
+## Overview
+
+Answer questions about an existing system with evidence the reader can verify.
+
+- Tie material findings to the code, history, or observations that support them.
+- Distinguish observed behavior from inferred intent.
+- Surface evidence gaps that could change a conclusion or decision.
+
 ## Input
 
 A question or decision and any known project boundaries.

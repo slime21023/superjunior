@@ -6,6 +6,14 @@ license: MIT
 
 # test-it
 
+## Overview
+
+Turn requirements into repeatable checks and report the evidence for each key case.
+
+- Choose the narrowest test level that demonstrates the required behavior.
+- Mark a case passed or failed only when execution produced a determinate result.
+- Keep acceptance criteria open while key evidence is outstanding.
+
 ## Input
 
 The behavior or change under test and the available execution environment.

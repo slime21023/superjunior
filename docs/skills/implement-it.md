@@ -1,16 +1,28 @@
 +++
 title = "implement-it"
-description = "Create or modify code or engineering artifacts to implement specified behavior."
+description = "Change code or engineering artifacts to realize agreed behavior."
 section = "skills"
 order = 5
 permalink = "/skills/implement-it/index.html"
 source = "skills/implement-it/SKILL.md"
 +++
 
+## Purpose
+
+Deliver the smallest complete change through the normal entry points.
+
+## When to use
+
+The change is clear enough to implement and you want edits in the project.
+
 ## What to provide
 
-Expected behavior and available requirements, design, or acceptance criteria.
+Expected behavior, affected scope, and the relevant specification, design, or task.
 
-## What to expect
+## What you get
 
-The implementation covers the normal entry points and affected callers for the requested behavior. The final reply ties changes to requirements or acceptance criteria, points to their locations, and records focused checks with observed results. It identifies unfinished work or verification and what is needed to continue.
+The change, affected entry points, focused checks, and any remaining verification.
+
+## Use with
+
+Give the implementation and checks to [test-it](/skills/test-it/) for broader verification. See [workflow combinations](/workflows/) for the handoff.

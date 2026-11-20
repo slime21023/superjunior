@@ -1,18 +1,28 @@
 +++
 title = "document"
-description = "Create or update documentation for system behavior, decisions, or operating procedures."
+description = "Create or revise explanations, decision records, and procedures."
 section = "skills"
 order = 9
 permalink = "/skills/document/index.html"
 source = "skills/document/SKILL.md"
 +++
 
+## Purpose
+
+Give readers accurate guidance with sources and observable success criteria.
+
+## When to use
+
+A change affects how people use, maintain, or understand the project.
+
 ## What to provide
 
-The intended audience, requested artifact, and source material or confirmed decisions.
+The audience, intended document, and reliable sources or confirmed decisions.
 
-## What to expect
+## What you get
 
-New documentation files go under `_artifacts/document/` at the project root. Revisions update the maintained document in place.
+An updated maintained document or a new document under `_artifacts/document/`, with relevant sources and verification limits.
 
-The document uses a structure suited to its readers. A behavior guide explains observable results and limits, a decision record captures the choice and its implementation status, and an operating procedure gives reproducible steps and success criteria. Key claims link to their sources. The final reply links to the document, summarizes changes, and reports what was verified and any material gaps.
+## Use with
+
+Use confirmed decisions from [design-component](/skills/design-component/) or observed results from [test-it](/skills/test-it/). See [workflow combinations](/workflows/) for the handoff.

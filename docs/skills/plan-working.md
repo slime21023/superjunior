@@ -1,16 +1,28 @@
 +++
 title = "plan-working"
-description = "Sequence work when a change needs coordinated steps, dependencies, or completion criteria."
+description = "Break an agreed outcome into ordered work items."
 section = "skills"
 order = 3
 permalink = "/skills/plan-working/index.html"
 source = "skills/plan-working/SKILL.md"
 +++
 
+## Purpose
+
+Make it clear what can start, what depends on a decision, and how each item will be verified.
+
+## When to use
+
+The work has dependencies, meaningful milestones, or a handoff to another developer or session.
+
 ## What to provide
 
-A goal, requirements, and the relevant current state.
+The goal, confirmed requirements, current state, and any known blockers.
 
-## What to expect
+## What you get
 
-The plan cites the relevant specification or user instructions, then orders the work by dependency. Each item names its output and the evidence that would show it is complete. If a decision blocks part of the work, the plan identifies the affected items and which items can proceed. A small change can use an ordered checklist.
+An ordered plan with outputs, prerequisites, and completion evidence. Ask to save it under `_artifacts/plan-working/` when someone will resume from it.
+
+## Use with
+
+Give the selected item and its completion condition to [implement-it](/skills/implement-it/). See [workflow combinations](/workflows/) for the handoff.

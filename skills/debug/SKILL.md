@@ -6,6 +6,14 @@ license: MIT
 
 # debug
 
+## Overview
+
+Explain observed failures with causal evidence and leave a repeatable diagnosis.
+
+- Anchor the investigation in expected and observed behavior.
+- Choose checks that distinguish plausible causes.
+- Confirm a cause only when evidence connects the trigger, mechanism, and symptom.
+
 ## Input
 
 Symptoms, expected behavior, and available logs or reproduction context.

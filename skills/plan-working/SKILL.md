@@ -6,6 +6,14 @@ license: MIT
 
 # plan-working
 
+## Overview
+
+Turn an agreed outcome into work items that can be started, handed off, and verified.
+
+- Order work by its actual prerequisites.
+- Give each item an observable completion condition.
+- Keep independent work moving when one item is blocked.
+
 ## Input
 
 A goal, requirements, and the relevant current state.

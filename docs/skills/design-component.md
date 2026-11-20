@@ -1,16 +1,28 @@
 +++
 title = "design-component"
-description = "Design component responsibilities, interfaces, behavior, or interactions before implementation."
+description = "Define component boundaries, interfaces, and interactions."
 section = "skills"
 order = 4
 permalink = "/skills/design-component/index.html"
 source = "skills/design-component/SKILL.md"
 +++
 
+## Purpose
+
+Give implementers and testers a usable contract for behavior, ownership, and failure handling.
+
+## When to use
+
+A change affects multiple components, callers, or existing interfaces.
+
 ## What to provide
 
-Requirements, constraints, and relevant system boundaries.
+Confirmed requirements, system boundaries, and relevant existing contracts.
 
-## What to expect
+## What you get
 
-The design cites its requirements and existing contracts, assigns responsibilities and data ownership, and specifies caller-visible results and failures. It describes relevant interactions and verification cases, with rationale and open questions where they affect implementation. A small component can use a short contract and verification list.
+A component design tying interface behavior, side effects, and failure outcomes to the requirements.
+
+## Use with
+
+Give contracts and verification cases to [test-it](/skills/test-it/), or dependencies to [plan-working](/skills/plan-working/). See [workflow combinations](/workflows/) for the handoff.

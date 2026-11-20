@@ -6,6 +6,14 @@ license: MIT
 
 # review
 
+## Overview
+
+Identify actionable defects and risks in an existing artifact while preserving it for the author.
+
+- Tie each finding to evidence, a trigger, and its impact.
+- Prioritize findings by consequence and likelihood.
+- Distinguish supported findings from questions that still need evidence.
+
 ## Input
 
 The artifact or diff and any applicable requirements or standards.

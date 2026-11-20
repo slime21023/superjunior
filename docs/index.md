@@ -1,25 +1,31 @@
 +++
-title = "Choose the work you need"
+title = "SuperJunior skills"
 navTitle = "Overview"
-description = "Choose a skill for your task and know what evidence to expect."
+description = "Ten skills for turning engineering intent into work, evidence, and a verified result."
 section = "start"
 order = 0
 permalink = "/index.html"
 +++
 
-## Choose a skill
+## What each skill does
 
-Choose the result you need. Each skill can run independently using the context you supply.
+Choose the skill that produces the result you need. Use one for a focused task, or combine skills when the work needs a handoff.
 
-- [explore](/skills/explore/) — Investigate existing behavior, project context, historical rationale, or technical trade-offs.
-- [specify](/skills/specify/) — Define requirements when a goal, scope, or expected behavior needs clarification.
-- [plan-working](/skills/plan-working/) — Sequence work when a change needs coordinated steps, dependencies, or completion criteria.
-- [design-component](/skills/design-component/) — Design component responsibilities, interfaces, behavior, or interactions before implementation.
-- [implement-it](/skills/implement-it/) — Create or modify code or engineering artifacts to implement specified behavior.
-- [test-it](/skills/test-it/) — Design, write, or run tests to verify behavior against requirements and contracts.
-- [review](/skills/review/) — Review an existing specification, design, change, or document for defects and risks.
-- [debug](/skills/debug/) — Diagnose an observed failure, intermittent behavior, or unexpected result.
-- [document](/skills/document/) — Create or update documentation for system behavior, decisions, or operating procedures.
-- [deliver](/skills/deliver/) — Verify delivery readiness or perform authorized commits, packaging, releases, or deployments.
+| Skill | Function | Core goal |
+| --- | --- | --- |
+| [explore](/skills/explore/) | Investigate existing behavior and find the evidence behind it. | Make the current system understandable enough to support a decision. |
+| [specify](/skills/specify/) | Define scope, requirements, and acceptance criteria. | Turn user intent into observable behavior that someone else can implement and verify. |
+| [plan-working](/skills/plan-working/) | Break an agreed outcome into ordered work items. | Make it clear what can start, what depends on a decision, and how each item will be verified. |
+| [design-component](/skills/design-component/) | Define component boundaries, interfaces, and interactions. | Give implementers and testers a usable contract for behavior, ownership, and failure handling. |
+| [implement-it](/skills/implement-it/) | Change code or engineering artifacts to realize agreed behavior. | Deliver the smallest complete change through the normal entry points. |
+| [test-it](/skills/test-it/) | Design, write, and run checks against requirements. | Make it possible to reproduce each key verification result. |
+| [review](/skills/review/) | Assess an existing specification, design, change, or document. | Find actionable defects and risks with evidence the author can inspect. |
+| [debug](/skills/debug/) | Diagnose an observed failure or unexpected result. | Connect the trigger and failure mechanism to the symptom with evidence. |
+| [document](/skills/document/) | Create or revise explanations, decision records, and procedures. | Give readers accurate guidance with sources and observable success criteria. |
+| [deliver](/skills/deliver/) | Check readiness and perform authorized delivery actions. | Match each action to evidence for the exact revision or artifact and verify its result. |
 
-See [Getting started](/getting-started/) to install the collection and [Skill workflows](/subagents/) for handoffs.
+## Use the skills in a project
+
+The [workflow guide](/workflows/) shows which skills to combine for a feature, defect, PR review, release, or handoff. [Worked requests](/examples/) show what to ask and what to check in the reply.
+
+To set up your own project, [install the skills and run a first task](/getting-started/).

@@ -6,6 +6,14 @@ license: MIT
 
 # implement-it
 
+## Overview
+
+Deliver the smallest complete change that satisfies the requested behavior through its normal entry points.
+
+- Reuse existing logic and preserve caller contracts outside the requested change.
+- Keep implementation and focused verification traceable to requirements.
+- Continue independent work when a pending decision affects only part of the change.
+
 ## Input
 
 Expected behavior and available requirements, design, or acceptance criteria.

@@ -32,6 +32,72 @@ tests:
         Use deliver to package the v1.4.0 candidate and publish it to the local mock registry
         if eligible under RELEASE.md. Save an English delivery report with a delivery-record
         table and use the action name Publish. Use only the supplied local release scripts.
+  - description: feature-planning
+    vars:
+      fixture: planning
+      handoffSource: true
+      task: >-
+        Use explore, specify, and plan-working. Investigate the existing notes list and
+        plan CSV export. The owner still needs to choose all notes or the current filtered
+        results. Save the investigation, acceptance criteria, and work plan in English.
+        Give work items IDs. List work that can start while the decision is pending first.
+        Leave application code unchanged.
+  - description: pr-review
+    vars:
+      fixture: pr
+      task: >-
+        Use review and document. Review the proposed notes.cjs export against the spec and save
+        an English review with findings, locations, and verification. Update docs/notes.md
+        with the confirmed export button label. Preserve its editing instructions and leave
+        the implementation and specification unchanged.
+  - description: publication-ready
+    vars:
+      fixture: ready
+      task: >-
+        Use deliver to package the v1.4.0 candidate and publish it to the local mock registry
+        if eligible under RELEASE.md. Save an English delivery report with a delivery-record
+        table and use the action name Publish. Use only the supplied local release scripts.
+  - description: route-feature-planning
+    vars:
+      fixture: planning
+      task: >-
+        Customers want CSV export from the notes list. Please inspect how filters and pagination
+        work today. We still need a decision on exporting all notes or the current filtered
+        results. Save an English investigation, acceptance criteria, and implementation plan.
+        Give work items IDs and note which work can start now. Leave application code unchanged.
+  - description: route-tag-filter
+    vars:
+      fixture: filter
+      task: >-
+        Clearing the last selected tag hides all notes. Reproduce and fix it, preserve the
+        selected-tag behavior, run the regression, and save an English verification report.
+        Leave tests unchanged and do not commit.
+  - description: route-pr-review
+    vars:
+      fixture: pr
+      task: >-
+        Please leave a saved English review of the proposed notes.cjs export against the spec.
+        Include findings with locations and how to verify the fix. Update docs/notes.md with
+        the confirmed export button label, preserving the editing instructions. Leave the
+        implementation and specification unchanged.
+  - description: route-publication-blocked
+    vars:
+      fixture: delivery
+      task: &localRelease >-
+        Package the v1.4.0 candidate and publish it to the local mock registry if eligible
+        under RELEASE.md. Save an English delivery report with a delivery-record table and
+        use the action name Publish. Use only the supplied local release scripts.
+  - description: route-publication-ready
+    vars:
+      fixture: ready
+      task: *localRelease
+  - description: feature-handoff
+    vars:
+      fixture: handoff
+      task: >-
+        I'm taking over this CSV export ticket. Read the saved specification and work plan.
+        In English, cite both file paths, identify the first work item that can start,
+        and explain which decision still blocks choosing the exported rows. Keep all files unchanged.
 defaultTest:
   assert:
     - type: javascript

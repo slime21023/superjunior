@@ -6,6 +6,14 @@ license: MIT
 
 # deliver
 
+## Overview
+
+Determine whether a specific revision or artifact is ready to deliver, and verify the outcome of authorized delivery actions.
+
+- Match readiness evidence to the exact revision or artifact being delivered.
+- Apply prerequisites to each action so eligible work can proceed independently.
+- Verify the target state before reporting an action as completed.
+
 ## Input
 
 Requested delivery outcome, verification evidence, and applicable authorization.

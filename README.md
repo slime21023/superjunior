@@ -1,35 +1,24 @@
 # SuperJunior
 
-SuperJunior provides ten skills that coding agents can use throughout software development. Start with the result you need.
-
-| Task | Skill |
-| --- | --- |
-| Investigate existing behavior, project context, historical rationale, or technical trade-offs. | `explore` |
-| Define requirements when a goal, scope, or expected behavior needs clarification. | `specify` |
-| Sequence work when a change needs coordinated steps, dependencies, or completion criteria. | `plan-working` |
-| Design component responsibilities, interfaces, behavior, or interactions before implementation. | `design-component` |
-| Create or modify code or engineering artifacts to implement specified behavior. | `implement-it` |
-| Design, write, or run tests to verify behavior against requirements and contracts. | `test-it` |
-| Review an existing specification, design, change, or document for defects and risks. | `review` |
-| Diagnose an observed failure, intermittent behavior, or unexpected result. | `debug` |
-| Create or update documentation for system behavior, decisions, or operating procedures. | `document` |
-| Verify delivery readiness or perform authorized commits, packaging, releases, or deployments. | `deliver` |
+SuperJunior provides ten composable skills for coding agents across the software development lifecycle. Use the [skill overview](https://slime21023.github.io/superjunior/) to choose the result you need, then see the [workflow guide](https://slime21023.github.io/superjunior/workflows/) for examples of combining skills.
 
 ## Install and try it
 
-Copy the ten directories in `skills/` into your host's project skill directory. See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for paths and troubleshooting. If upgrading, remove the old SuperJunior folders listed in [Skill workflows](https://slime21023.github.io/superjunior/subagents/) first.
+Copy the ten folders in `skills/`, including their `references/`, into your host's project skill directory. See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for paths and discovery checks.
 
 ```text
-Use debug to find why an empty tag filter hides every item.
-Then fix the cause and verify that empty and selected tags work.
+Use debug to reproduce why clearing the last tag hides every note.
+Fix the cause with implement-it, then use test-it to verify empty and selected tag cases.
 Leave the edits in my working tree.
 ```
 
-The [handbook](https://slime21023.github.io/superjunior/) describes each skill and how to combine them.
-
 ## Contribute
 
-Run `npm ci` and `npm run check` to build the handbook and validate the skill definitions and links. See [Maintenance](https://slime21023.github.io/superjunior/maintenance/) for details.
+Use Node.js 22 or newer for the handbook. Run `npm ci` followed by `npm run check` to build it and check skill definitions, downloadable files, and internal links. Use `npm run dev` for a local preview and `npm run build` to produce the site. Pages publishes after the checks pass.
+
+Each installable skill has one hand-authored page in `docs/skills/` with `source` pointing to its definition. Use root-relative links so Eleventy can apply the project path prefix. Use explicit IDs for headings linked from other pages.
+
+See the [Promptfoo instructions](validation/promptfoo/README.md) to run local behavior and handoff validation.
 
 ## License
 

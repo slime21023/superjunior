@@ -6,6 +6,14 @@ license: MIT
 
 # document
 
+## Overview
+
+Create or revise documentation that helps its intended readers understand a system, follow a procedure, or trace a decision.
+
+- Organize content around what the reader needs to understand or do.
+- Support key claims with sources and make their applicability clear.
+- Distinguish current behavior from confirmed decisions awaiting implementation and open proposals.
+
 ## Input
 
 The intended audience, requested artifact, and source material or confirmed decisions.

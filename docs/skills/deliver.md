@@ -1,18 +1,28 @@
 +++
 title = "deliver"
-description = "Verify delivery readiness or perform authorized commits, packaging, releases, or deployments."
+description = "Check readiness and perform authorized delivery actions."
 section = "skills"
 order = 10
 permalink = "/skills/deliver/index.html"
 source = "skills/deliver/SKILL.md"
 +++
 
+## Purpose
+
+Match each action to evidence for the exact revision or artifact and verify its result.
+
+## When to use
+
+You need a readiness assessment, commit, package, release, or deployment.
+
 ## What to provide
 
-Requested delivery outcome, verification evidence, and applicable authorization.
+The intended result and target, the exact candidate, applicable prerequisites, and authorization.
 
-## What to expect
+## What you get
 
-The report states the delivery scope, target, and actual result. It ties readiness checks to the exact revision or artifact and records completed actions with evidence such as commit SHAs, checksums, or published versions. For partial delivery, it identifies usable artifacts and the conditions for continuing.
+A readiness assessment or verified delivery result, including the checksum, commit, or published version when applicable. Blockers identify the affected action.
 
-Each authorized action has its own prerequisites. Missing or inapplicable evidence blocks the actions that require it. Independent actions can continue when their prerequisites are met. The report records any project-permitted, explicitly approved exception alongside the actual check status.
+## Use with
+
+Use [test-it](/skills/test-it/) evidence for the candidate before executing the actions it supports. See [workflow combinations](/workflows/) for the handoff.

@@ -6,6 +6,14 @@ license: MIT
 
 # design-component
 
+## Overview
+
+Turn confirmed requirements into component contracts that implementers and testers can use.
+
+- Assign responsibilities and data ownership explicitly.
+- Specify caller-visible outcomes, including failures and side effects.
+- Tie material design choices to requirements and affected contracts.
+
 ## Input
 
 Requirements, constraints, and relevant system boundaries.

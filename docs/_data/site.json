@@ -1,26 +1,22 @@
 {
   "name": "SuperJunior",
-  "description": "A handbook for choosing, using, and interpreting engineering skills.",
+  "description": "A handbook for choosing and combining engineering skills.",
   "groups": [
     {
       "key": "start",
-      "label": "Start here"
+      "label": "Overview"
     },
     {
       "key": "skills",
       "label": "Skills"
     },
     {
-      "key": "roles",
+      "key": "workflows",
       "label": "Workflows"
     },
     {
-      "key": "principles",
-      "label": "Design guidance"
-    },
-    {
-      "key": "practice",
-      "label": "Maintenance"
+      "key": "setup",
+      "label": "Setup"
     }
   ]
 }

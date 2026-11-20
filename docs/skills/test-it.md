@@ -1,16 +1,28 @@
 +++
 title = "test-it"
-description = "Design, write, or run tests to verify behavior against requirements and contracts."
+description = "Design, write, and run checks against requirements."
 section = "skills"
 order = 6
 permalink = "/skills/test-it/index.html"
 source = "skills/test-it/SKILL.md"
 +++
 
+## Purpose
+
+Make it possible to reproduce each key verification result.
+
+## When to use
+
+You need regression evidence, acceptance checks, or a clear account of checks that could not run.
+
 ## What to provide
 
-The behavior or change under test and the available execution environment.
+The behavior under test, relevant criteria, and available execution environment.
 
-## What to expect
+## What you get
 
-The verification report maps each key case to an acceptance criterion or requirement. It records the expected behavior, a repeatable command or procedure, and the observed result. Cases are marked passed, failed, not run, or blocked. Where evidence is missing, the report identifies the affected criterion and the prerequisite or case needed to finish verification.
+Cases tied to criteria, with expected behavior, repeatable commands, and observed status. A required case can remain blocked or unrun.
+
+## Use with
+
+Give failed cases and observations to [debug](/skills/debug/), or verified results to [deliver](/skills/deliver/). See [workflow combinations](/workflows/) for the handoff.
