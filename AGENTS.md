@@ -26,3 +26,18 @@ Build the collection of skills for coding agents about SDLC (Software Developmen
 - **debug**: Reproduce unexpected behavior, identify its root cause, and propose a fix.
 - **document**: Create and maintain documentation for system behavior, engineering decisions, and procedures.
 - **deliver**: Verify release readiness and carry out authorized packaging, submission, release, or deployment.
+
+## Principle Skills
+
+These optional skills supply decision guidance for a task. Use the output conventions of the active core skill.
+
+- **prin-ears**: Apply Easy Approach to Requirements Syntax when writing or reviewing requirements with triggers, states, optional features, or failures.
+- **prin-interface-contracts**: Assess or change a boundary whose inputs, outputs, errors, or compatibility matter to callers.
+- **prin-architecture-decision-records**: Capture or evaluate a consequential architecture decision with lasting constraints or trade-offs.
+- **prin-failure-handling**: Reason about errors, retries, and partial completion in stateful work or external calls.
+- **prin-code-readability**: Assess or improve code whose intent, units, responsibilities, or side effects are hard to read.
+- **prin-refactoring**: Improve the internal structure of existing code while preserving observable behavior.
+- **prin-tdd**: Use test-driven development when a behavior change can be driven by a focused repeatable test.
+- **prin-property-based-testing**: Use generated inputs to test a property of parsers, transformations, ordering, or state transitions.
+- **prin-conventional-commits**: Draft or review commit messages when the task or repository calls for Conventional Commits.
+- **prin-semantic-versioning**: Assess a version increment for a project that declares a public contract and uses Semantic Versioning.

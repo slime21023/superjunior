@@ -27,6 +27,8 @@ Skip design and planning when a small fix has clear requirements and a repeatabl
 
 ## Work from an existing specification
 
+If you want a particular method, pair the task with an [optional principle](/principles/). For example, ask `implement-it` to apply `prin-tdd` and include the observed test results in the implementation report.
+
 Use the team's existing Issue, [Spec Kit](https://github.github.com/spec-kit/), or [OpenSpec](https://github.com/Fission-AI/OpenSpec) artifacts as input. For example, give `implement-it` the spec, the approved design, and one task from the team's task list. Give `test-it` the same acceptance criteria when checking the result. If a decision remains open, identify the work it blocks and use `specify` for any new specification needed to clarify it.
 
 ## Save files for a handoff

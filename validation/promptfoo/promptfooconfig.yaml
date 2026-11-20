@@ -98,6 +98,37 @@ tests:
         I'm taking over this CSV export ticket. Read the saved specification and work plan.
         In English, cite both file paths, identify the first work item that can start,
         and explain which decision still blocks choosing the exported rows. Keep all files unchanged.
+  - description: principle-ears
+    vars:
+      fixture: ears
+      task: >-
+        Use specify with prin-ears. Write an English spec for CSV download. If a query fails,
+        the user must see an error and no download should start. The owner still needs to choose
+        all notes or filtered results. Save the spec and leave the code unchanged.
+  - description: principle-tdd
+    vars:
+      fixture: tdd
+      task: >-
+        Use implement-it with prin-tdd. Clearing the last tag must show all notes and preserve
+        selected-tag behavior. Use the project's node observe.cjs command before editing and
+        after fixing the bug. Save the implementation record in English. Keep the test and
+        observation script unchanged.
+  - description: principle-pbt
+    vars:
+      fixture: properties
+      task: >-
+        Use test-it with prin-property-based-testing. Add property.cjs as specified in README.md.
+        Verify that generated CSV fields round-trip, then check that the property detects the
+        supplied broken encoder. Save a verification report in English with the commands,
+        seed, and observed results. Keep the
+        harness and codec unchanged.
+  - description: principle-commit
+    vars:
+      fixture: commit-message
+      task: >-
+        Use deliver with prin-conventional-commits to draft a commit subject for the change
+        described in CHANGE.md. Follow the repository guidance in the file. Reply with the
+        proposed subject. Leave all files unchanged and do not run any Git actions.
 defaultTest:
   assert:
     - type: javascript

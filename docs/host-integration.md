@@ -9,7 +9,7 @@ permalink = "/host-integration/index.html"
 
 <h2 id="install-the-skills">Install the skills</h2>
 
-Copy each full skill folder from `skills/` into your host's project skill directory. Keep `SKILL.md` and its `references/` together.
+Copy the full core skill folders from `skills/` into your host's project skill directory. Add any [optional principle folders](/principles/) you want to use, identified by the `prin-` prefix. Keep each `SKILL.md` and its `references/` together.
 
 | Host | Project directory | Personal directory |
 | --- | --- | --- |

@@ -13,3 +13,11 @@ npm --prefix validation/promptfoo run check
 The test command checks the graders without calling an agent. The live check uses your Codex quota. It runs a workspace preflight, then evaluates feature planning, a tag-filter fix, PR review with a documentation update, and both blocked and eligible mock publication. Each case runs with named skills and with a natural task description. A fresh session attempts the feature handoff using the verified specification and work plan from the named planning case. Each evaluation gets a fresh copy of its inputs.
 
 Find the report and per-case evidence under `_artifacts/test-it/promptfoo/`. If preflight fails, inspect its JSON result for login, command, or filesystem errors and rerun from a regular terminal that can execute Codex in a writable sandbox. For behavior failures, read the specific workspace checks in the evidence directory. Skill-read signals help diagnose routing. Runtime behavior and saved artifacts determine the case result.
+
+The default check installs only the core skills in its temporary workspaces. To exercise optional principles alongside the core skills, run:
+
+```sh
+npm --prefix validation/promptfoo run check:principles
+```
+
+This suite checks an EARS specification, observed red-to-green TDD, seeded CSV property testing against a broken encoder, and a Conventional Commit subject draft.

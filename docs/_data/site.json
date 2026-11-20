@@ -11,6 +11,10 @@
       "label": "Skills"
     },
     {
+      "key": "principles",
+      "label": "Principles and practices"
+    },
+    {
       "key": "workflows",
       "label": "Workflows"
     },

@@ -5,6 +5,7 @@
   "engines": { "node": ">=22.22.0" },
   "scripts": {
     "check": "node run.mjs",
+    "check:principles": "node run.mjs --principles",
     "test": "node --test assertions.test.cjs"
   },
   "devDependencies": {

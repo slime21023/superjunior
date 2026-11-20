@@ -28,6 +28,7 @@ function report(workspace, skill) {
 }
 
 const handoffDirectories = ['_spec', '_artifacts/plan-working'];
+const workItem = /\b(?:W\d+|[A-Z][A-Z0-9]*-\d+)\b/;
 const unchanged = (workspace, baseline, files) =>
   files.every(file => read(workspace, file) === read(baseline, file));
 
@@ -51,6 +52,58 @@ function grade(workspace, scenario, output = '') {
           && /selected[- ]tags?|non[- ]empty/i.test(notes),
       }, evidence: { regression: result.stdout + (result.stderr ?? ''), report: notes } };
     }
+    case 'ears': {
+      const spec = markdown(workspace, '_spec').map(file => read(workspace, file)).join('\n');
+      return { checks: {
+        failureRequirement: spec.split('\n').some(line =>
+          /\bif\b.*query.*fail.*\bthen\b.*\bshall\b/i.test(line)
+          && /error/i.test(line) && /(?:not|no|without|prevent|refrain).*download/i.test(line)),
+        pendingScope: /all notes/i.test(spec) && /filter/i.test(spec)
+          && /pending|open decision|unresolved|to confirm/i.test(spec),
+        applicationUnchanged: unchanged(workspace, path.join(fixture, 'planning'), ['notes.cjs']),
+      }, evidence: { spec } };
+    }
+    case 'tdd': {
+      const result = grade(workspace, 'filter');
+      const logPath = path.join(workspace, 'checks.jsonl');
+      const log = fs.existsSync(logPath) ? read(workspace, 'checks.jsonl').trim().split('\n').map(JSON.parse) : [];
+      const baseline = digest(fs.readFileSync(path.join(fixture, 'filter', 'filter.cjs')));
+      const candidate = digest(fs.readFileSync(path.join(workspace, 'filter.cjs')));
+      const red = log.findIndex(entry => entry.source === baseline && entry.status === 1);
+      const notes = report(workspace, 'implement-it');
+      return { checks: {
+        regression: result.checks.regression,
+        testUnchanged: result.checks.testUnchanged,
+        observationScriptUnchanged: unchanged(workspace, path.join(fixture, 'principle-support'), ['observe.cjs']),
+        redBeforeGreen: red >= 0 && candidate !== baseline
+          && log.slice(red + 1).some(entry => entry.source === candidate && entry.status === 0),
+        implementationRecord: /observe\.cjs/i.test(notes) && /fail/i.test(notes) && /pass/i.test(notes),
+      }, evidence: { observations: log, regression: result.evidence.regression, report: notes } };
+    }
+    case 'properties': {
+      const harness = path.join(fixture, 'properties', 'check.cjs');
+      const run = (...args) => spawnSync(process.execPath, [
+        '--permission', '--allow-fs-read=' + workspace, '--allow-fs-read=' + harness,
+        harness, workspace, ...args,
+      ], { cwd: workspace, env: {}, encoding: 'utf8', timeout: 10000 });
+      const normal = run();
+      const broken = run('--broken');
+      const notes = report(workspace, 'test-it');
+      return { checks: {
+        validCodecPasses: normal.status === 0 && /60 generated cases with seed 79/.test(normal.stdout),
+        brokenCodecDetected: broken.status === 1 && /Counterexample seed 79:/.test(broken.stderr),
+        harnessUnchanged: unchanged(workspace, path.join(fixture, 'properties'), ['README.md', 'check.cjs']),
+        reproducibleReport: /check\.cjs/i.test(notes) && /--broken/.test(notes)
+          && /\b79\b/.test(notes) && /pass|exit code 0/i.test(notes)
+          && /fail|exit code 1|counterexample/i.test(notes),
+      }, evidence: { normal: normal.stdout, broken: broken.stderr, report: notes } };
+    }
+    case 'commit-message':
+      return { checks: {
+        subject: /(?:^|[\s`])fix\(filter\):[^\r\n]*(?:empty|last tag|no tag|clear)/i.test(output),
+        filesUnchanged: fs.readdirSync(workspace).filter(name => name !== '.agents').join() === 'CHANGE.md'
+          && unchanged(workspace, path.join(fixture, 'commit-message'), ['CHANGE.md']),
+      }, evidence: { subject: output } };
     case 'planning': {
       const spec = markdown(workspace, '_spec').map(file => read(workspace, file)).join('\n');
       const plan = report(workspace, 'plan-working');
@@ -60,7 +113,7 @@ function grade(workspace, scenario, output = '') {
           && /paginat|page|slice/i.test(investigate),
         pendingScope: /acceptance/i.test(spec) && /all notes/i.test(spec) && /filter/i.test(spec)
           && /pending|open decision|unresolved|to confirm|blocked/i.test(spec),
-        actionablePlan: /\bW\d+\b/i.test(plan) && /csv/i.test(plan)
+        actionablePlan: workItem.test(plan) && /csv/i.test(plan)
           && /block|pending|depend/i.test(plan) && /can (?:start|proceed)|independent|unblocked|while/i.test(plan)
           && /_spec[/\\]/i.test(plan),
         applicationUnchanged: unchanged(workspace, path.join(fixture, 'planning'), ['notes.cjs']),
@@ -84,11 +137,12 @@ function grade(workspace, scenario, output = '') {
       const expected = handoffDirectories.flatMap(directory => markdown(baseline, directory));
       const cited = output.replaceAll('\\', '/');
       const plan = report(workspace, 'plan-working');
-      const item = plan.match(/\bW\d+\b/i)?.[0];
+      const item = plan.match(workItem)?.[0];
       return { checks: {
         specAndPlanCited: expected.length >= 2 && expected.every(file => cited.includes(file.replaceAll('\\', '/'))),
         firstItem: !!item && new RegExp('\\b' + item + '\\b', 'i').test(output),
-        pendingScope: /all notes/i.test(output) && /filter/i.test(output) && /block|pending|decid|confirm/i.test(output),
+        pendingScope: /all notes/i.test(output) && /filter|match(?:es|ing)[^\r\n]*tag/i.test(output)
+          && /block|pending|decid|confirm/i.test(output),
         inputsUnchanged: files.length === expected.length && unchanged(workspace, baseline, ['notes.cjs', ...expected]),
       }, evidence: { response: output } };
     }

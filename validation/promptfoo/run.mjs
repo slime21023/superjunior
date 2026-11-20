@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../..');
 const skills = path.join(root, 'skills');
+const principles = process.argv.includes('--principles');
 const packageDirectory = name => path.join(here, 'node_modules', name);
 const manifest = name => JSON.parse(readFileSync(path.join(packageDirectory(name), 'package.json'), 'utf8'));
 const promptfoo = manifest('promptfoo');
@@ -72,8 +73,13 @@ function run() {
       'The last check was blocked because the test database was offline. No passing result exists.',
       'The end-to-end CSV download acceptance check passed for this candidate.',
     ));
+    cpSync(path.join(workspace, 'planning'), path.join(workspace, 'ears'), { recursive: true });
+    cpSync(path.join(workspace, 'filter'), path.join(workspace, 'tdd'), { recursive: true });
+    cpSync(path.join(here, 'fixtures', 'principle-support', 'observe.cjs'), path.join(workspace, 'tdd', 'observe.cjs'));
     for (const name of readdirSync(workspace)) {
-      cpSync(skills, path.join(workspace, name, '.agents', 'skills'), { recursive: true });
+      cpSync(skills, path.join(workspace, name, '.agents', 'skills'), {
+        recursive: true, filter: file => principles || !path.relative(skills, file).startsWith('prin-'),
+      });
     }
     runInfo.skillFingerprint = fingerprint(path.join(workspace, 'preflight', '.agents', 'skills'));
     writeFileSync(path.join(workspace, 'preflight', 'input.txt'), probe);
@@ -85,6 +91,7 @@ function run() {
       console.error('Environment blocked: the preflight did not verify workspace reads, command execution, and writes.');
       return preflight;
     }
+    if (principles) return evaluate('principles', '^principle-');
     const named = evaluate('named', '^(tag-filter|publication-(blocked|ready)|feature-planning|pr-review)$');
     const natural = evaluate('natural', '^route-');
     if (!existsSync(path.join(workspace, 'handoff', '_spec'))) {

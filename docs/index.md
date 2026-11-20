@@ -28,4 +28,6 @@ Choose the skill that produces the result you need. Use one for a focused task, 
 
 The [workflow guide](/workflows/) shows which skills to combine for a feature, defect, PR review, release, or handoff. [Worked requests](/examples/) show what to ask and what to check in the reply.
 
+Choose an optional method such as TDD or EARS from [Principles and practices](/principles/).
+
 To set up your own project, [install the skills and run a first task](/getting-started/).

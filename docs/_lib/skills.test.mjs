@@ -104,11 +104,22 @@ test("XML block tags stay bare and at most two levels deep", () => {
   }
 });
 
-test("AGENTS.md lists the installable skills", () => {
+test("AGENTS.md lists core and principle skills in their respective sections", () => {
   const index = read(join(root, "AGENTS.md"));
-  const list = index.match(/^## Skill List\s*\n([\s\S]*?)(?=^## |(?![\s\S]))/m);
-  assert.ok(list, "Missing Skill List");
-  const names = [...list[1].matchAll(/^- \*\*([a-z0-9-]+)\*\*:/gm)]
-    .map((entry) => entry[1]).sort();
-  assert.deepEqual(names, skillDirs.map((directory) => basename(directory)).sort());
+  for (const [heading, optional] of [["Skill List", false], ["Principle Skills", true]]) {
+    const list = index.split(/^## /m).find((section) => section.startsWith(heading + "\n"));
+    assert.ok(list, "Missing " + heading);
+    const names = [...list.matchAll(/^- \*\*([a-z0-9-]+)\*\*:/gm)].map((entry) => entry[1]).sort();
+    assert.deepEqual(names, skillDirs.map((directory) => basename(directory))
+      .filter((name) => name.startsWith("prin-") === optional).sort());
+  }
+});
+
+test("principle skills provide guidance and an example", () => {
+  for (const directory of skillDirs.filter((directory) => basename(directory).startsWith("prin-"))) {
+    const source = read(join(directory, "SKILL.md"));
+    const headings = [...source.matchAll(/^## (.+)$/gm)].map((entry) => entry[1]);
+    assert.deepEqual(headings, ["When to apply", "Principles", "Application notes"], label(directory));
+    assert.match(source, /\]\(references\/examples\.md\)/);
+  }
 });

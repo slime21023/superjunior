@@ -5,13 +5,53 @@ const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { grade, checkFilter } = require('./assertions.cjs');
+const fixturePath = name => path.join(__dirname, 'fixtures', name);
 
 function sample(t, name) {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'sj-assertion-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
-  fs.cpSync(path.join(__dirname, 'fixtures', name), directory, { recursive: true });
+  fs.cpSync(fixturePath(name), directory, { recursive: true });
   return directory;
 }
+
+test('principle cases require an observable failure clause and an appropriate commit subject', t => {
+  const planning = sample(t, 'planning');
+  fs.mkdirSync(path.join(planning, '_spec'));
+  const spec = path.join(planning, '_spec', 'export.md');
+  fs.writeFileSync(spec, 'If the query fails, then the app shall show an error and not start a download.\nPending: all notes or filtered results.');
+  assert.ok(Object.values(grade(planning, 'ears').checks).every(Boolean));
+  fs.appendFileSync(path.join(planning, 'notes.cjs'), '\n');
+  assert.equal(grade(planning, 'ears').checks.applicationUnchanged, false);
+
+  const commit = sample(t, 'commit-message');
+  assert.ok(Object.values(grade(commit, 'commit-message', 'fix(filter): show all notes on empty selection').checks).every(Boolean));
+  assert.equal(grade(commit, 'commit-message', 'feat(notes): add filter').checks.subject, false);
+});
+
+test('TDD requires the baseline failure before the candidate pass', t => {
+  const directory = sample(t, 'filter');
+  fs.copyFileSync(path.join(fixturePath('principle-support'), 'observe.cjs'), path.join(directory, 'observe.cjs'));
+  const run = () => execFileSync(process.execPath, ['observe.cjs'], { cwd: directory, env: {} });
+  assert.throws(run, { status: 1 });
+  const file = path.join(directory, 'filter.cjs');
+  fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replace(': [];', ': notes;'));
+  run();
+  report(directory, 'implement-it', 'node observe.cjs failed before the fix and passed afterward.');
+  assert.ok(Object.values(grade(directory, 'tdd').checks).every(Boolean));
+  const observations = path.join(directory, 'checks.jsonl');
+  fs.writeFileSync(observations, fs.readFileSync(observations, 'utf8').trim().split('\n').reverse().join('\n'));
+  assert.equal(grade(directory, 'tdd').checks.redBeforeGreen, false);
+});
+
+test('CSV property must pass a valid codec and detect the broken one', t => {
+  const directory = sample(t, 'properties');
+  const property = path.join(directory, 'property.cjs');
+  report(directory, 'test-it', 'node check.cjs passed with seed 79; node check.cjs --broken detected the counterexample with exit code 1.');
+  fs.writeFileSync(property, 'module.exports = () => {};');
+  assert.equal(grade(directory, 'properties').checks.brokenCodecDetected, false);
+  fs.writeFileSync(property, "const { strictEqual } = require('node:assert'); module.exports = ({ value, encode, decode }) => strictEqual(decode(encode(value)), value);");
+  assert.ok(Object.values(grade(directory, 'properties').checks).every(Boolean));
+});
 
 function report(directory, skill, content) {
   const target = path.join(directory, '_artifacts', skill);
@@ -54,7 +94,7 @@ test('planning requires a pending scope decision, evidence, and a work plan', t 
   const spec = path.join(directory, '_spec', 'csv-export.md');
   fs.writeFileSync(spec, 'Acceptance: export CSV. Pending: all notes or filtered results?');
   report(directory, 'explore', 'notes.cjs applies the tag filter before pagination.');
-  report(directory, 'plan-working', 'Basis: _spec/csv-export.md. W1 CSV encoding can start. W2 row scope is blocked.');
+  report(directory, 'plan-working', 'Basis: _spec/csv-export.md. CSV-01 encoding can start. CSV-02 row scope is blocked.');
   assert.ok(Object.values(grade(directory, 'planning').checks).every(Boolean));
   fs.writeFileSync(spec, 'Acceptance: export all notes, even if filtered.');
   assert.equal(grade(directory, 'planning').checks.pendingScope, false);
@@ -102,7 +142,7 @@ test('handoff checks citations, the first work item, and the pending decision', 
     if (original === undefined) delete process.env.SUPERJUNIOR_FIXTURES;
     else process.env.SUPERJUNIOR_FIXTURES = original;
   });
-  const answer = 'Start W1. Choosing all notes or filtered results is pending. See _spec/csv.md and _artifacts/plan-working/result.md.';
+  const answer = 'Start W1. Choosing all notes or notes matching the active tag is pending. See _spec/csv.md and _artifacts/plan-working/result.md.';
   assert.ok(Object.values(grade(workspace, 'handoff', answer).checks).every(Boolean));
   assert.equal(grade(workspace, 'handoff', answer.replace('W1', 'W2')).checks.firstItem, false);
 });
