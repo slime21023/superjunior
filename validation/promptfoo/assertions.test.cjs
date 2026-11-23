@@ -162,4 +162,7 @@ test('handoff checks citations, the first work item, and the pending decision', 
   const answer = 'Start W1. Choosing all notes or notes matching the active tag is pending. See _spec/csv.md and _artifacts/plan-working/result.md.';
   assert.ok(Object.values(grade(workspace, 'handoff', answer).checks).every(Boolean));
   assert.equal(grade(workspace, 'handoff', answer.replace('W1', 'W2')).checks.firstItem, false);
+  const worded = 'Start W1. The owner must make the scope decision: all notes or notes matching the tag filter. See _spec/csv.md and _artifacts/plan-working/result.md.';
+  assert.ok(Object.values(grade(workspace, 'handoff', worded).checks).every(Boolean));
+  assert.equal(grade(workspace, 'handoff', worded.replace('decision', 'choice')).checks.pendingScope, false);
 });

@@ -154,7 +154,7 @@ function grade(workspace, scenario, output = '') {
         specAndPlanCited: expected.length >= 2 && expected.every(file => cited.includes(file.replaceAll('\\', '/'))),
         firstItem: !!item && new RegExp('\\b' + item + '\\b', 'i').test(output),
         pendingScope: /all notes/i.test(output) && /filter|match(?:es|ing)[^\r\n]*tag/i.test(output)
-          && /block|pending|decid|confirm/i.test(output),
+          && /block|pending|decid|decision|confirm/i.test(output),
         inputsUnchanged: files.length === expected.length && unchanged(workspace, baseline, ['notes.cjs', ...expected]),
       }, evidence: { response: output } };
     }
