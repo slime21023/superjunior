@@ -16,6 +16,7 @@ Build the collection of skills for coding agents about SDLC (Software Developmen
 
 ## Skill List
 
+- **discuss**: Refine a vague idea into a focused goal, scope, and direction before requirements or design begin.
 - **explore**: Gather evidence about the problem domain and existing system.
 - **specify**: Define requirements, scope, constraints, and acceptance criteria.
 - **plan-working**: Sequence work items by dependency and define when each is complete.

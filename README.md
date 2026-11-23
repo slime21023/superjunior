@@ -1,10 +1,10 @@
 # SuperJunior
 
-SuperJunior provides ten composable skills for coding agents across the software development lifecycle. Use the [skill overview](https://slime21023.github.io/superjunior/) to choose the result you need, then see the [workflow guide](https://slime21023.github.io/superjunior/workflows/) for examples of combining skills.
+SuperJunior provides eleven composable skills for coding agents across the software development lifecycle. Use the [skill overview](https://slime21023.github.io/superjunior/) to choose the result you need, then see the [workflow guide](https://slime21023.github.io/superjunior/workflows/) for examples of combining skills.
 
 ## Install and try it
 
-Copy the ten core folders in `skills/`, including their `references/`, into your host's project skill directory. Select any additional `prin-*` folders you want to install. See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for paths and [Principles and practices](https://slime21023.github.io/superjunior/principles/) for optional methods.
+Copy the eleven core folders in `skills/`, including their `references/`, into your host's project skill directory. Select any additional `prin-*` folders you want to install. See [Host integration](https://slime21023.github.io/superjunior/host-integration/) for paths and [Principles and practices](https://slime21023.github.io/superjunior/principles/) for optional methods.
 
 ```text
 Use debug to reproduce why clearing the last tag hides every note.

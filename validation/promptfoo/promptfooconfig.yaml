@@ -42,6 +42,16 @@ tests:
         results. Save the investigation, acceptance criteria, and work plan in English.
         Give work items IDs. List work that can start while the decision is pending first.
         Leave application code unchanged.
+  - description: feature-discussion
+    vars:
+      fixture: discuss
+      task: >-
+        Use discuss. The owner wants users to get their notes out of the notes app and is
+        weighing CSV, Excel, PDF, and scheduled email. The owner has confirmed that the first
+        version is a CSV download only and that the other formats and scheduled email are
+        deferred. The owner still needs to choose all notes or the current filtered results.
+        Save an English record of the goal, scope, direction, and next step. Leave application
+        code unchanged and do not write a specification.
   - description: pr-review
     vars:
       fixture: pr
@@ -65,6 +75,15 @@ tests:
         work today. We still need a decision on exporting all notes or the current filtered
         results. Save an English investigation, acceptance criteria, and implementation plan.
         Give work items IDs and note which work can start now. Leave application code unchanged.
+  - description: route-feature-discussion
+    vars:
+      fixture: discuss
+      task: >-
+        Customers keep asking to get their notes out of the app, and we are weighing CSV, Excel,
+        PDF, and scheduled email. I want to settle on a small first version before anyone writes
+        requirements. The owner has confirmed CSV download only for now and deferred the rest.
+        They still need to choose all notes or the current filtered results. Save an English
+        record of where we landed and what should happen next. Leave application code unchanged.
   - description: route-tag-filter
     vars:
       fixture: filter

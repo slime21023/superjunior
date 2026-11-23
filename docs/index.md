@@ -1,7 +1,7 @@
 +++
 title = "SuperJunior skills"
 navTitle = "Overview"
-description = "Ten skills for turning engineering intent into work, evidence, and a verified result."
+description = "Eleven skills for turning engineering intent into work, evidence, and a verified result."
 section = "start"
 order = 0
 permalink = "/index.html"
@@ -13,6 +13,7 @@ Choose the skill that produces the result you need. Use one for a focused task, 
 
 | Skill | Function | Core goal |
 | --- | --- | --- |
+| [discuss](/skills/discuss/) | Refine a vague idea into a goal, scope, and direction. | Converge on the simplest direction you have confirmed before requirements or design begin. |
 | [explore](/skills/explore/) | Investigate existing behavior and find the evidence behind it. | Make the current system understandable enough to support a decision. |
 | [specify](/skills/specify/) | Define scope, requirements, and acceptance criteria. | Turn user intent into observable behavior that someone else can implement and verify. |
 | [plan-working](/skills/plan-working/) | Break an agreed outcome into ordered work items. | Make it clear what can start, what depends on a decision, and how each item will be verified. |

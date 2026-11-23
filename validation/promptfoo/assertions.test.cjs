@@ -100,6 +100,23 @@ test('planning requires a pending scope decision, evidence, and a work plan', t 
   assert.equal(grade(directory, 'planning').checks.pendingScope, false);
 });
 
+test('discussion requires a confirmed goal, a cut scope, a pending decision, and no specification', t => {
+  const directory = sample(t, 'planning');
+  assert.equal(grade(directory, 'discuss').checks.goal, false);
+  report(directory, 'discuss', [
+    'Goal: Let users download their notes as a CSV file.',
+    'Out of scope: Excel, PDF, and scheduled email.',
+    'Open decisions: all notes or filtered results is pending.',
+    'Next skill: specify',
+  ].join('\n'));
+  assert.ok(Object.values(grade(directory, 'discuss').checks).every(Boolean));
+  fs.mkdirSync(path.join(directory, '_spec'));
+  fs.writeFileSync(path.join(directory, '_spec', 'csv.md'), 'Acceptance: export CSV.');
+  assert.equal(grade(directory, 'discuss').checks.noSpecWritten, false);
+  fs.appendFileSync(path.join(directory, 'notes.cjs'), '\n');
+  assert.equal(grade(directory, 'discuss').checks.applicationUnchanged, false);
+});
+
 test('PR review requires the truncation finding and only the requested documentation change', t => {
   const directory = sample(t, 'pr');
   const guide = path.join(directory, 'docs', 'notes.md');

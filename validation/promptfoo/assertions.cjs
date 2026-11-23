@@ -104,6 +104,18 @@ function grade(workspace, scenario, output = '') {
         filesUnchanged: fs.readdirSync(workspace).filter(name => name !== '.agents').join() === 'CHANGE.md'
           && unchanged(workspace, path.join(fixture, 'commit-message'), ['CHANGE.md']),
       }, evidence: { subject: output } };
+    case 'discuss': {
+      const record = report(workspace, 'discuss');
+      return { checks: {
+        goal: /goal/i.test(record) && /csv/i.test(record),
+        scopeCut: /out of scope/i.test(record) && /excel|pdf|e-?mail|schedul/i.test(record),
+        pendingScope: /all notes/i.test(record) && /filter/i.test(record)
+          && /pending|open decision|unresolved|to confirm|blocked/i.test(record),
+        nextSkill: /next[^\r\n]*specify/i.test(record),
+        noSpecWritten: markdown(workspace, '_spec').length === 0,
+        applicationUnchanged: unchanged(workspace, path.join(fixture, 'planning'), ['notes.cjs']),
+      }, evidence: { record } };
+    }
     case 'planning': {
       const spec = markdown(workspace, '_spec').map(file => read(workspace, file)).join('\n');
       const plan = report(workspace, 'plan-working');

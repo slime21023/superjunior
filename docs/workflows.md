@@ -17,6 +17,7 @@ Read the response in the order **Result → Evidence → Next step or blocker**.
 
 | Scenario | Skills to combine | What to pass forward | Completion evidence |
 | --- | --- | --- | --- |
+| Shape a vague idea | [discuss](/skills/discuss/) → [specify](/skills/specify/) or [explore](/skills/explore/) when evidence is missing | The confirmed goal, scope, chosen direction, and decisions still open | A confirmed goal and direction, with the next skill named. |
 | Clarify a feature | [explore](/skills/explore/) → [specify](/skills/specify/) → [design-component](/skills/design-component/) and [plan-working](/skills/plan-working/) as needed | Current behavior, approved criteria, and decisions that affect component contracts or sequencing | A spec with observable criteria. For dependent work, an ordered plan identifies what can start and what is blocked. |
 | Fix a defect | [debug](/skills/debug/) → [implement-it](/skills/implement-it/) → [test-it](/skills/test-it/) | The failing case, expected behavior, and affected entry point | The original case passes after the fix and related regressions still pass. |
 | Review a PR and update docs | [review](/skills/review/) + [document](/skills/document/) | The exact diff, relevant acceptance criteria, and behavior confirmed for the docs | Location-specific findings and a verified update to the existing document when needed. |

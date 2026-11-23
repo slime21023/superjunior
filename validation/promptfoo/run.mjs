@@ -74,6 +74,7 @@ function run() {
       'The end-to-end CSV download acceptance check passed for this candidate.',
     ));
     cpSync(path.join(workspace, 'planning'), path.join(workspace, 'ears'), { recursive: true });
+    cpSync(path.join(workspace, 'planning'), path.join(workspace, 'discuss'), { recursive: true });
     cpSync(path.join(workspace, 'filter'), path.join(workspace, 'tdd'), { recursive: true });
     cpSync(path.join(here, 'fixtures', 'principle-support', 'observe.cjs'), path.join(workspace, 'tdd', 'observe.cjs'));
     for (const name of readdirSync(workspace)) {
@@ -92,7 +93,7 @@ function run() {
       return preflight;
     }
     if (principles) return evaluate('principles', '^principle-');
-    const named = evaluate('named', '^(tag-filter|publication-(blocked|ready)|feature-planning|pr-review)$');
+    const named = evaluate('named', '^(tag-filter|publication-(blocked|ready)|feature-(planning|discussion)|pr-review)$');
     const natural = evaluate('natural', '^route-');
     if (!existsSync(path.join(workspace, 'handoff', '_spec'))) {
       runInfo.stages.push({ stage: 'handoff', status: 'blocked', reason: 'No verified planning output' });
